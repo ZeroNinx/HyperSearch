@@ -2,7 +2,7 @@
 
 MainWindow::MainWindow(QObject *parent)
 {
-	Text = tr("的是非得失");
+	Text = tr("锟斤拷锟角非碉拷失");
 }
 
 QString MainWindow::GetText()

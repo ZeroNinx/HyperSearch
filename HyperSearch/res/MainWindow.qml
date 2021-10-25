@@ -20,7 +20,6 @@ Window
 
 
     //背景
-
     Rectangle
     {
         id: backgrund
@@ -35,9 +34,9 @@ Window
         border.width: 0
     }
 
-    //顶部栏
-
-    Item {
+    //右区
+    Item
+    {
         id: rightArea
         anchors.right: parent.right
         anchors.rightMargin: 0
@@ -47,81 +46,189 @@ Window
         anchors.bottomMargin: 0
         anchors.top: titleBar.bottom
         anchors.topMargin: 0
-        Rectangle {
+        Rectangle
+        {
             id: bgr_leftArea1
             anchors.fill: parent
             x: 0
             y: 0
-            width: 980
-            height: 640
             color: "#ffffff"
             border.width: 0
+        }
 
-            ScrollView {
-                id: scrollView
-                anchors.right: parent.right
-                anchors.left: parent.left
-                anchors.leftMargin: 0
-                anchors.bottom: parent.bottom
-                anchors.top: parent.top
-                anchors.topMargin: 0
+        //结果列表
+        ListView {
+            id: listView
+            anchors.rightMargin: 15
+            anchors.leftMargin: 15
+            anchors.bottomMargin: 15
+            anchors.topMargin: 15
+            anchors.fill: parent
 
-                ListView {
-                    id: listView
-                    anchors.right: parent.right
-                    anchors.rightMargin: 15
-                    anchors.left: parent.left
-                    anchors.leftMargin: 15
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 15
-                    anchors.top: parent.top
-                    anchors.topMargin: 15
-                    model: ListModel {
-                        ListElement {
-                            name: "Grey"
-                            colorCode: "grey"
-                        }
+            //项目显示条目
+            delegate: Item
+            {
+                id:item_listView
+                x: 5
+                width:parent.width - x - 10
+                height: 55
 
-                        ListElement {
-                            name: "Red"
-                            colorCode: "red"
-                        }
+                Rectangle
+                {
+                    y: 5
+                    width: parent.width
+                    height: parent.height - 2*y
+                    border.color: "#777777"
+                    border.width: 2
+                    radius: 20
 
-                        ListElement {
-                            name: "Blue"
-                            colorCode: "blue"
-                        }
-
-                        ListElement {
-                            name: "Green"
-                            colorCode: "green"
+                    MouseArea
+                    {
+                        anchors.fill: parent
+                        acceptedButtons: Qt.LeftButton
+                        onClicked:
+                        {
+                            txt_bottomBar.text = colorCode
                         }
                     }
-                    delegate: Item {
-                        x: 5
-                        width: 80
-                        height: 40
-                        Row {
-                            id: row1
-                            spacing: 10
-                            Rectangle {
-                                width: 40
-                                height: 40
-                                color: colorCode
-                            }
 
-                            Text {
-                                text: name
-                                anchors.verticalCenter: parent.verticalCenter
-                                font.bold: true
-                            }
+                    Row 
+                    {
+                        id: row1
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                        Text
+                        {
+                            text: "["+name+"]"+colorCode
+                            color: colorCode
+                            font.family: "微软雅黑"
+                            font.pixelSize: 22
+                            font.bold: true
                         }
+                        spacing: 10
                     }
+
+
+                    
+                }
+                
+            }
+
+            //项目数据列表
+            model: ListModel {
+                ListElement {
+                    name: "Grey"
+                    colorCode: "grey"
+                }
+
+                ListElement {
+                    name: "Red"
+                    colorCode: "red"
+                }
+
+                ListElement {
+                    name: "Blue"
+                    colorCode: "blue"
+                }
+
+                ListElement {
+                    name: "Green"
+                    colorCode: "green"
+                }
+                ListElement {
+                    name: "Green"
+                    colorCode: "green"
+                }
+                ListElement {
+                    name: "Green"
+                    colorCode: "green"
+                }
+                ListElement {
+                    name: "Green"
+                    colorCode: "green"
+                }
+                ListElement {
+                    name: "Green"
+                    colorCode: "green"
+                }
+                ListElement {
+                    name: "Green"
+                    colorCode: "green"
+                }
+                ListElement {
+                    name: "Green"
+                    colorCode: "green"
+                }
+                ListElement {
+                    name: "Green"
+                    colorCode: "green"
+                }
+                ListElement {
+                    name: "Green"
+                    colorCode: "green"
+                }
+                ListElement {
+                    name: "Green"
+                    colorCode: "green"
+                }
+                ListElement {
+                    name: "Green"
+                    colorCode: "green"
+                }
+                ListElement {
+                    name: "Green"
+                    colorCode: "green"
+                }
+                ListElement {
+                    name: "Green"
+                    colorCode: "green"
+                }
+                ListElement {
+                    name: "Green"
+                    colorCode: "green"
+                }
+                ListElement {
+                    name: "Green"
+                    colorCode: "green"
                 }
             }
+
+            //滚动条
+            ScrollBar.vertical:
+            ScrollBar
+            {
+                anchors.left: listView.right
+                width: 10
+                height: parent.height
+                active: true
+
+                //滚动条的背景样式
+                background: Item
+                {
+                    Rectangle
+                    {
+                        height: parent.height
+                        width: parent.width
+                        anchors.left: parent.left
+                        color: '#DDDDDD'
+                        radius: width/2
+                    }
+                }
+
+                //bar的圆角
+                contentItem: Rectangle
+                {
+                    x:0
+                    y:0
+                    width: 10
+                    radius: width/2
+                    color: '#999999'
+                }
+             }
         }
     }
 
+    //左区
     Item {
         //左区
         id: leftArea
@@ -215,7 +322,7 @@ Window
 
     }
 
-
+    //标题栏
     Item
     {
         id: titleBar
@@ -528,9 +635,9 @@ Window
 
 /*##^##
 Designer {
-    D{i:5;anchors_height:160;anchors_width:110;anchors_x:58;anchors_y:28}D{i:4;anchors_height:549;anchors_width:767;anchors_x:0;anchors_y:0}
-D{i:15;anchors_height:640;anchors_width:980;anchors_x:300;anchors_y:50}D{i:20;anchors_height:640;anchors_width:300;anchors_y:50}
-D{i:31;anchors_height:30;anchors_width:1280;anchors_x:0;anchors_y:0}D{i:32;anchors_height:30;anchors_width:1280}
-D{i:33;anchors_height:30;anchors_width:1280;anchors_x:0;anchors_y:0}D{i:30;anchors_height:30;anchors_width:1280;anchors_x:0;anchors_y:690}
+    D{i:4;anchors_height:632;anchors_width:972;anchors_x:0;anchors_y:0}D{i:33;anchors_height:640;anchors_width:980;anchors_x:300;anchors_y:50}
+D{i:38;anchors_height:640;anchors_width:300;anchors_y:50}D{i:49;anchors_height:30;anchors_width:1280;anchors_x:0;anchors_y:0}
+D{i:50;anchors_height:30;anchors_width:1280}D{i:51;anchors_height:30;anchors_width:1280;anchors_x:0;anchors_y:0}
+D{i:48;anchors_height:30;anchors_width:1280;anchors_x:0;anchors_y:690}
 }
 ##^##*/
