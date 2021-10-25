@@ -334,7 +334,7 @@ Window
         //顶部栏背景
         Rectangle
         {
-            id: background_titleBar
+            id: bgr_titleBar
             color: "#66c0ff"
             radius: 0
             anchors.right: parent.right
@@ -590,16 +590,24 @@ Window
             anchors.bottomMargin: 0
             anchors.top: parent.top
             anchors.topMargin: 0
-            acceptedButtons: Qt.LeftButton
             hoverEnabled: true
 
             property bool isHovered: false
+            property bool isSecretMode: false
             property int clickCount: 0
+
+            function enableSecretMode()
+            {
+                isSecretMode = true
+                txt_bottomBar.text = qsTr("特殊模式启动!")
+                bgr_titleBar.color =  "#ff96b6"
+                bgr_bottomBar.color =  "#ff96b6"
+            }
 
             onHoveredChanged:
             {
                 isHovered = !isHovered
-                if(isHovered)
+                if(isHovered || isSecretMode)
                 {
                     bgr_bottomBar.color =  "#ff96b6"
                 }
@@ -609,16 +617,25 @@ Window
                 }
             }
 
+            Keys.onPressed:
+            {
+                if(event.key ===Qt.Key_Q )
+                {
+                    enableSecretMode()
+                }
+            }
+
             onPressed:
             {
+                focus = true
                 clickCount++
                 if(clickCount == 1)
                 {
                     txt_bottomBar.text = qsTr("你好！")
                 }
-                else if(clickCount == 5)
+                else if(clickCount >= 10)
                 {
-                    txt_bottomBar.text = qsTr("特殊模式启动")
+                    enableSecretMode()
                 }
             }
 
