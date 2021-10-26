@@ -1,20 +1,30 @@
 #include "MainWindow.h"
 
+
+
 MainWindow::MainWindow(QObject *parent)
 {
-	Text = tr("���Ƿǵ�ʧ");
+	hostModel = new HostModel();
+	hostModel->GetHostList()->GetList().append({ QStringLiteral("百度"), QStringLiteral("www.Baidu.com"), 0 });
+	hostModel->GetHostList()->GetList().append({ QStringLiteral("谷歌"), QStringLiteral("www.Google.com"), 0 });
 }
 
-QString MainWindow::GetText()
+
+HostModel* MainWindow::GetHostModel()
 {
-	return Text;
+	return hostModel;
 }
 
-void MainWindow::SetText(const QString& InText)
+void MainWindow::SetHostModel(HostModel* InModel)
 {
-	if (Text == InText)
-		return;
+	if(hostModel)
+		hostModel->disconnect(this);
 
-	Text = InText;
-	emit OnTextChanged();
+	hostModel = InModel;
+}
+
+QString MainWindow::openUrl()
+{
+	hostModel->AddItem({ QStringLiteral("百度"), QStringLiteral("www.Baidu.com"), 0 });
+	return tr("ZZZZZZZZZZZZZZZ");
 }

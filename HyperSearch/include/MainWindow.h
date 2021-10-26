@@ -1,23 +1,25 @@
 #pragma once
 #include <QObject>
 #include <QtQml/QtQml>
+#include "HostList.h"
 
 class MainWindow : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString Text READ GetText WRITE SetText NOTIFY OnTextChanged)
+    Q_PROPERTY(HostModel* hostModel READ GetHostModel WRITE SetHostModel)
 
 public:
     explicit MainWindow(QObject *parent = Q_NULLPTR);
 
-    QString GetText();
-    void SetText(const QString& InText);
+    /** 网站列表 */
+    HostModel* GetHostModel();
+    void SetHostModel(HostModel* InModel);
 
-signals:
+public slots:
     
-    void OnTextChanged();
+    QString openUrl();
 
 private:
 
-    QString Text;
+    HostModel* hostModel;
 };

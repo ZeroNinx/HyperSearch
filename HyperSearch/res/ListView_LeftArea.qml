@@ -2,7 +2,6 @@ import QtQuick 2.6
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.0
-//import HS 1.0
 
 //主界面
 Window
@@ -34,7 +33,7 @@ Window
     //右区
     Item
     {
-        id:rightArea
+        id: rightArea
         anchors.right: parent.right
         anchors.rightMargin: 0
         anchors.left: leftArea.right
@@ -60,21 +59,18 @@ Window
             //项目显示条目
             delegate: Item
             {
-                x: 0
+                x: 5
                 width:parent.width - x - 10
                 height: 55
 
                 Rectangle
                 {
                     y: 5
+                    width: parent.width
                     height: parent.height - 2*y
                     border.color: "#777777"
                     border.width: 2
                     radius: 20
-                    anchors.right: parent.right
-                    anchors.rightMargin: 5
-                    anchors.left: parent.left
-                    anchors.leftMargin: 5
 
                     MouseArea
                     {
@@ -86,7 +82,7 @@ Window
                         }
                     }
 
-                    Row
+                    Row 
                     {
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.verticalCenter: parent.verticalCenter
@@ -105,36 +101,6 @@ Window
                     
                 }
                 
-            }
-
-            //滚动条
-            ScrollBar.vertical:
-                ScrollBar
-            {
-                anchors.left: parent.right
-                width: 10
-                height: parent.height
-                active: true
-
-                //滚动条的背景样式
-                background: Item
-                {
-                    Rectangle
-                    {
-                        height: parent.height
-                        width: parent.width
-                        color: '#DDDDDD'
-                        radius: width/2
-                    }
-                }
-
-                //bar的圆角
-                contentItem: Rectangle
-                {
-                    width: parent.width
-                    radius: width/2
-                    color: '#999999'
-                }
             }
 
             //项目数据列表
@@ -216,6 +182,38 @@ Window
                 }
             }
 
+            //滚动条
+            ScrollBar.vertical:
+            ScrollBar
+            {
+                anchors.left: listView_rightArea.right
+                width: 10
+                height: parent.height
+                active: true
+
+                //滚动条的背景样式
+                background: Item
+                {
+                    Rectangle
+                    {
+                        height: parent.height
+                        width: parent.width
+                        anchors.left: parent.left
+                        color: '#DDDDDD'
+                        radius: width/2
+                    }
+                }
+
+                //bar的圆角
+                contentItem: Rectangle
+                {
+                    x:0
+                    y:0
+                    width: 10
+                    radius: width/2
+                    color: '#999999'
+                }
+             }
         }
     }
 
@@ -238,6 +236,7 @@ Window
             samples: 20
             spread: 0
             horizontalOffset: 0
+
         }
 
         //背景
@@ -252,11 +251,71 @@ Window
             border.width: 0
         }
 
-        //分类列表
+
+        //搜索框
+        Rectangle {
+            id: searchBar
+            height: 40
+            color: "#ffffff"
+            radius: 25
+            border.color: "#777777"
+            anchors.top: parent.top
+            anchors.topMargin: 10
+            anchors.right: parent.right
+            anchors.rightMargin: 20
+            anchors.left: parent.left
+            anchors.leftMargin: 20
+            border.width: 2
+
+            //文本框
+            TextInput {
+                id: textInput_searchBar
+                font.family: "微软雅黑"
+                text: qsTr("搜索...")
+                color: "#777777"
+                anchors.right: parent.right
+                anchors.rightMargin: 15
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 0
+                anchors.top: parent.top
+                anchors.topMargin: 0
+                anchors.left: parent.left
+                anchors.leftMargin: 15
+                verticalAlignment: Text.AlignVCenter
+                font.pixelSize: 16
+
+                property bool isFocused: false
+                property string search_text: qsTr("搜索...")
+
+                onAccepted:
+                {
+                    txt_bottomBar.text = "OK"
+                    focus = false
+                }
+
+                onFocusChanged:
+                {
+                    isFocused = !isFocused
+                    if(!isFocused && text == "")
+                    {
+                        color = "#777777"
+                        text = search_text
+                    }
+
+                    if(isFocused && text == search_text)
+                    {
+                        color = "#000000"
+                        text = ""
+                    }
+
+                }
+            }
+        }
+
+
         ListView
         {
-            id:lv_host
-            anchors.top: searchArea.bottom
+            anchors.top: searchBar.bottom
             anchors.bottom: leftArea.bottom
             anchors.left: leftArea.left
             anchors.right: leftArea.right
@@ -266,122 +325,94 @@ Window
             delegate: Item
             {
                 width: parent.width
-                height: 60
+                height: 50
 
                 Rectangle
                 {
-                    x:5
-                    y:5
-                    width: parent.width - 2*5
-                    height: parent.height - 3*5
-                    radius: parent.height/3
+                    id: rectangle
+                    width: parent.width
+                    height: parent.height
+                    border.width: 2
 
-                    layer.enabled: true
-                    layer.effect:DropShadow
-                    {
-                        color: "#000000"
-                        radius: 5
-                        samples: 10
-                        spread: 0
-                        horizontalOffset: 0
-                    }
+                    border.color: "red"
 
-                    MouseArea
+                    LinearGradient
                     {
-                        anchors.fill: parent
-                        acceptedButtons: Qt.LeftButton
-                        onClicked:
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        anchors.left: parent.left
+
+                        width: parent.width/7
+                        gradient: Gradient
                         {
-                            txt_bottomBar.text = mainWindow.openUrl()
+                            GradientStop
+                            {
+                                position: 0
+                                color: "#999999"
+                            }
 
+                            GradientStop
+                            {
+                                position: 1
+                                color: "#FFFFFF"
+                            }
                         }
+                        start: Qt.point(0,0)
+                        end:Qt.point(width,0)
+
                     }
 
-                    Text
+                    TextArea
                     {
-                        color: "gray"
+                        color: "red"
                         anchors.centerIn: parent
-                        text: model.name
-                        font.pixelSize: 26
+                        text: name
+                        font.pixelSize: 22
+
                         font.family: "微软雅黑"
+
                     }
                 }
             }
 
             //数据条目
-            model: mainWindow.hostModel
+            model: ListModel
+            {
+                ListElement
+                {
+                    name: "123"
+                }
 
-        }
-
-        //搜索框
-        Rectangle {
-            id: searchArea
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: 60
-            color: "#ffffff"
-
-            Rectangle {
-                id: searchBar
-                x: 20
-                y: 10
-                height: parent.height - 2*y
-                color: "#ffffff"
-                radius: 25
-                border.color: "#777777"
-                anchors.top: parent.top
-                anchors.topMargin: 10
-                anchors.right: parent.right
-                anchors.rightMargin: 20
-                anchors.left: parent.left
-                anchors.leftMargin: 20
-                border.width: 2
-
-                //文本框
-                TextInput {
-                    id: textInput_searchBar
-                    font.family: "微软雅黑"
-                    text: qsTr("搜索...")
-                    color: "#777777"
-                    anchors.right: parent.right
-                    anchors.rightMargin: 15
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 0
-                    anchors.top: parent.top
-                    anchors.topMargin: 0
-                    anchors.left: parent.left
-                    anchors.leftMargin: 15
-                    verticalAlignment: Text.AlignVCenter
-                    font.pixelSize: 16
-
-                    property bool isFocused: false
-                    property string search_text: qsTr("搜索...")
-
-                    onAccepted:
-                    {
-                        txt_bottomBar.text = "OK"
-                        focus = false
-                    }
-
-                    onFocusChanged:
-                    {
-                        isFocused = !isFocused
-                        if(!isFocused && text == "")
-                        {
-                            color = "#777777"
-                            text = search_text
-                        }
-
-                        if(isFocused && text == search_text)
-                        {
-                            color = "#000000"
-                            text = ""
-                        }
-
-                    }
+                ListElement
+                {
+                    name: "123"
+                }
+                ListElement
+                {
+                    name: "123"
+                }
+                ListElement
+                {
+                    name: "123"
+                }
+                ListElement
+                {
+                    name: "123"
+                }
+                ListElement
+                {
+                    name: "123"
+                }
+                ListElement
+                {
+                    name: "123"
+                }
+                ListElement
+                {
+                    name: "123"
                 }
             }
+
         }
     }
 
@@ -433,6 +464,7 @@ Window
                 }
 
                 Text {
+                    id: element
                     text: qsTr("HyperSearch v0.1")
                     anchors.right: parent.right
                     anchors.rightMargin: 0
@@ -681,7 +713,7 @@ Window
 
             Keys.onPressed:
             {
-                if(event.key === Qt.Key_Q )
+                if(event.key ===Qt.Key_Q )
                 {
                     enableSecretMode()
                 }
@@ -710,4 +742,11 @@ Window
 
 }
 
-
+/*##^##
+Designer {
+    D{i:4;anchors_height:632;anchors_width:972;anchors_x:0;anchors_y:0}D{i:33;anchors_height:640;anchors_width:980;anchors_x:300;anchors_y:50}
+D{i:50;anchors_height:640;anchors_width:300;anchors_y:50}D{i:61;anchors_height:30;anchors_width:1280;anchors_x:0;anchors_y:0}
+D{i:62;anchors_height:30;anchors_width:1280}D{i:63;anchors_height:30;anchors_width:1280;anchors_x:0;anchors_y:0}
+D{i:60;anchors_height:30;anchors_width:1280;anchors_x:0;anchors_y:690}
+}
+##^##*/

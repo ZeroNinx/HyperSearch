@@ -1,4 +1,5 @@
 #include <MainWindow.h>
+#include <HostList.h>
 
 #include <QGuiApplication>
 #include <QtQml/QtQml>
@@ -6,24 +7,20 @@
 int main(int argc, char* argv[])
 {
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
 	QGuiApplication app(argc, argv);
 
-	qmlRegisterType<MainWindow>("HyperSearch.MainWindow", 1, 0, "MainWindow");
+	//注册变量类型
+	qmlRegisterType<MainWindow>("HS", 1, 0, "HSMainWindow");
+	qmlRegisterType<HostModel>("HS", 1, 0, "HostModel");
+	qmlRegisterUncreatableType<HostList>("HS", 1, 0, "HostList", QStringLiteral("HostList should not be created in QML"));
+
+	MainWindow mainWindow;
 
 	QQmlApplicationEngine engine;
-	const QUrl url(QStringLiteral("qrc:/MainWindow.qml"));
-	QObject::connect(
-		&engine, 
-		&QQmlApplicationEngine::objectCreated,
-		&app, 
-		[url](QObject* obj, const QUrl& objUrl) 
-		{
-			if (!obj && url == objUrl)
-				QCoreApplication::exit(-1);
-		},
-		Qt::QueuedConnection);
-	engine.load(url);
+	engine.rootContext()->setContextProperty(QStringLiteral("mainWindow"), &mainWindow);
+	engine.load(QUrl(QStringLiteral("qrc:/MainWindow.qml")));
+	if (engine.rootObjects().isEmpty())
+		return -1;
 
 	return app.exec();
 }
