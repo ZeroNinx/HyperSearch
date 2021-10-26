@@ -23,6 +23,7 @@ public:
 	};
 };
 
+//搜索结果类
 class Result :public QMLListItem
 {
 public:
