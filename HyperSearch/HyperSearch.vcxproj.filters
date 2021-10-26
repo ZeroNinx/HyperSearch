@@ -29,7 +29,7 @@
     <ClCompile Include="src\MainWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\HostList.cpp">
+    <ClCompile Include="src\QMLList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -37,7 +37,7 @@
     <QtMoc Include="include\MainWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="include\HostList.h">
+    <QtMoc Include="include\QMLList.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -50,5 +50,10 @@
     <None Include="res\MainWindow.qml">
       <Filter>Form Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\QMLListTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

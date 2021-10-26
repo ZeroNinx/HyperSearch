@@ -31,7 +31,7 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>5.14.0_msvc2017_64</QtInstall>
+    <QtInstall>msvc2017_64</QtInstall>
     <QtModules>core;gui;qml;quickcontrols2</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
@@ -93,8 +93,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\HostList.cpp" />
     <ClCompile Include="src\MainWindow.cpp" />
+    <ClCompile Include="src\QMLList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\MainWindow.h" />
@@ -106,7 +106,8 @@
     <None Include="res\MainWindow.qml" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="include\HostList.h" />
+    <QtMoc Include="include\QMLList.h" />
+    <ClInclude Include="include\QMLListTypes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

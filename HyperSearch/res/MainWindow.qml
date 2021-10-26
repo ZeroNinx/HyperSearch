@@ -82,7 +82,7 @@ Window
                         acceptedButtons: Qt.LeftButton
                         onClicked:
                         {
-                            txt_bottomBar.text = colorCode
+                            txt_bottomBar.text = model.url
                         }
                     }
 
@@ -92,7 +92,7 @@ Window
                         anchors.verticalCenter: parent.verticalCenter
                         Text
                         {
-                            text: "["+name+"]"+colorCode
+                            text: model.text
                             color: colorCode
                             font.family: "微软雅黑"
                             font.pixelSize: 22
@@ -100,8 +100,6 @@ Window
                         }
                         spacing: 10
                     }
-
-
                     
                 }
                 
@@ -138,83 +136,7 @@ Window
             }
 
             //项目数据列表
-            model: ListModel {
-                ListElement {
-                    name: "Grey"
-                    colorCode: "grey"
-                }
-
-                ListElement {
-                    name: "Red"
-                    colorCode: "red"
-                }
-
-                ListElement {
-                    name: "Blue"
-                    colorCode: "blue"
-                }
-
-                ListElement {
-                    name: "Green"
-                    colorCode: "green"
-                }
-                ListElement {
-                    name: "Green"
-                    colorCode: "green"
-                }
-                ListElement {
-                    name: "Green"
-                    colorCode: "green"
-                }
-                ListElement {
-                    name: "Green"
-                    colorCode: "green"
-                }
-                ListElement {
-                    name: "Green"
-                    colorCode: "green"
-                }
-                ListElement {
-                    name: "Green"
-                    colorCode: "green"
-                }
-                ListElement {
-                    name: "Green"
-                    colorCode: "green"
-                }
-                ListElement {
-                    name: "Green"
-                    colorCode: "green"
-                }
-                ListElement {
-                    name: "Green"
-                    colorCode: "green"
-                }
-                ListElement {
-                    name: "Green"
-                    colorCode: "green"
-                }
-                ListElement {
-                    name: "Green"
-                    colorCode: "green"
-                }
-                ListElement {
-                    name: "Green"
-                    colorCode: "green"
-                }
-                ListElement {
-                    name: "Green"
-                    colorCode: "green"
-                }
-                ListElement {
-                    name: "Green"
-                    colorCode: "green"
-                }
-                ListElement {
-                    name: "Green"
-                    colorCode: "green"
-                }
-            }
+            model: mainWindow.resultModel
 
         }
     }

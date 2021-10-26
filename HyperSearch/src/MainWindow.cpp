@@ -1,21 +1,24 @@
 #include "MainWindow.h"
-
+#include "QMLListTypes.h"
 
 
 MainWindow::MainWindow(QObject *parent)
 {
-	hostModel = new HostModel();
-	hostModel->GetHostList()->GetList().append({ QStringLiteral("百度"), QStringLiteral("www.Baidu.com"), 0 });
-	hostModel->GetHostList()->GetList().append({ QStringLiteral("谷歌"), QStringLiteral("www.Google.com"), 0 });
+	hostModel = new QMLListModel();
+	hostModel->SetTemplate(Host());
+	hostModel->AddItem(Host( QStringLiteral("搜索引擎"), 0 ));
+
+	resultModel = new QMLListModel();
+	resultModel->SetTemplate(Result());
 }
 
 
-HostModel* MainWindow::GetHostModel()
+QMLListModel* MainWindow::GetHostModel()
 {
 	return hostModel;
 }
 
-void MainWindow::SetHostModel(HostModel* InModel)
+void MainWindow::SetHostModel(QMLListModel* InModel)
 {
 	if(hostModel)
 		hostModel->disconnect(this);
@@ -23,8 +26,21 @@ void MainWindow::SetHostModel(HostModel* InModel)
 	hostModel = InModel;
 }
 
-QString MainWindow::openUrl()
+QMLListModel* MainWindow::GetResultModel()
 {
-	hostModel->AddItem({ QStringLiteral("百度"), QStringLiteral("www.Baidu.com"), 0 });
-	return tr("ZZZZZZZZZZZZZZZ");
+	return resultModel;
+}
+
+void MainWindow::SetResultModel(QMLListModel* InModel)
+{
+	if (resultModel)
+		resultModel->disconnect(this);
+
+	resultModel = InModel;
+}
+
+void MainWindow::openUrl()
+{
+	resultModel->AddItem(Result(QStringLiteral("百度"), QStringLiteral("www.baidu.com")));
+	resultModel->AddItem(Result(QStringLiteral("谷歌"), QStringLiteral("www.google.com")));
 }

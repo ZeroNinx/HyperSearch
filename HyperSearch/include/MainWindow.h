@@ -1,25 +1,31 @@
 #pragma once
 #include <QObject>
 #include <QtQml/QtQml>
-#include "HostList.h"
+#include "QMLList.h"
 
 class MainWindow : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(HostModel* hostModel READ GetHostModel WRITE SetHostModel)
+    Q_PROPERTY(QMLListModel* hostModel READ GetHostModel WRITE SetHostModel)
+    Q_PROPERTY(QMLListModel* resultModel READ GetResultModel WRITE SetResultModel)
 
 public:
     explicit MainWindow(QObject *parent = Q_NULLPTR);
 
     /** 网站列表 */
-    HostModel* GetHostModel();
-    void SetHostModel(HostModel* InModel);
+    QMLListModel* GetHostModel();
+    void SetHostModel(QMLListModel* InModel);
+
+    /** 结果列表 */
+    QMLListModel* GetResultModel();
+    void SetResultModel(QMLListModel* InModel);
 
 public slots:
     
-    QString openUrl();
+    void openUrl();
 
 private:
 
-    HostModel* hostModel;
+    QMLListModel* hostModel;
+    QMLListModel* resultModel;
 };
