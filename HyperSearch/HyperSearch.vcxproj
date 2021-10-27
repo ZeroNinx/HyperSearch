@@ -31,7 +31,7 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>msvc2017_64</QtInstall>
+    <QtInstall>5.14.0_msvc2017_64</QtInstall>
     <QtModules>core;gui;qml;quickcontrols2</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
@@ -60,10 +60,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\xenozhu\source\repos\HyperSearch\HyperSearch\include;C:\Users\Zero\source\repos\HyperSearch\HyperSearch\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\xenozhu\source\repos\HyperSearch\HyperSearch\include;C:\Users\Zero\source\repos\HyperSearch\HyperSearch\include;C:\Users\xenozhu\Documents\Boost\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link />
+    <Link>
+      <AdditionalLibraryDirectories>C:\Users\xenozhu\Documents\Boost\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
@@ -93,6 +96,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\HttpConn.cpp" />
     <ClCompile Include="src\MainWindow.cpp" />
     <ClCompile Include="src\QMLList.cpp" />
   </ItemGroup>
@@ -107,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\QMLList.h" />
+    <ClInclude Include="include\HttpConn.h" />
     <ClInclude Include="include\QMLListTypes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

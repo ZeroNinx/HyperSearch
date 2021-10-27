@@ -2,7 +2,6 @@ import QtQuick 2.6
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.0
-//import HS 1.0
 
 //主界面
 Window
@@ -45,12 +44,14 @@ Window
         anchors.topMargin: 0
         Rectangle
         {
+            id: bgr_rightArea
             anchors.fill: parent
             color: "#ffffff"
         }
 
         //结果列表
         ListView {
+            id: lv_result
             anchors.rightMargin: 15
             anchors.leftMargin: 15
             anchors.bottomMargin: 15
@@ -163,7 +164,8 @@ Window
         }
 
         //背景
-        Rectangle {
+        Rectangle
+        {
             id: bgr_leftArea
             anchors.fill: parent
             x: 0
@@ -199,23 +201,41 @@ Window
                     radius: parent.height/3
 
                     layer.enabled: true
-                    layer.effect:DropShadow
+                    layer.effect: DropShadow
                     {
+                        id:shadow_host
                         color: "#000000"
                         radius: 5
                         samples: 10
                         spread: 0
-                        horizontalOffset: 0
                     }
 
                     MouseArea
                     {
                         anchors.fill: parent
                         acceptedButtons: Qt.LeftButton
+                        hoverEnabled: true
+
+                        property bool isHovered: false
+
+                        onHoveredChanged:
+                        {
+                            isHovered = !isHovered
+                            if(isHovered)
+                            {
+                                parent.y = parent.y - 2
+                            }
+                            else
+                            {
+                                parent.y = parent.y + 2
+                            }
+                        }
+
+
                         onClicked:
                         {
-                            txt_bottomBar.text = mainWindow.openUrl()
 
+                            txt_bottomBar.text = mainWindow.openUrl()
                         }
                     }
 

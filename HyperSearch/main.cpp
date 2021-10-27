@@ -1,3 +1,4 @@
+#define _WIN32_WINDOWS
 #include <QGuiApplication>
 #include <QtQml/QtQml>
 

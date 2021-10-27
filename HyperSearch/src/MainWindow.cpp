@@ -42,6 +42,9 @@ void MainWindow::SetResultModel(QMLListModel* InModel)
 
 void MainWindow::openUrl()
 {
+
+
+
 	resultModel->AddItem(Result(QStringLiteral("百度"), QStringLiteral("www.baidu.com")));
 	resultModel->AddItem(Result(QStringLiteral("谷歌"), QStringLiteral("www.google.com")));
 }

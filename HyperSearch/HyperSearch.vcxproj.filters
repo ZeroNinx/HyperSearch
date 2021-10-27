@@ -32,6 +32,9 @@
     <ClCompile Include="src\QMLList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\HttpConn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\MainWindow.h">
@@ -53,6 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\QMLListTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HttpConn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
