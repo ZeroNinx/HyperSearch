@@ -84,6 +84,7 @@ Window
                         onClicked:
                         {
                             txt_bottomBar.text = model.url
+                            mainWindow.copyText(model.url)
                         }
                     }
 
@@ -96,7 +97,7 @@ Window
                             text: model.text
                             color: colorCode
                             font.family: "微软雅黑"
-                            font.pixelSize: 22
+                            font.pixelSize: 16
                             font.bold: true
                         }
                         spacing: 10
@@ -234,8 +235,7 @@ Window
 
                         onClicked:
                         {
-
-                            txt_bottomBar.text = mainWindow.openUrl()
+                            mainWindow.openUrl(textInput_searchBar.text)
                         }
                     }
 

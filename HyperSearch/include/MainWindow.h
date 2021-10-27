@@ -22,7 +22,8 @@ public:
 
 public slots:
     
-    void openUrl();
+    void copyText(QString KeyWord);
+    void openUrl(QString KeyWord);
 
 private:
 

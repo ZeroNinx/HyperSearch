@@ -31,7 +31,7 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>5.14.0_msvc2017_64</QtInstall>
+    <QtInstall>msvc2017_64</QtInstall>
     <QtModules>core;gui;qml;quickcontrols2</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
@@ -60,12 +60,14 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\xenozhu\source\repos\HyperSearch\HyperSearch\include;C:\Users\Zero\source\repos\HyperSearch\HyperSearch\include;C:\Users\xenozhu\Documents\Boost\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\xenozhu\source\repos\HyperSearch\HyperSearch\include;C:\Users\Zero\source\repos\HyperSearch\HyperSearch\include;C:\Users\xenozhu\Documents\Boost\;C:\Users\Zero\Documents\Boost\;C:\Users\Zero\Documents\openssl-1.1.1k\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link />
     <Link>
-      <AdditionalLibraryDirectories>C:\Users\xenozhu\Documents\Boost\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\xenozhu\Documents\Boost\stage\lib;C:\Users\Zero\Documents\Boost\stage\lib;C:\Users\Zero\Documents\openssl-1.1.1k;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>crypt32.lib;libcrypto_static.lib;libssl_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/NODEFAULTLIB:msvcrt.lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -99,6 +101,7 @@
     <ClCompile Include="src\HttpConn.cpp" />
     <ClCompile Include="src\MainWindow.cpp" />
     <ClCompile Include="src\QMLList.cpp" />
+    <ClCompile Include="src\ResSite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\MainWindow.h" />
@@ -110,6 +113,7 @@
     <None Include="res\MainWindow.qml" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\ResSite.h" />
     <QtMoc Include="include\QMLList.h" />
     <ClInclude Include="include\HttpConn.h" />
     <ClInclude Include="include\QMLListTypes.h" />

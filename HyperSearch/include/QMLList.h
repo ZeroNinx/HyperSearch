@@ -62,12 +62,8 @@ public:
 
 	/** 自定义 */
 	void SetTemplate(QMLListItem Template);
-	void AddItem(QMLListItem Item)
-	{
-		beginInsertRows(QModelIndex(), listObject->GetList().size(), listObject->GetList().size());
-		listObject->GetList().append(Item);
-		endInsertRows();
-	}
+	void AddItem(QMLListItem Item);
+	void Clear();
 
 private:
 	QMLListObject* listObject;

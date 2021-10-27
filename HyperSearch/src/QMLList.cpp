@@ -91,6 +91,23 @@ void QMLListModel::SetTemplate(QMLListItem Template)
 	GetListObject()->SetTemplate(Template);
 }
 
+void QMLListModel::AddItem(QMLListItem Item)
+{
+	beginInsertRows(QModelIndex(), listObject->GetList().size(), listObject->GetList().size());
+	listObject->GetList().append(Item);
+	endInsertRows();
+}
+
+void QMLListModel::Clear()
+{
+	if (!listObject->GetList().empty())
+	{
+		beginRemoveRows(QModelIndex(), 0, listObject->GetList().size() - 1);
+		listObject->GetList().clear();
+		endRemoveRows();
+	}
+}
+
 QMLListModel::~QMLListModel()
 {
 	delete listObject;

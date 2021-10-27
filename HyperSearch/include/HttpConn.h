@@ -1,28 +1,60 @@
 #pragma once
-#include <boost/asio.hpp>
-#include <boost/beast.hpp>
+#include <sdkddkver.h>
+#include <boost/asio/ip/tcp.hpp>
+#include <boost/asio/connect.hpp>
+#include <boost/asio/ssl/stream.hpp>
+#include <boost/beast/http/read.hpp>
+#include <boost/beast/http/write.hpp>
+#include <boost/beast/core/flat_buffer.hpp>
+#include <boost/beast/http/string_body.hpp>
 
+namespace beast = boost::beast;
+namespace asio = boost::asio;
+namespace ssl = asio::ssl;
+namespace http = boost::beast::http;
+using tcp = boost::asio::ip::tcp;
+
+//Http链接
 class HttpConn
 {
 public:
-	HttpConn(std::string host, std::string port);
+	HttpConn(std::string Hostname, int Port = 80);
 
-	boost::beast::http::request< boost::beast::http::string_body> request;
-	boost::beast::flat_buffer buf;
-	boost::beast::http::response<boost::beast::http::string_body> response;
+	http::request<http::string_body> Request;
+	http::response<http::string_body> Response;
 
+public:
 
-	void build(boost::beast::http::verb method, std::string target, int version);
-	void connect();
+	virtual void Build(std::string Target, http::verb Method = http::verb::get, int Version = 11);
+	virtual void Connect();
+	std::string GetResponseBody();
+
+protected:
+
+	beast::flat_buffer buffer;
+	asio::io_context io_ctx;
+	tcp::resolver resolver{ io_ctx };
+	tcp::socket socket{ io_ctx };
+
+	std::string hostname;
+	std::string port;
+};
+
+class HttpsConn:public HttpConn
+{
+public:
+
+	HttpsConn(std::string Hostname, int Port = 443);
+
+public:
+
+	void Connect() override;
 
 private:
 
-	boost::asio::io_service io_se;
-	boost::asio::ip::tcp::resolver resolver{ io_se };
-	boost::asio::ip::tcp::socket socket{ io_se };
+	tcp::socket Connect(asio::io_context& ctx, std::string const& hostname);
 
-
-	std::string host = "";
-	std::string port = "";
-	std::string target = "";
+	ssl::context ssl_ctx{ ssl::context::tls_client };
+	std::unique_ptr<ssl::stream<tcp::socket>> stream;
 };
+

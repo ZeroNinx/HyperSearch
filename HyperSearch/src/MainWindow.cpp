@@ -1,5 +1,10 @@
+#include <QDebug>
+#include <QGuiApplication>
+#include <QClipboard>
+
 #include "MainWindow.h"
 #include "QMLListTypes.h"
+#include "ResSite.h"
 
 /** 构造函数 */
 MainWindow::MainWindow(QObject *parent)
@@ -40,10 +45,21 @@ void MainWindow::SetResultModel(QMLListModel* InModel)
 	resultModel = InModel;
 }
 
-void MainWindow::openUrl()
+void MainWindow::copyText(QString KeyWord)
 {
+	QClipboard* clipboard = QGuiApplication::clipboard();
+	clipboard->setText(KeyWord);
+}
 
+void MainWindow::openUrl(QString InKeyWord)
+{
+	resultModel->Clear();
 
+	TorrentSite_BTSOW btsow = TorrentSite_BTSOW();
+	for (Resource& res: btsow.Search(InKeyWord.toStdString()))
+	{
+		resultModel->AddItem(Result(tr(res.Name.c_str()), tr(res.Url.c_str())));
+	}
 
 	resultModel->AddItem(Result(QStringLiteral("百度"), QStringLiteral("www.baidu.com")));
 	resultModel->AddItem(Result(QStringLiteral("谷歌"), QStringLiteral("www.google.com")));
