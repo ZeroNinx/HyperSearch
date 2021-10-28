@@ -21,6 +21,24 @@
       <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
       <Extensions>ts</Extensions>
     </Filter>
+    <Filter Include="Header Files\ResSite">
+      <UniqueIdentifier>{f7e443a1-d98e-408d-8281-a067d1fbecf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ResSite\TorrentSite">
+      <UniqueIdentifier>{62e9c0bb-1c04-4d89-9350-ea21f1d4c87d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ResSite\ConsoleRomSite">
+      <UniqueIdentifier>{da80347f-eef5-48bf-b472-349a51d1571e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ResStie">
+      <UniqueIdentifier>{286cca81-c769-4a6f-bd54-1d312f5a0002}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ResStie\ConsoleRomSite">
+      <UniqueIdentifier>{73bb9f24-2001-4023-b11b-1ed87b427a3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ResStie\TorrentSite">
+      <UniqueIdentifier>{c1585f09-2a3f-4b89-809c-adfbb77d83a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -37,6 +55,15 @@
     </ClCompile>
     <ClCompile Include="src\ResSite.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResSite\TorrentSite\Btsow.cpp">
+      <Filter>Source Files\ResStie\TorrentSite</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResSite\ConsoleRomSite\CoolRom.cpp">
+      <Filter>Source Files\ResStie\ConsoleRomSite</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResSite\ConsoleRomSite\EdgeEmu.cpp">
+      <Filter>Source Files\ResStie\ConsoleRomSite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -65,6 +92,24 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ResSite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ResSite\TorrentSite.h">
+      <Filter>Header Files\ResSite</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ResSite\TorrentSite\Btsow.h">
+      <Filter>Header Files\ResSite\TorrentSite</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ResSite\ConsoleRomSite.h">
+      <Filter>Header Files\ResSite</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ResSite\ConsoleRomSite\CoolRom.h">
+      <Filter>Header Files\ResSite\ConsoleRomSite</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ResSite\ConsoleRomSite\EdgeEmu.h">
+      <Filter>Header Files\ResSite\ConsoleRomSite</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ToolBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

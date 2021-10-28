@@ -1,6 +1,14 @@
 #pragma once
+
 #include <string>
 #include <vector>
+#include <regex>
+#include <QDebug>
+#include "ToolBox.h"
+#include "HttpConn.h"
+
+using namespace std;
+using namespace boost::beast::http;
 
 #define UA_CHROME "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36"
 
@@ -33,16 +41,4 @@ protected:
 
 };
 
-//种子网站
-class TorrentSite: public ResSite
-{
-
-};
-
-//BTSOW
-class TorrentSite_BTSOW:TorrentSite
-{
-public:
-	virtual std::vector<Resource>& Search(std::string KeyWord) override;
-};
 

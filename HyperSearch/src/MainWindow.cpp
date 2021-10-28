@@ -4,7 +4,7 @@
 
 #include "MainWindow.h"
 #include "QMLListTypes.h"
-#include "ResSite.h"
+#include "ResSite/ConsoleRomSite.h"
 
 /** 构造函数 */
 MainWindow::MainWindow(QObject *parent)
@@ -55,12 +55,11 @@ void MainWindow::openUrl(QString InKeyWord)
 {
 	resultModel->Clear();
 
-	TorrentSite_BTSOW btsow = TorrentSite_BTSOW();
+	ConsoleRomSite::EdgeEmu btsow = ConsoleRomSite::EdgeEmu();
 	for (Resource& res: btsow.Search(InKeyWord.toStdString()))
 	{
 		resultModel->AddItem(Result(tr(res.Name.c_str()), tr(res.Url.c_str())));
 	}
 
-	resultModel->AddItem(Result(QStringLiteral("百度"), QStringLiteral("www.baidu.com")));
-	resultModel->AddItem(Result(QStringLiteral("谷歌"), QStringLiteral("www.google.com")));
+	resultModel->AddItem(Result(QStringLiteral("搜索完成"), QStringLiteral("搜索完成")));
 }
