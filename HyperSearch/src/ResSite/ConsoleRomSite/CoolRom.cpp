@@ -26,9 +26,9 @@ std::vector<Resource>& ConsoleRomSite::CoolRom::Search(std::string KeyWord)
 			string& name = pos->str(3);
 
 			string fullname = "[" + platform + "]" + name;
-			string fullurl = "coolrom.com.au" + url;
+			string pageurl = "https://coolrom.com.au" + url;
 
-			resource_list.push_back(Resource(fullname.c_str(), fullurl.c_str()));
+			resource_list.push_back(Resource(fullname, pageurl));
 		}
 	}
 	return resource_list;

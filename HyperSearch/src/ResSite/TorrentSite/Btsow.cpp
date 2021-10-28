@@ -9,7 +9,7 @@ vector<Resource>& TorrentSite::BTSOW::Search(string KeyWord)
 	Btsow.Connect();
 
 	//数据处理
-	string str = ToolBox::CutString(Btsow.GetResponseBody(), "<div class=\"data-list\">", "<div type=\"text/data-position\"");
+	string str = ToolBox::CutString(Btsow.GetResponseBody(), "<div class=\"col-sm-8 col-lg-9 field\">Torrent Description</div>", "<div type=\"text/data-position\"");
 	if (str.size())
 	{
 		qDebug() << str.c_str();
@@ -22,7 +22,7 @@ vector<Resource>& TorrentSite::BTSOW::Search(string KeyWord)
 			string& hash = pos->str(1);
 			string& name = pos->str(2);
 
-			resource_list.push_back(Resource(name, "magnet:?xt=urn:btih:" + hash));
+			resource_list.push_back(Resource(name, "https://btsow.rest/magnet/detail/hash/" + hash, "", "magnet:?xt=urn:btih:" + hash));
 		}
 	}
 	return resource_list;

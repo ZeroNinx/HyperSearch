@@ -1,4 +1,4 @@
-import QtQuick 2.6
+import QtQuick 2.7
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.0
@@ -67,6 +67,7 @@ Window
 
                 Rectangle
                 {
+                    id: border_result_item
                     y: 5
                     height: parent.height - 2*y
                     border.color: "#777777"
@@ -88,19 +89,159 @@ Window
                         }
                     }
 
-                    Row
+                    //按钮右
+                    MouseArea
                     {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        Text
+                        id:btn_right
+                        anchors.right: parent.right;
+                        anchors.rightMargin: 20;
+                        anchors.bottom: parent.bottom;
+                        anchors.bottomMargin: 8;
+                        anchors.top: parent.top;
+                        anchors.topMargin: 8;
+
+                        height: parent.height - 2*5
+                        width: height
+
+                        onClicked:
                         {
-                            text: model.text
-                            color: colorCode
-                            font.family: "微软雅黑"
-                            font.pixelSize: 16
-                            font.bold: true
+                            mainWindow.openUrl(model.downloadUrl)
                         }
-                        spacing: 10
+
+                        Rectangle
+                        {
+                            anchors.fill: parent
+                            color: "#55AAFF"
+                            radius: 4
+
+                            Image
+                            {
+                                anchors.fill: parent
+                                anchors.rightMargin: 5
+                                anchors.leftMargin: 5
+                                anchors.bottomMargin: 5
+                                anchors.topMargin: 5
+                                fillMode: Image.PreserveAspectFit
+                                source: "Image/direct-download.png"
+                            }
+
+                        }
+                        Component.onCompleted:
+                        {
+                            if(model.downloadUrl === "")
+                            {
+                                width = 0
+                            }
+                        }
+                    }
+
+                    //按钮中
+                    MouseArea
+                    {
+                        id:btn_mid
+                        anchors.right: btn_right.left;
+                        anchors.rightMargin: 10;
+                        anchors.bottom: parent.bottom;
+                        anchors.bottomMargin: 8;
+                        anchors.top: parent.top;
+                        anchors.topMargin: 8;
+
+                        height: parent.height - 2*5
+                        width: height
+
+                        onClicked:
+                        {
+                                mainWindow.openUrl(model.diskUrl)
+                        }
+
+                        Rectangle
+                        {
+                            anchors.fill: parent
+                            color: "#44DC44"
+                            radius: 4
+
+                            Image
+                            {
+                                anchors.fill: parent
+                                anchors.rightMargin: 5
+                                anchors.leftMargin: 5
+                                anchors.bottomMargin: 5
+                                anchors.topMargin: 5
+                                fillMode: Image.PreserveAspectFit
+                                source: "Image/cloud-download.png"
+                            }
+                        }
+                        Component.onCompleted:
+                        {
+                            if(model.diskUrl === "")
+                            {
+                                width = 0
+                            }
+                        }
+                    }
+
+                    //按钮左
+                    MouseArea
+                    {
+                        id:btn_left
+                        anchors.right: btn_mid.left;
+                        anchors.rightMargin: 10;
+                        anchors.bottom: parent.bottom;
+                        anchors.bottomMargin: 8;
+                        anchors.top: parent.top;
+                        anchors.topMargin: 8;
+
+                        height: parent.height - 2*5
+                        width: height
+
+                        onClicked:
+                        {
+                            mainWindow.openUrl(model.pageUrl)
+                        }
+
+                        Rectangle
+                        {
+                            anchors.fill: parent
+                            color: "#FF8800"
+                            radius: 4
+                            Image
+                            {
+                                anchors.fill: parent
+                                anchors.rightMargin: 5
+                                anchors.leftMargin: 5
+                                anchors.bottomMargin: 5
+                                anchors.topMargin: 5
+                                fillMode: Image.PreserveAspectFit
+                                source: "Image/open-browser.png"
+                            }
+
+                        }
+
+                        Component.onCompleted:
+                        {
+                            if(model.pageUrl === "")
+                            {
+                                width = 0
+                            }
+                        }
+                    }
+
+                    //显示文本
+                    Text
+                    {
+                        text:model.text
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        anchors.right: btn_left.left
+                        anchors.rightMargin: 10
+                        anchors.left: parent.left
+                        anchors.leftMargin: 8
+                        anchors.bottom: parent.bottom
+                        anchors.bottomMargin: 8
+                        anchors.top: parent.top
+                        anchors.topMargin: 8
+                        font.family: "微软雅黑"
+                        font.pixelSize: 14
                     }
                     
                 }
@@ -109,7 +250,7 @@ Window
 
             //滚动条
             ScrollBar.vertical:
-                ScrollBar
+            ScrollBar
             {
                 anchors.left: parent.right
                 width: 10
@@ -235,7 +376,7 @@ Window
 
                         onClicked:
                         {
-                            mainWindow.openUrl(textInput_searchBar.text)
+                            mainWindow.search(textInput_searchBar.text, model.site)
                         }
                     }
 

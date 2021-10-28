@@ -1,9 +1,11 @@
 #include <QDebug>
+#include <QDesktopServices>
 #include <QGuiApplication>
 #include <QClipboard>
 
 #include "MainWindow.h"
 #include "QMLListTypes.h"
+#include "ResSite/TorrentSite.h"
 #include "ResSite/ConsoleRomSite.h"
 
 /** 构造函数 */
@@ -12,11 +14,14 @@ MainWindow::MainWindow(QObject *parent)
 	/** 网站列表 */
 	hostModel = new QMLListModel();
 	hostModel->SetTemplate(Host());
-	hostModel->AddItem(Host( QStringLiteral("搜索引擎"), 0 ));
+	hostModel->AddItem(Host( QStringLiteral("BTSOW"), TorrentSite_BTSOW ));
+	hostModel->AddItem(Host( QStringLiteral("EdgeEmu"), ConsoleRomSite_EdgeEmu));
+	hostModel->AddItem(Host( QStringLiteral("CoolRom"), ConsoleRomSite_CoolRom ));
 
 	/** 结果列表 */
 	resultModel = new QMLListModel();
 	resultModel->SetTemplate(Result());
+	resultModel->AddItem(Result(QStringLiteral("搜索Start!")));
 }
 
 /** 网站列表 */
@@ -51,15 +56,47 @@ void MainWindow::copyText(QString KeyWord)
 	clipboard->setText(KeyWord);
 }
 
-void MainWindow::openUrl(QString InKeyWord)
+void MainWindow::search(QString InKeyWord, int Site)
 {
 	resultModel->Clear();
-
-	ConsoleRomSite::EdgeEmu btsow = ConsoleRomSite::EdgeEmu();
-	for (Resource& res: btsow.Search(InKeyWord.toStdString()))
+	ResSite* resSite;
+	switch (Site)
 	{
-		resultModel->AddItem(Result(tr(res.Name.c_str()), tr(res.Url.c_str())));
+	case TorrentSite_BTSOW:
+		resSite = new TorrentSite::BTSOW();
+		break;
+	case ConsoleRomSite_CoolRom:
+		resSite = new ConsoleRomSite::CoolRom();
+		break;
+	case ConsoleRomSite_EdgeEmu:
+		resSite = new ConsoleRomSite::EdgeEmu();
+		break;
+	default:
+		return;
+		break;
+	}
+	
+	std::vector<Resource> searchResult = resSite->Search(InKeyWord.toStdString());
+	if (searchResult.size())
+	{
+		QString hintText = QString("以下是 \"") + InKeyWord + "\" 的搜索结果：";
+		resultModel->AddItem(Result(hintText));
+		for (Resource& res : resSite->Search(InKeyWord.toStdString()))
+		{
+			resultModel->AddItem(Result(res));
+		}
+		resultModel->AddItem(Result(QStringLiteral("搜索完成")));
+	}
+	else
+	{
+		QString hintText = QString("搜索失败！请检查网络链接或者关键字！");
+		resultModel->AddItem(Result(hintText));
 	}
 
-	resultModel->AddItem(Result(QStringLiteral("搜索完成"), QStringLiteral("搜索完成")));
+	delete resSite;
+}
+
+void MainWindow::openUrl(QString InUrl)
+{
+	QDesktopServices::openUrl(InUrl);
 }

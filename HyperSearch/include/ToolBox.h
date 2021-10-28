@@ -15,7 +15,7 @@ namespace ToolBox
 			int StartPos = Str.find(Start);
 			if (StartPos != Str.npos)
 			{
-				return CutString(Str.substr(strlen(Start)), nullptr, End);
+				return CutString(Str.substr(StartPos + strlen(Start)), nullptr, End);
 			}
 		}
 		else if (End)

@@ -27,9 +27,10 @@ std::vector<Resource>& ConsoleRomSite::EdgeEmu::Search(std::string KeyWord)
 
 			string display_platform = platform.substr(0, platform.length() - 5);
 			string fullname = "[" + display_platform + "]" + name;
-			string fullurl = "edgeemu.net/down.php?id=" + ToolBox::CutString(url, "details-", ".htm");
+			string pageurl = "https://edgeemu.net/" + url;
+			string downloadurl = "https://edgeemu.net/down.php?id=" + ToolBox::CutString(url, "details-", ".htm");
 
-			resource_list.push_back(Resource(fullname.c_str(), fullurl.c_str()));
+			resource_list.push_back(Resource(fullname, pageurl, "",downloadurl));
 		}
 	}
 	return resource_list;

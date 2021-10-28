@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>MainWindow.qml</file>
+        <file>Image/cloud-download.png</file>
+        <file>Image/direct-download.png</file>
+        <file>Image/open-browser.png</file>
     </qresource>
 </RCC>

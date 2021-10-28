@@ -17,10 +17,12 @@ class Resource
 {
 public:
 
-	Resource(std::string Name, std::string Url);
+	Resource(std::string Text, std::string PageUrl = "", std::string DiskUrl = "", std::string DownloadUrl = "");
 
-	std::string Name;
-	std::string Url;
+	std::string Text;
+	std::string PageUrl;
+	std::string DiskUrl;
+	std::string DownloadUrl;
 
 };
 
@@ -31,6 +33,7 @@ public:
 	explicit ResSite() {};
 	ResSite(std::string Name, std::string Url);
 
+	std::vector<Resource>& SafeSearch(std::string KeyWord);
 	virtual std::vector<Resource>& Search(std::string KeyWord);
 
 protected:
