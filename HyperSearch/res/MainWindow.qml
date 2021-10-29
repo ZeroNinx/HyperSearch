@@ -1,6 +1,7 @@
 import QtQuick 2.7
-import QtQuick.Window 2.2
-import QtQuick.Controls 2.12
+import QtQuick.Window 2.7
+import QtQuick.Controls 2.7
+import QtQuick.Controls.Material 2.7
 import QtGraphicalEffects 1.0
 
 import "Module"
@@ -18,12 +19,15 @@ Window
     title: "HyperSearch v0.1"
     flags:  Qt.Window | Qt.FramelessWindowHint
 
+    Material.theme: Material.Dark
+    Material.accent: Material.Purple
+
     //背景
     Rectangle
     {
         id: bgr_window
         anchors.fill: parent
-        color: "#ffffff"
+        color: "#666666"
     }
 
     //右区
@@ -57,7 +61,8 @@ Window
                     id: border_result_item
                     y: 5
                     height: parent.height - 2*y
-                    border.color: "#777777"
+                    color: "#777777"
+                    border.color: "#555555"
                     border.width: 2
                     radius: 20
                     anchors.right: parent.right
@@ -265,7 +270,7 @@ Window
             y: 0
             width: 300
             height: 640
-            color: "#ffffff"
+            color: "#666666"
             border.width: 0
         }
 
@@ -293,6 +298,9 @@ Window
                     anchors.topMargin: 7
                     anchors.bottomMargin: 7
 
+                    color: "#777777"
+                    hoveredColor: "#6F6F6F"
+
                     text: model.name
                     fontSize: 22
                     radius: 17
@@ -300,7 +308,7 @@ Window
                     layer.enabled: true
                     layer.effect: DropShadow
                     {
-                        color: "#000000"
+                        color: "#444444"
                         radius: 7
                         samples: 10
                         spread: 0
@@ -308,7 +316,7 @@ Window
 
                     onClicked:
                     {
-                        mainWindow.search(textInput_searchBar.text, model.siteID)
+                        mainWindow.search(textInput_searchBar.text, model.siteType)
                     }
                 }
 
@@ -327,7 +335,7 @@ Window
             anchors.left: parent.left
             anchors.right: parent.right
             height: 60
-            color: "#ffffff"
+            color: "#666666"
 
             Rectangle
             {
@@ -335,9 +343,9 @@ Window
                 x: 20
                 y: 10
                 height: parent.height - 2*y
-                color: "#ffffff"
+                color: "#777777"
                 radius: 25
-                border.color: "#777777"
+                border.color: "#333333"
                 anchors.top: parent.top
                 anchors.topMargin: 10
                 anchors.right: parent.right
@@ -352,7 +360,7 @@ Window
                     id: textInput_searchBar
                     font.family: "微软雅黑"
                     text: qsTr("搜索...")
-                    color: "#777777"
+                    color: "#444444"
                     anchors.right: parent.right
                     anchors.rightMargin: 15
                     anchors.bottom: parent.bottom
@@ -453,7 +461,7 @@ Window
             acceptedButtons: Qt.LeftButton
 
             color: "#ff5959"
-            hoveredColor: "white"
+            hoveredColor: "#ff6633"
             radius: 10
 
             text: qsTr("×")
@@ -476,8 +484,8 @@ Window
             anchors.right: btn_close.left
             anchors.rightMargin: 15
 
-            color: "#ffffff"
-            hoveredColor: "#66ff77"
+            color: "#55ee88"
+            hoveredColor: "#cccccc"
             radius: 10
 
             text: qsTr("_")
@@ -519,7 +527,8 @@ Window
             {
                 isSecretMode = true
                 text = qsTr("特殊模式启动!")
-                bgr_titleBar.color =  "#ff96b6"
+                titleBar.color =  "#ff96b6"
+                titleBar.hoveredColor = "#ff96b6"
             }
 
             Keys.onPressed:

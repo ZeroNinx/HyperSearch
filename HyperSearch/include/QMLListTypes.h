@@ -8,19 +8,19 @@ public:
 	explicit Host()
 	{
 		roleNames[NameRole] = "name";
-		roleNames[SiteIDRole] = "siteID";
+		roleNames[SiteTypeRole] = "siteType";
 	}
 
 	Host(QString Name, int SiteID)
 	{
 		roleProperty[NameRole] = Name;
-		roleProperty[SiteIDRole] = QString::fromLocal8Bit(to_string(SiteID).c_str());
+		roleProperty[SiteTypeRole] = QString::fromLocal8Bit(to_string(SiteID).c_str());
 	};
 
 	enum HostRoles
 	{
 		NameRole = Qt::UserRole + 1,
-		SiteIDRole
+		SiteTypeRole
 	};
 };
 

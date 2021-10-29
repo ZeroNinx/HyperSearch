@@ -26,7 +26,7 @@ public slots:
     void copyText(QString KeyWord);
     void search(QString KeyWord, int Site);
     void openUrl(QString Url);
-
+    void onResultListUpdate();
 private:
 
     QMLListModel* hostModel;

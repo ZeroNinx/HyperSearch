@@ -86,6 +86,6 @@ MouseArea
 
 /*##^##
 Designer {
-    D{i:0;autoSize:true;height:480;width:640}
+    D{i:0;height:50;width:1280}
 }
 ##^##*/

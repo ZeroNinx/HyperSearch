@@ -86,24 +86,51 @@ void QMLListModel::SetListObject(QMLListObject* InList)
 	listObject = InList;
 }
 
+void QMLListModel::DynamicAddItem(QMLListItem& Item)
+{
+	listMutex.lock();
+	beginInsertRows(QModelIndex(), listObject->GetList().size(), listObject->GetList().size());
+	listObject->GetList().append(Item);
+	emit postEndAddItem();
+}
+
+void QMLListModel::DynamicAddItems(QVector<QMLListItem>& Items)
+{
+	if (Items.isEmpty())
+		return;
+
+	listMutex.lock();
+	beginInsertRows(QModelIndex(), listObject->GetList().size(), listObject->GetList().size() + Items.size() - 1);
+	listObject->GetList().append(Items);
+	emit postEndAddItem();
+}
+
+void QMLListModel::FinishDynamicAddItem()
+{
+	endInsertRows();
+	listMutex.unlock();
+}
+
 void QMLListModel::SetTemplate(QMLListItem Template)
 {
 	GetListObject()->SetTemplate(Template);
 }
 
-void QMLListModel::DynamicAddItem(QMLListItem Item)
+void QMLListModel::AddItem(QMLListItem& Item)
 {
-	std::thread addThread(&QMLListModel::DynamicAddItem,this,Item);
-	addThread.detach();
-}
-
-void QMLListModel::AddItem(QMLListItem Item)
-{
-	listMutex.lock();
 	beginInsertRows(QModelIndex(), listObject->GetList().size(), listObject->GetList().size());
 	listObject->GetList().append(Item);
 	endInsertRows();
-	listMutex.unlock();
+}
+
+void QMLListModel::AddItems(QVector<QMLListItem>& Items)
+{
+	if (Items.isEmpty())
+		return;
+
+	beginInsertRows(QModelIndex(), listObject->GetList().size(), listObject->GetList().size() + Items.size() - 1);
+	listObject->GetList().append(Items);
+	endInsertRows();
 }
 
 void QMLListModel::Clear()

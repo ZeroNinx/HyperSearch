@@ -17,14 +17,16 @@ MainWindow::MainWindow(QObject *parent)
 	/** 网站列表 */
 	hostModel = new QMLListModel();
 	hostModel->SetTemplate(Host());
-	hostModel->AddItem(Host( QStringLiteral("BTSOW"), TorrentSite_BTSOW ));
-	hostModel->AddItem(Host( QStringLiteral("EdgeEmu"), ConsoleRomSite_EdgeEmu));
-	hostModel->AddItem(Host( QStringLiteral("CoolRom"), ConsoleRomSite_CoolRom ));
+	hostModel->AddItem(Host(QStringLiteral("搜索模拟Rom"), (int)SiteType::ConsoleRomSite));
+	hostModel->AddItem(Host( QStringLiteral("搜索种子"), (int)SiteType::TorrentSite ));
 
 	/** 结果列表 */
 	resultModel = new QMLListModel();
 	resultModel->SetTemplate(Result());
 	resultModel->AddItem(Result(QStringLiteral("搜索Start!")));
+
+	/** 连接多线程信号槽 */
+	connect(resultModel, &QMLListModel::postEndAddItem, this, &MainWindow::onResultListUpdate);
 }
 
 /** 网站列表 */
@@ -60,45 +62,49 @@ void MainWindow::copyText(QString KeyWord)
 	clipboard->setText(KeyWord);
 }
 
-void MainWindow::search(QString InKeyWord, int SiteID)
+void MainWindow::search(QString InKeyWord, int InSiteType)
 {
-	if (InKeyWord.isEmpty())
-		return;
-
-	ResSite* resSite = SiteFacory::GetSite(SiteID);
-	if (resSite == nullptr)
-		return;
-
-	resultModel->Clear();
-	
-	auto asyncLoad = [=]()
+	//获取网站列表
+	int startID = 0, endID = 0;
+	SiteFacory::GetAllSiteIndex(InSiteType, startID, endID);
+	if (!startID || !endID || InKeyWord.isEmpty())
 	{
-		std::vector<Resource>& searchResult = resSite->Search(InKeyWord.toStdString());
-		if (searchResult.size())
+		return;
+	}
+	startID++;
+	endID--;
+
+	//多线程搜索
+	resultModel->Clear();
+	for (int i = startID ; i <= endID; i++)
+	{
+		auto asyncLoad = [=]()
 		{
-			QString hintText = QString("以下是 \"") + InKeyWord + "\" 的搜索结果：";
-			resultModel->AddItem(Result(hintText));
-			for (Resource& res : searchResult)
+			ResSite* site = SiteFacory::GetSite(i);
+			if (site)
 			{
-				resultModel->AddItem(Result(res));
+				QVector<QMLListItem> vec;
+				std::vector<Resource> searchResults = site->Search(InKeyWord.toStdString());
+				for (Resource& res : searchResults)
+				{
+					vec.append(Result(res));
+				}
+				resultModel->DynamicAddItems(vec);
+				delete site;
 			}
-			resultModel->AddItem(Result(QStringLiteral("搜索完成")));
-		}
-		else
-		{
-			QString hintText = QString("搜索失败！请检查网络链接或者关键字！");
-			resultModel->AddItem(Result(hintText));
-		}
+		};
 
-		delete resSite;
-	};
-	
-	std::thread loadThread(asyncLoad);
-	loadThread.join();
-
+		std::thread thread(asyncLoad);
+		thread.detach();
+	}
 }
 
 void MainWindow::openUrl(QString InUrl)
 {
 	QDesktopServices::openUrl(InUrl);
+}
+
+void MainWindow::onResultListUpdate()
+{
+	resultModel->FinishDynamicAddItem();
 }
