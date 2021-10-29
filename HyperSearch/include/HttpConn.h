@@ -52,8 +52,6 @@ public:
 
 private:
 
-	tcp::socket Connect(asio::io_context& ctx, std::string const& hostname);
-
 	ssl::context ssl_ctx{ ssl::context::tls_client };
 	std::unique_ptr<ssl::stream<tcp::socket>> stream;
 };

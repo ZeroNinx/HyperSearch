@@ -1,4 +1,5 @@
 #include "HttpConn.h"
+#include <QDebug>
 #include <boost/certify/extensions.hpp>
 #include <boost/certify/https_verification.hpp>
 #include <sstream>
@@ -21,7 +22,7 @@ HttpConn::HttpConn(string Hostname, int Port) :hostname(Hostname), port(to_strin
 	}
 	catch (exception e)
 	{
-		
+		qDebug() << e.what();
 	}
 }
 
@@ -35,7 +36,7 @@ void HttpConn::Build(string Target, http::verb Method, int Version)
 	}
 	catch (exception e)
 	{
-		
+		qDebug() << e.what();
 	}
 }
 
@@ -49,7 +50,7 @@ void HttpConn::Connect()
 	}
 	catch (const std::exception& e)
 	{
-		
+		qDebug() << e.what();
 	}
 }
 
@@ -67,29 +68,38 @@ string HttpConn::GetResponseBody()
 //构造函数
 HttpsConn::HttpsConn(string Hostname, int Port) :HttpConn(Hostname, Port)
 {
-	ssl_ctx.set_verify_mode(ssl::context::verify_peer | ssl::context::verify_fail_if_no_peer_cert);
-	ssl_ctx.set_default_verify_paths();
-	boost::certify::enable_native_https_server_verification(ssl_ctx);
+	try
+	{
+		ssl_ctx.set_verify_mode(ssl::context::verify_peer | ssl::context::verify_fail_if_no_peer_cert);
+		ssl_ctx.set_default_verify_paths();
+		boost::certify::enable_native_https_server_verification(ssl_ctx);
+	}
+	catch (const std::exception& e)
+	{
+		qDebug() << e.what();
+	}
 }
 
 void HttpsConn::Connect()
 {
-	stream = boost::make_unique<ssl::stream<tcp::socket>>(Connect(io_ctx, hostname), ssl_ctx);
+	try
+	{
+		asio::connect(this->socket, resolver.resolve(hostname, port));
+		stream = boost::make_unique<ssl::stream<tcp::socket>>(std::move(this->socket), ssl_ctx);
 
-	// tag::stream_setup_source[]
-	boost::certify::set_server_hostname(*stream, hostname);
-	boost::certify::sni_hostname(*stream, hostname);
-	// end::stream_setup_source[]
+		// tag::stream_setup_source[]
+		boost::certify::set_server_hostname(*stream, hostname);
+		boost::certify::sni_hostname(*stream, hostname);
+		// end::stream_setup_source[]
 
-	stream->handshake(ssl::stream_base::handshake_type::client);
+		stream->handshake(ssl::stream_base::handshake_type::client);
 
-	http::write(*stream, Request);
-	http::read(*stream, buffer, Response);
+		http::write(*stream, Request);
+		http::read(*stream, buffer, Response);
+	}
+	catch (const std::exception& e)
+	{
+		qDebug() << e.what();
+	}
 }
 
-tcp::socket HttpsConn::Connect(asio::io_context& ctx, std::string const& hostname)
-{
-	tcp::socket socket{ ctx };
-	asio::connect(socket, resolver.resolve(hostname, port));
-	return socket;
-}

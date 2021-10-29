@@ -33,7 +33,6 @@ public:
 	explicit ResSite() {};
 	ResSite(std::string Name, std::string Url);
 
-	std::vector<Resource>& SafeSearch(std::string KeyWord);
 	virtual std::vector<Resource>& Search(std::string KeyWord);
 
 protected:

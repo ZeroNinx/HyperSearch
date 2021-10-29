@@ -3,7 +3,11 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.0
 
+import "Module"
+import "./Module" as Module
+
 //主界面
+
 Window
 {
     id: window
@@ -12,7 +16,6 @@ Window
     height: 720
     color: "#00000000"
     title: "HyperSearch v0.1"
-    opacity: 1
     flags:  Qt.Window | Qt.FramelessWindowHint
 
     //背景
@@ -50,7 +53,8 @@ Window
         }
 
         //结果列表
-        ListView {
+        ListView
+        {
             id: lv_result
             anchors.rightMargin: 15
             anchors.leftMargin: 15
@@ -85,12 +89,11 @@ Window
                         onClicked:
                         {
                             txt_bottomBar.text = model.url
-                            mainWindow.copyText(model.url)
                         }
                     }
 
                     //按钮右
-                    MouseArea
+                    Module.ButtonArea
                     {
                         id:btn_right
                         anchors.right: parent.right;
@@ -103,29 +106,17 @@ Window
                         height: parent.height - 2*5
                         width: height
 
+                        color: "#55AAFF"
+                        radius: 4
+
+                        imageSource: "../Image/direct-download.png"
+                        imagePadding: 5
+
                         onClicked:
                         {
                             mainWindow.openUrl(model.downloadUrl)
                         }
 
-                        Rectangle
-                        {
-                            anchors.fill: parent
-                            color: "#55AAFF"
-                            radius: 4
-
-                            Image
-                            {
-                                anchors.fill: parent
-                                anchors.rightMargin: 5
-                                anchors.leftMargin: 5
-                                anchors.bottomMargin: 5
-                                anchors.topMargin: 5
-                                fillMode: Image.PreserveAspectFit
-                                source: "Image/direct-download.png"
-                            }
-
-                        }
                         Component.onCompleted:
                         {
                             if(model.downloadUrl === "")
@@ -136,7 +127,7 @@ Window
                     }
 
                     //按钮中
-                    MouseArea
+                    Module.ButtonArea
                     {
                         id:btn_mid
                         anchors.right: btn_right.left;
@@ -149,28 +140,17 @@ Window
                         height: parent.height - 2*5
                         width: height
 
+                        color: "#44DC44"
+                        radius: 4
+
+                        imageSource: "../Image/cloud-download.png"
+                        imagePadding: 5
+
                         onClicked:
                         {
-                                mainWindow.openUrl(model.diskUrl)
+                            mainWindow.openUrl(model.diskUrl)
                         }
 
-                        Rectangle
-                        {
-                            anchors.fill: parent
-                            color: "#44DC44"
-                            radius: 4
-
-                            Image
-                            {
-                                anchors.fill: parent
-                                anchors.rightMargin: 5
-                                anchors.leftMargin: 5
-                                anchors.bottomMargin: 5
-                                anchors.topMargin: 5
-                                fillMode: Image.PreserveAspectFit
-                                source: "Image/cloud-download.png"
-                            }
-                        }
                         Component.onCompleted:
                         {
                             if(model.diskUrl === "")
@@ -181,7 +161,7 @@ Window
                     }
 
                     //按钮左
-                    MouseArea
+                    Module.ButtonArea
                     {
                         id:btn_left
                         anchors.right: btn_mid.left;
@@ -194,27 +174,15 @@ Window
                         height: parent.height - 2*5
                         width: height
 
+                        color: "#FF8800"
+                        radius: 4
+
+                        imageSource: "../Image/open-browser.png"
+                        imagePadding: 5
+
                         onClicked:
                         {
                             mainWindow.openUrl(model.pageUrl)
-                        }
-
-                        Rectangle
-                        {
-                            anchors.fill: parent
-                            color: "#FF8800"
-                            radius: 4
-                            Image
-                            {
-                                anchors.fill: parent
-                                anchors.rightMargin: 5
-                                anchors.leftMargin: 5
-                                anchors.bottomMargin: 5
-                                anchors.topMargin: 5
-                                fillMode: Image.PreserveAspectFit
-                                source: "Image/open-browser.png"
-                            }
-
                         }
 
                         Component.onCompleted:
@@ -230,6 +198,7 @@ Window
                     Text
                     {
                         text:model.text
+                        color: "black"
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                         anchors.right: btn_left.left
@@ -241,7 +210,7 @@ Window
                         anchors.top: parent.top
                         anchors.topMargin: 8
                         font.family: "微软雅黑"
-                        font.pixelSize: 14
+                        font.pixelSize: 16
                     }
                     
                 }
@@ -285,8 +254,8 @@ Window
     }
 
     //左区
-    Item {
-        //左区
+    Item
+    {
         id: leftArea
         width: 300
         anchors.left: parent.left
@@ -295,8 +264,10 @@ Window
         anchors.bottomMargin: 0
         anchors.top: titleBar.bottom
         anchors.topMargin: 0
+
         layer.enabled: true
-        layer.effect: DropShadow {
+        layer.effect: DropShadow
+        {
             id: shadow_leftArea
             color: "#000000"
             radius: 15
@@ -334,61 +305,33 @@ Window
                 width: parent.width
                 height: 60
 
-                Rectangle
+                Module.ButtonArea
                 {
-                    x:5
-                    y:5
-                    width: parent.width - 2*5
-                    height: parent.height - 3*5
-                    radius: parent.height/3
+                    anchors.fill: parent
+                    anchors.leftMargin: 7
+                    anchors.rightMargin: 7
+                    anchors.topMargin: 7
+                    anchors.bottomMargin: 7
+
+                    text: model.name
+                    fontSize: 22
+                    radius: 17
 
                     layer.enabled: true
                     layer.effect: DropShadow
                     {
-                        id:shadow_host
                         color: "#000000"
-                        radius: 5
+                        radius: 7
                         samples: 10
                         spread: 0
                     }
 
-                    MouseArea
+                    onClicked:
                     {
-                        anchors.fill: parent
-                        acceptedButtons: Qt.LeftButton
-                        hoverEnabled: true
-
-                        property bool isHovered: false
-
-                        onHoveredChanged:
-                        {
-                            isHovered = !isHovered
-                            if(isHovered)
-                            {
-                                parent.y = parent.y - 2
-                            }
-                            else
-                            {
-                                parent.y = parent.y + 2
-                            }
-                        }
-
-
-                        onClicked:
-                        {
-                            mainWindow.search(textInput_searchBar.text, model.site)
-                        }
-                    }
-
-                    Text
-                    {
-                        color: "gray"
-                        anchors.centerIn: parent
-                        text: model.name
-                        font.pixelSize: 26
-                        font.family: "微软雅黑"
+                        mainWindow.search(textInput_searchBar.text, model.site)
                     }
                 }
+
             }
 
             //数据条目
@@ -397,7 +340,8 @@ Window
         }
 
         //搜索框
-        Rectangle {
+        Rectangle
+        {
             id: searchArea
             anchors.top: parent.top
             anchors.left: parent.left
@@ -405,7 +349,8 @@ Window
             height: 60
             color: "#ffffff"
 
-            Rectangle {
+            Rectangle
+            {
                 id: searchBar
                 x: 20
                 y: 10
@@ -422,7 +367,8 @@ Window
                 border.width: 2
 
                 //文本框
-                TextInput {
+                TextInput
+                {
                     id: textInput_searchBar
                     font.family: "微软雅黑"
                     text: qsTr("搜索...")
@@ -493,7 +439,8 @@ Window
             anchors.bottomMargin: 0
             border.width: 0
 
-            MouseArea {
+            MouseArea
+            {
                 id: msa_titleBar
                 anchors.right: parent.right
                 anchors.rightMargin: 0
@@ -535,72 +482,27 @@ Window
             }
         }
 
-
-
-
         //关闭按钮
-        MouseArea
+        Module.ButtonArea
         {
             id: btn_close
-            x: 1232
-            width: 34
+            width: height
             anchors.right: parent.right
-            anchors.rightMargin: 14
+            anchors.rightMargin: 15
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 8
+            anchors.bottomMargin: 7
             anchors.top: parent.top
-            anchors.topMargin: 8
+            anchors.topMargin: 7
             acceptedButtons: Qt.LeftButton
-            hoverEnabled: true
 
-            property bool isHovered: false
+            color: "#ff5959"
+            hoveredColor: "white"
+            radius: 10
 
-            onHoveredChanged:
-            {
-                isHovered = !isHovered
-                if(isHovered)
-                {
-                    txt_btn_close.color = "black"
-                }
-                else
-                {
-                    txt_btn_close.color = "white"
-                }
-            }
+            imageSource: "../Image/close.png"
+            imagePadding:10
 
-            onClicked:
-            {
-                Qt.quit()
-            }
-
-            Rectangle
-            {
-                id: bgr_btn_close
-                x: 0
-                y: 0
-                anchors.fill: parent
-                width: 34
-                height: 34
-                color: "#ff5959"
-                radius: 10
-                border.width: 0
-            }
-
-            Text
-            {
-                id: txt_btn_close
-                x: 0
-                width: 34
-                height: 34
-                color: "#ffffff"
-                text: qsTr("×")
-                anchors.top: parent.top
-                anchors.topMargin: 1
-                font.bold: true
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                font.pixelSize: 22
-            }
+            onClicked: Qt.quit()
         }
 
         //最小化按钮
@@ -612,12 +514,11 @@ Window
             hoverEnabled: true
 
             property bool isHovered: false
-            x: 1182
-            width: 34
+            width: height
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 8
+            anchors.bottomMargin: 7
             anchors.top: parent.top
-            anchors.topMargin: 8
+            anchors.topMargin: 7
             anchors.right: btn_close.left
             anchors.rightMargin: 15
 
@@ -664,10 +565,6 @@ Window
                 font.pixelSize: 20
             }
         }
-
-
-
-
     }
 
     //底部栏
@@ -677,89 +574,27 @@ Window
         y: 690
         height: 30
         anchors.right: parent.right
-        anchors.rightMargin: 0
         anchors.left: parent.left
-        anchors.leftMargin: 0
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 0
 
-
-
-
-        //底部栏背景
-        Rectangle
+        Module.ButtonArea
         {
-            id: bgr_bottomBar
-            color: "#66c0ff"
-            anchors.right: parent.right
-            anchors.rightMargin: 0
-            anchors.left: parent.left
-            anchors.leftMargin: 0
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
-            anchors.top: parent.top
-            anchors.topMargin: 0
-            border.width: 0
-        }
-
-
-
-
-        //底部栏文本
-        Text {
-            id: txt_bottomBar
-            text: qsTr("你好！底部栏！")
-            anchors.top: parent.top
-            anchors.topMargin: 0
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
-            anchors.left: parent.left
-            anchors.leftMargin: 0
-            anchors.right: parent.right
-            anchors.rightMargin: 0
-            font.family: "微软雅黑"
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: 18
-        }
-
-
-        MouseArea
-        {
-            id: msa_bottomBar
-            anchors.right: parent.right
-            anchors.rightMargin: 0
-            anchors.left: parent.left
-            anchors.leftMargin: 0
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
-            anchors.top: parent.top
-            anchors.topMargin: 0
-            hoverEnabled: true
-
-            property bool isHovered: false
             property bool isSecretMode: false
             property int clickCount: 0
+            property string secretColor: "#ff96b6"
+
+            anchors.fill: parent
+            color: isSecretMode? secretColor : "#66c0ff"
+            hoveredColor: secretColor
+
+            text: qsTr("你好！底部栏！")
+            fontSize: 16
 
             function enableSecretMode()
             {
                 isSecretMode = true
-                txt_bottomBar.text = qsTr("特殊模式启动!")
+                text = qsTr("特殊模式启动!")
                 bgr_titleBar.color =  "#ff96b6"
-                bgr_bottomBar.color =  "#ff96b6"
-            }
-
-            onHoveredChanged:
-            {
-                isHovered = !isHovered
-                if(isHovered || isSecretMode)
-                {
-                    bgr_bottomBar.color =  "#ff96b6"
-                }
-                else
-                {
-                    bgr_bottomBar.color =  "#66c0ff"
-                }
             }
 
             Keys.onPressed:
@@ -773,23 +608,19 @@ Window
             onPressed:
             {
                 focus = true
-                clickCount++
-                if(clickCount == 1)
+
+                if(clickCount < 10)
                 {
-                    txt_bottomBar.text = qsTr("你好！")
+                    clickCount++
+                    text = qsTr("你好！")
                 }
-                else if(clickCount >= 10)
+                else if(clickCount == 10)
                 {
                     enableSecretMode()
                 }
             }
-
         }
-
-
-
     }
-
 
 }
 

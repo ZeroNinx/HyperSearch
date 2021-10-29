@@ -4,5 +4,7 @@
         <file>Image/cloud-download.png</file>
         <file>Image/direct-download.png</file>
         <file>Image/open-browser.png</file>
+        <file>Module/ButtonArea.qml</file>
+        <file>Image/close.png</file>
     </qresource>
 </RCC>

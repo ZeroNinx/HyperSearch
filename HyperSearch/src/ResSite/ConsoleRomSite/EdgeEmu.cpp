@@ -26,7 +26,7 @@ std::vector<Resource>& ConsoleRomSite::EdgeEmu::Search(std::string KeyWord)
 			const string& name = pos->str(2);
 
 			string display_platform = platform.substr(0, platform.length() - 5);
-			string fullname = "[" + display_platform + "]" + name;
+			string fullname = "[" + display_platform + "] " + name;
 			string pageurl = "https://edgeemu.net/" + url;
 			string downloadurl = "https://edgeemu.net/down.php?id=" + ToolBox::CutString(url, "details-", ".htm");
 
