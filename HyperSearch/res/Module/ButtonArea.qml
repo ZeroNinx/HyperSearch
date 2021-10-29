@@ -3,6 +3,8 @@ import QtQuick.Controls 2.7
 
 MouseArea
 {
+    //鼠标
+    property bool enableAutoCursorShape: true
     property bool isHovered: false
 
     //背景
@@ -24,6 +26,7 @@ MouseArea
     property string text: ""
     property string fontColor: "black"
     property string fontFamily: "微软雅黑"
+    property bool fontBold: false
     property int fontSize: 10
 
     hoverEnabled: true
@@ -32,7 +35,11 @@ MouseArea
     {
         isHovered = !isHovered
         background.color = isHovered? hoveredColor:color
-        cursorShape = isHovered? Qt.PointingHandCursor:Qt.ArrowCursor
+
+        if(enableAutoCursorShape)
+        {
+            cursorShape = isHovered? Qt.PointingHandCursor:Qt.ArrowCursor
+        }
     }
 
 
@@ -67,6 +74,7 @@ MouseArea
 
         text: parent.text
         color: parent.fontColor
+        font.bold: parent.fontBold
         font.family: parent.fontFamily
         font.pixelSize: parent.fontSize
 

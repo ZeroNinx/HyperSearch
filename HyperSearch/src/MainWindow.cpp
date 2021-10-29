@@ -11,6 +11,10 @@
 /** 构造函数 */
 MainWindow::MainWindow(QObject *parent)
 {
+	/**
+	 * 初始化基础列表
+	 */
+
 	/** 网站列表 */
 	hostModel = new QMLListModel();
 	hostModel->SetTemplate(Host());
@@ -50,6 +54,8 @@ void MainWindow::SetResultModel(QMLListModel* InModel)
 	resultModel = InModel;
 }
 
+
+
 void MainWindow::copyText(QString KeyWord)
 {
 	QClipboard* clipboard = QGuiApplication::clipboard();
@@ -58,6 +64,9 @@ void MainWindow::copyText(QString KeyWord)
 
 void MainWindow::search(QString InKeyWord, int Site)
 {
+	if (InKeyWord.isEmpty())
+		return;
+
 	resultModel->Clear();
 	ResSite* resSite;
 	switch (Site)

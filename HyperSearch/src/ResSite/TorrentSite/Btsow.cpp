@@ -12,7 +12,6 @@ vector<Resource>& TorrentSite::BTSOW::Search(string KeyWord)
 	string str = ToolBox::CutString(Btsow.GetResponseBody(), "<div class=\"col-sm-8 col-lg-9 field\">Torrent Description</div>", "<div type=\"text/data-position\"");
 	if (str.size())
 	{
-		qDebug() << str.c_str();
 		regex r("<a href=\"//btsow.rest/magnet/detail/hash/([^\"]+)\".*title=\"([^\"]+)\">");
 		sregex_iterator pos = sregex_iterator(str.begin(), str.end(), r);
 		sregex_iterator end;

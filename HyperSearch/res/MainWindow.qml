@@ -21,16 +21,9 @@ Window
     //背景
     Rectangle
     {
-        id: backgrund
-        width: 1280
-        height: 720
+        id: bgr_window
+        anchors.fill: parent
         color: "#ffffff"
-        radius: 0
-        anchors.left: parent.left
-        anchors.leftMargin: 0
-        anchors.top: parent.top
-        anchors.topMargin: 0
-        border.width: 0
     }
 
     //右区
@@ -38,29 +31,19 @@ Window
     {
         id:rightArea
         anchors.right: parent.right
-        anchors.rightMargin: 0
         anchors.left: leftArea.right
-        anchors.leftMargin: 0
-        anchors.bottom: bottomBar.top
-        anchors.bottomMargin: 0
-        anchors.top: titleBar.bottom
-        anchors.topMargin: 0
-        Rectangle
-        {
-            id: bgr_rightArea
-            anchors.fill: parent
-            color: "#ffffff"
-        }
+        anchors.bottom: bottomBarArea.top
+        anchors.top: titleBarArea.bottom
 
         //结果列表
         ListView
         {
             id: lv_result
+            anchors.fill: parent
             anchors.rightMargin: 15
             anchors.leftMargin: 15
             anchors.bottomMargin: 15
             anchors.topMargin: 15
-            anchors.fill: parent
 
             //项目显示条目
             delegate: Item
@@ -88,7 +71,7 @@ Window
                         acceptedButtons: Qt.LeftButton
                         onClicked:
                         {
-                            txt_bottomBar.text = model.url
+                            bottomBar.text = model.url
                         }
                     }
 
@@ -259,11 +242,8 @@ Window
         id: leftArea
         width: 300
         anchors.left: parent.left
-        anchors.leftMargin: 0
-        anchors.bottom: bottomBar.top
-        anchors.bottomMargin: 0
-        anchors.top: titleBar.bottom
-        anchors.topMargin: 0
+        anchors.bottom: bottomBarArea.top
+        anchors.top: titleBarArea.bottom
 
         layer.enabled: true
         layer.effect: DropShadow
@@ -389,7 +369,8 @@ Window
 
                     onAccepted:
                     {
-                        txt_bottomBar.text = "OK"
+                        bottomBar.text = "OK"
+                        mainWindow.search(text,257)
                         focus = false
                     }
 
@@ -417,68 +398,44 @@ Window
     //标题栏
     Item
     {
-        id: titleBar
+        id: titleBarArea
         width: 1280
         height: 50
         anchors.top: parent.top
-        anchors.topMargin: 0
+        anchors.left: parent.left
+        anchors.right: parent.right
 
-        //顶部栏背景
-        Rectangle
+        Module.ButtonArea
         {
-            id: bgr_titleBar
+            id: titleBar
             color: "#66c0ff"
-            radius: 0
-            anchors.right: parent.right
-            anchors.rightMargin: 0
-            anchors.left: parent.left
-            anchors.leftMargin: 0
-            anchors.top: parent.top
-            anchors.topMargin: 0
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
-            border.width: 0
+            anchors.fill: parent
+            acceptedButtons: Qt.LeftButton
+            enableAutoCursorShape: false
 
-            MouseArea
+            text: qsTr("HyperSearch v0.1")
+            fontSize: 24
+
+            property point clickPos: "0,0"
+            property bool isPressed: false
+            onPressed:
             {
-                id: msa_titleBar
-                anchors.right: parent.right
-                anchors.rightMargin: 0
-                anchors.left: parent.left
-                anchors.leftMargin: 0
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 0
-                anchors.top: parent.top
-                anchors.topMargin: 0
-                acceptedButtons: Qt.LeftButton
+                clickPos = Qt.point(mouseX,mouseY)
+                isPressed = true
+            }
+            onReleased:
+            {
+                isPressed = false
+            }
 
-                property point clickPos: "0,0"
-                property bool allowMove: false
-                onPressed: clickPos = Qt.point(mouseX,mouseY)
-                onPositionChanged:
+            onPositionChanged:
+            {
+                if(isPressed)
                 {
                     var delta = Qt.point(mouseX-clickPos.x , mouseY-clickPos.y)
                     window.setX(window.x+delta.x)
                     window.setY(window.y+delta.y)
                 }
-
-                Text {
-                    text: qsTr("HyperSearch v0.1")
-                    anchors.right: parent.right
-                    anchors.rightMargin: 0
-                    anchors.left: parent.left
-                    anchors.leftMargin: 0
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 0
-                    anchors.top: parent.top
-                    anchors.topMargin: 0
-                    font.family: "微软雅黑"
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignHCenter
-                    font.pixelSize: 24
-                }
-
-
             }
         }
 
@@ -499,19 +456,16 @@ Window
             hoveredColor: "white"
             radius: 10
 
-            imageSource: "../Image/close.png"
-            imagePadding:10
+            text: qsTr("×")
+            fontSize: 26
 
             onClicked: Qt.quit()
         }
 
         //最小化按钮
-        MouseArea
+        Module.ButtonArea
         {
             id: btn_minilize
-            acceptedButtons: Qt.LeftButton
-            onClicked: window.visibility = Window.Minimized
-            hoverEnabled: true
 
             property bool isHovered: false
             width: height
@@ -522,47 +476,17 @@ Window
             anchors.right: btn_close.left
             anchors.rightMargin: 15
 
-            onHoveredChanged:
+            color: "#ffffff"
+            hoveredColor: "#66ff77"
+            radius: 10
+
+            text: qsTr("_")
+            fontSize: 20
+            fontBold: true
+
+            onClicked:
             {
-                isHovered = !isHovered
-                if(isHovered)
-                    bgr_btn_minilize.color = "#66ff77"
-                else
-                    bgr_btn_minilize.color = "#ffffff"
-            }
-
-
-            Rectangle
-            {
-                id: bgr_btn_minilize
-                color: "#ffffff"
-                radius: 10
-                anchors.right: parent.right
-                anchors.rightMargin: 0
-                anchors.left: parent.left
-                anchors.leftMargin: 0
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 0
-                anchors.top: parent.top
-                anchors.topMargin: 0
-                border.width: 0
-            }
-
-            Text {
-                id: txt_btn_minilize
-                text: qsTr("_")
-                anchors.right: parent.right
-                anchors.rightMargin: 0
-                anchors.left: parent.left
-                anchors.leftMargin: 0
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 0
-                anchors.top: parent.top
-                anchors.topMargin: 0
-                font.bold: true
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                font.pixelSize: 20
+                window.visibility = Window.Minimized
             }
         }
     }
@@ -570,7 +494,7 @@ Window
     //底部栏
     Item
     {
-        id: bottomBar
+        id: bottomBarArea
         y: 690
         height: 30
         anchors.right: parent.right
@@ -579,6 +503,7 @@ Window
 
         Module.ButtonArea
         {
+            id: bottomBar
             property bool isSecretMode: false
             property int clickCount: 0
             property string secretColor: "#ff96b6"
