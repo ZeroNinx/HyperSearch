@@ -1,5 +1,10 @@
 #include "ResSite/TorrentSite/Btsow.h"
 
+TorrentSite::BTSOW::BTSOW() :ResSite("BTSWO", "btsow.rest")
+{
+
+}
+
 vector<Resource>& TorrentSite::BTSOW::Search(string KeyWord)
 {
 	//建立连接

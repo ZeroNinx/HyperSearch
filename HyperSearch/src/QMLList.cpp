@@ -91,11 +91,19 @@ void QMLListModel::SetTemplate(QMLListItem Template)
 	GetListObject()->SetTemplate(Template);
 }
 
+void QMLListModel::DynamicAddItem(QMLListItem Item)
+{
+	std::thread addThread(&QMLListModel::DynamicAddItem,this,Item);
+	addThread.detach();
+}
+
 void QMLListModel::AddItem(QMLListItem Item)
 {
+	listMutex.lock();
 	beginInsertRows(QModelIndex(), listObject->GetList().size(), listObject->GetList().size());
 	listObject->GetList().append(Item);
 	endInsertRows();
+	listMutex.unlock();
 }
 
 void QMLListModel::Clear()

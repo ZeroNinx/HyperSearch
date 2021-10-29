@@ -308,7 +308,7 @@ Window
 
                     onClicked:
                     {
-                        mainWindow.search(textInput_searchBar.text, model.site)
+                        mainWindow.search(textInput_searchBar.text, model.siteID)
                     }
                 }
 

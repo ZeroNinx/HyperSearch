@@ -7,6 +7,7 @@ namespace TorrentSite
 	class BTSOW :public ResSite
 	{
 	public:
+		BTSOW();
 		virtual std::vector<Resource>& Search(std::string KeyWord) override;
 	};
 }

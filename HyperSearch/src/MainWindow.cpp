@@ -5,8 +5,7 @@
 
 #include "MainWindow.h"
 #include "QMLListTypes.h"
-#include "ResSite/TorrentSite.h"
-#include "ResSite/ConsoleRomSite.h"
+#include "ResSite/SiteFactory.h"
 
 /** 构造函数 */
 MainWindow::MainWindow(QObject *parent)
@@ -55,54 +54,48 @@ void MainWindow::SetResultModel(QMLListModel* InModel)
 }
 
 
-
 void MainWindow::copyText(QString KeyWord)
 {
 	QClipboard* clipboard = QGuiApplication::clipboard();
 	clipboard->setText(KeyWord);
 }
 
-void MainWindow::search(QString InKeyWord, int Site)
+void MainWindow::search(QString InKeyWord, int SiteID)
 {
 	if (InKeyWord.isEmpty())
 		return;
 
-	resultModel->Clear();
-	ResSite* resSite;
-	switch (Site)
-	{
-	case TorrentSite_BTSOW:
-		resSite = new TorrentSite::BTSOW();
-		break;
-	case ConsoleRomSite_CoolRom:
-		resSite = new ConsoleRomSite::CoolRom();
-		break;
-	case ConsoleRomSite_EdgeEmu:
-		resSite = new ConsoleRomSite::EdgeEmu();
-		break;
-	default:
+	ResSite* resSite = SiteFacory::GetSite(SiteID);
+	if (resSite == nullptr)
 		return;
-		break;
-	}
-	
-	std::vector<Resource> searchResult = resSite->Search(InKeyWord.toStdString());
-	if (searchResult.size())
-	{
-		QString hintText = QString("以下是 \"") + InKeyWord + "\" 的搜索结果：";
-		resultModel->AddItem(Result(hintText));
-		for (Resource& res : resSite->Search(InKeyWord.toStdString()))
-		{
-			resultModel->AddItem(Result(res));
-		}
-		resultModel->AddItem(Result(QStringLiteral("搜索完成")));
-	}
-	else
-	{
-		QString hintText = QString("搜索失败！请检查网络链接或者关键字！");
-		resultModel->AddItem(Result(hintText));
-	}
 
-	delete resSite;
+	resultModel->Clear();
+	
+	auto asyncLoad = [=]()
+	{
+		std::vector<Resource>& searchResult = resSite->Search(InKeyWord.toStdString());
+		if (searchResult.size())
+		{
+			QString hintText = QString("以下是 \"") + InKeyWord + "\" 的搜索结果：";
+			resultModel->AddItem(Result(hintText));
+			for (Resource& res : searchResult)
+			{
+				resultModel->AddItem(Result(res));
+			}
+			resultModel->AddItem(Result(QStringLiteral("搜索完成")));
+		}
+		else
+		{
+			QString hintText = QString("搜索失败！请检查网络链接或者关键字！");
+			resultModel->AddItem(Result(hintText));
+		}
+
+		delete resSite;
+	};
+	
+	std::thread loadThread(asyncLoad);
+	loadThread.join();
+
 }
 
 void MainWindow::openUrl(QString InUrl)

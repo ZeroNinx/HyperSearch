@@ -1,6 +1,7 @@
 #pragma once
 #include <QObject>
 #include <QtQml/QtQml>
+#include <thread>
 #include "QMLList.h"
 
 class MainWindow : public QObject

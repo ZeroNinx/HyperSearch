@@ -42,5 +42,3 @@ protected:
 	std::string url;
 
 };
-
-

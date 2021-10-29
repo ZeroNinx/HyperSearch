@@ -120,6 +120,7 @@
     <ClInclude Include="include\ResSite\ConsoleRomSite.h" />
     <ClInclude Include="include\ResSite\ConsoleRomSite\CoolRom.h" />
     <ClInclude Include="include\ResSite\ConsoleRomSite\EdgeEmu.h" />
+    <ClInclude Include="include\ResSite\SiteFactory.h" />
     <ClInclude Include="include\ResSite\TorrentSite.h" />
     <ClInclude Include="include\ResSite\TorrentSite\Btsow.h" />
     <ClInclude Include="include\ToolBox.h" />

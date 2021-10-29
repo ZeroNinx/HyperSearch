@@ -3,6 +3,8 @@
 #include <QVector>
 #include <QHash>
 #include <QAbstractListModel>
+#include <thread>
+#include <mutex>
 
 /** 列表项基类 */
 class QMLListItem
@@ -62,10 +64,11 @@ public:
 
 	/** 自定义 */
 	void SetTemplate(QMLListItem Template);
+	void DynamicAddItem(QMLListItem Item);
 	void AddItem(QMLListItem Item);
 	void Clear();
 
 private:
 	QMLListObject* listObject;
-
+	std::mutex listMutex;
 };

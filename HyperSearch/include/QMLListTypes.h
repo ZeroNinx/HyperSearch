@@ -1,14 +1,6 @@
 #include "QMLList.h"
 #include "ResSite.h"
 
-//网站枚举
-enum SiteName
-{
-	ConsoleRomSite_EdgeEmu = Qt::UserRole + 1,
-	ConsoleRomSite_CoolRom,
-	TorrentSite_BTSOW
-};
-
 //网站类
 class Host:public QMLListItem
 {
@@ -16,19 +8,19 @@ public:
 	explicit Host()
 	{
 		roleNames[NameRole] = "name";
-		roleNames[SiteRole] = "site";
+		roleNames[SiteIDRole] = "siteID";
 	}
 
-	Host(QString Name, SiteName Site)
+	Host(QString Name, int SiteID)
 	{
 		roleProperty[NameRole] = Name;
-		roleProperty[SiteRole] = QString::fromLocal8Bit(to_string(Site).c_str());
+		roleProperty[SiteIDRole] = QString::fromLocal8Bit(to_string(SiteID).c_str());
 	};
 
 	enum HostRoles
 	{
 		NameRole = Qt::UserRole + 1,
-		SiteRole
+		SiteIDRole
 	};
 };
 
