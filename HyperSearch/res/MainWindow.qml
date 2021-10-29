@@ -39,6 +39,15 @@ Window
         anchors.bottom: bottomBarArea.top
         anchors.top: titleBarArea.bottom
 
+        Image
+        {
+            anchors.fill: parent
+            anchors.margins: 100
+            source: "../Image/cirno.png"
+            fillMode: Image.PreserveAspectFit
+            opacity: 0.2
+        }
+
         //结果列表
         ListView
         {
@@ -485,7 +494,7 @@ Window
             anchors.rightMargin: 15
 
             color: "#55ee88"
-            hoveredColor: "#cccccc"
+            hoveredColor: "#eeeeee"
             radius: 10
 
             text: qsTr("_")
