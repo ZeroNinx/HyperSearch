@@ -5,30 +5,6 @@
 using namespace ConsoleRomSite;
 using namespace TorrentSite;
 
-//网站枚举
-enum class SiteID: int
-{
-	None = Qt::UserRole + 1,
-
-	//Rom网站
-	Begin_ConsoleRomSite,
-	ConsoleRomSite_EdgeEmu,
-	ConsoleRomSite_CoolRom,
-	End_ConsoleRomSite,
-
-	//Torrent网站
-	Begin_TorrentSite,
-	TorrentSite_BTSOW,
-	End_TorrentSite
-};
-
-enum class SiteType: int
-{
-	None = Qt::UserRole + 1,
-	ConsoleRomSite,
-	TorrentSite
-};
-
 namespace SiteFacory
 {
 	//根据ID取得网站
@@ -36,17 +12,31 @@ namespace SiteFacory
 	{
 		switch (InSiteID)
 		{
-		case SiteID::ConsoleRomSite_EdgeEmu:
-			return new EdgeEmu();
+		case SiteID::ConsoleRomSite_EdgeEmu: return new EdgeEmu();
 
-		case SiteID::ConsoleRomSite_CoolRom:
-			return new CoolRom();
+		case SiteID::ConsoleRomSite_CoolRom: return new CoolRom();
 
-		case SiteID::TorrentSite_BTSOW:
-			return new BTSOW();
+		case SiteID::TorrentSite_BTSOW: return new BTSOW();
 
-		default:
-			return nullptr;
+		case SiteID::TorrentSite_SOBT: return new SOBT();
+
+		default: return nullptr;
+		}
+	}
+
+	inline QString GetSiteIcon(int InSiteID)
+	{
+		switch (InSiteID)
+		{
+		case SiteID::ConsoleRomSite_EdgeEmu: return QString("../Icon/EdgeEmu.ico");
+
+		case SiteID::ConsoleRomSite_CoolRom: return QString("../Icon/CoolRom.ico");
+
+		case SiteID::TorrentSite_BTSOW: return QString("../Icon/BTSOW.ico");
+
+		case SiteID::TorrentSite_SOBT: return QString("../Icon/SOBT.ico");
+
+		default: return QString();
 		}
 	}
 
@@ -68,6 +58,6 @@ namespace SiteFacory
 		default:
 			break;
 		}
-
 	}
+
 }

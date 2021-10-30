@@ -1,2 +1,3 @@
 #pragma once
-#include "ResSite/TorrentSite/Btsow.h"
+#include "ResSite/TorrentSite/BTSOW.h"
+#include "ResSite/TorrentSite/SOBT.h"

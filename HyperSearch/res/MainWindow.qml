@@ -89,6 +89,20 @@ Window
                         }
                     }
 
+                    //网站图标
+                    Image
+                    {
+                        id:siteIcon
+                        anchors.left: parent.left
+                        anchors.leftMargin: 15
+                        anchors.bottom: parent.bottom
+                        anchors.bottomMargin: 12
+                        anchors.top: parent.top
+                        anchors.topMargin: 12
+                        width: height
+                        source: model.siteIcon
+                    }
+
                     //按钮右
                     Module.ButtonArea
                     {
@@ -200,7 +214,7 @@ Window
                         horizontalAlignment: Text.AlignHCenter
                         anchors.right: btn_left.left
                         anchors.rightMargin: 10
-                        anchors.left: parent.left
+                        anchors.left: siteIcon.right
                         anchors.leftMargin: 8
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: 8
@@ -264,7 +278,7 @@ Window
         {
             id: shadow_leftArea
             color: "#000000"
-            radius: 15
+            radius: 10
             samples: 20
             spread: 0
             horizontalOffset: 0
@@ -275,8 +289,6 @@ Window
         {
             id: bgr_leftArea
             anchors.fill: parent
-            x: 0
-            y: 0
             width: 300
             height: 640
             color: "#666666"
@@ -301,6 +313,7 @@ Window
 
                 Module.ButtonArea
                 {
+                    id: buttonArea
                     anchors.fill: parent
                     anchors.leftMargin: 7
                     anchors.rightMargin: 7
@@ -327,6 +340,7 @@ Window
                     {
                         mainWindow.search(textInput_searchBar.text, model.siteType)
                     }
+
                 }
 
             }
@@ -470,7 +484,7 @@ Window
             acceptedButtons: Qt.LeftButton
 
             color: "#ff5959"
-            hoveredColor: "#ff6633"
+            hoveredColor: "#ffa000"
             radius: 10
 
             text: qsTr("×")

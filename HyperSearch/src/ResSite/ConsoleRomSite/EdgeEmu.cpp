@@ -1,10 +1,10 @@
 #include "ResSite/ConsoleRomSite/EdgeEmu.h"
 
-std::vector<Resource>& ConsoleRomSite::EdgeEmu::Search(std::string KeyWord)
+void ConsoleRomSite::EdgeEmu::Search(QVector<Resource>& Result, QString KeyWord)
 {
 	//建立连接
 	HttpsConn Edgeemu("edgeemu.net");
-	Edgeemu.Build("/results.php?q=" + KeyWord+"&system=all");
+	Edgeemu.Build("/results.php?q=" + KeyWord.toStdString() + "&system=all");
 	Edgeemu.Request.set(field::user_agent, UA_CHROME);
 	Edgeemu.Connect();
 
@@ -30,8 +30,7 @@ std::vector<Resource>& ConsoleRomSite::EdgeEmu::Search(std::string KeyWord)
 			string pageurl = "https://edgeemu.net/" + url;
 			string downloadurl = "https://edgeemu.net/down.php?id=" + ToolBox::CutString(url, "details-", ".htm");
 
-			resource_list.push_back(Resource(fullname, pageurl, "",downloadurl));
+			Result.push_back(Resource(fullname, pageurl, "", downloadurl, (int)SiteID::ConsoleRomSite_EdgeEmu));
 		}
 	}
-	return resource_list;
 }

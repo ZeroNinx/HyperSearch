@@ -26,9 +26,14 @@ public slots:
     void copyText(QString KeyWord);
     void search(QString KeyWord, int Site);
     void openUrl(QString Url);
+
+    /** 多线程 */
     void onResultListUpdate();
+    void postSearchMultiPages(int SiteID, int PageCount);
+
 private:
 
     QMLListModel* hostModel;
     QMLListModel* resultModel;
+    QString KeyWord;
 };

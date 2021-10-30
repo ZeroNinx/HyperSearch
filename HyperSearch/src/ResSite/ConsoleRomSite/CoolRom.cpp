@@ -1,10 +1,10 @@
 #include "ResSite/ConsoleRomSite/CoolRom.h"
 
-std::vector<Resource>& ConsoleRomSite::CoolRom::Search(std::string KeyWord)
+void ConsoleRomSite::CoolRom::Search(QVector<Resource>& Result, QString KeyWord)
 {
 	//建立连接
 	HttpsConn Coolrom("coolrom.com.au");
-	Coolrom.Build("/search?q=" + KeyWord);
+	Coolrom.Build("/search?q=" + KeyWord.toStdString());
 	Coolrom.Request.set(field::user_agent, UA_CHROME);
 	Coolrom.Connect();
 
@@ -26,10 +26,9 @@ std::vector<Resource>& ConsoleRomSite::CoolRom::Search(std::string KeyWord)
 			string& name = pos->str(3);
 
 			string fullname = "[" + platform + "] " + name;
-			string pageurl = "https://coolrom.com.au" + url;
+			string pageUrl = "https://coolrom.com.au" + url;
 
-			resource_list.push_back(Resource(fullname, pageurl));
+			Result.push_back(Resource(fullname, pageUrl, "", "", (int)SiteID::ConsoleRomSite_CoolRom));
 		}
 	}
-	return resource_list;
 }

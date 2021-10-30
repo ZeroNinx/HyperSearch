@@ -62,6 +62,16 @@ string HttpConn::GetResponseBody()
 	return StringStream.str();
 }
 
+std::map<http::field, std::string> HttpConn::GetResponseHeader()
+{
+	std::map<http::field, std::string> headerMap;
+	for (auto& header : Response.base())
+	{
+		headerMap[header.name()] = header.value().to_string();
+	}
+	return headerMap;
+}
+
 /**
  * HttpsConn
  */

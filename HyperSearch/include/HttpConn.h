@@ -28,6 +28,7 @@ public:
 	virtual void Build(std::string Target, http::verb Method = http::verb::get, int Version = 11);
 	virtual void Connect();
 	std::string GetResponseBody();
+	std::map<http::field, std::string> GetResponseHeader();
 
 protected:
 

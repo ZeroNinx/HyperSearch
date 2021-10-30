@@ -1,15 +1,15 @@
-#include "ResSite/TorrentSite/Btsow.h"
+#include "ResSite/TorrentSite/BTSOW.h"
 
-TorrentSite::BTSOW::BTSOW() :ResSite("BTSWO", "btsow.rest")
+TorrentSite::BTSOW::BTSOW(): ResSite("BTSWO", "btsow.rest")
 {
 
 }
 
-vector<Resource>& TorrentSite::BTSOW::Search(string KeyWord)
+void TorrentSite::BTSOW::Search(QVector<Resource>& Result, QString KeyWord)
 {
 	//建立连接
 	HttpsConn Btsow("btsow.rest");
-	Btsow.Build("/search/" + KeyWord);
+	Btsow.Build("/search/" + KeyWord.toStdString());
 	Btsow.Request.set(field::user_agent, UA_CHROME);
 	Btsow.Connect();
 
@@ -26,8 +26,8 @@ vector<Resource>& TorrentSite::BTSOW::Search(string KeyWord)
 			string& hash = pos->str(1);
 			string& name = pos->str(2);
 
-			resource_list.push_back(Resource(name, "https://btsow.rest/magnet/detail/hash/" + hash, "", "magnet:?xt=urn:btih:" + hash));
+			Result.push_back(Resource(name, "https://btsow.rest/magnet/detail/hash/" + hash, "", TorrentHeader + hash, (int)SiteID::TorrentSite_BTSOW));
 		}
 	}
-	return resource_list;
 }
+

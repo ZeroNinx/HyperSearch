@@ -6,5 +6,10 @@
         <file>Image/open-browser.png</file>
         <file>Module/ButtonArea.qml</file>
         <file>Image/cirno.png</file>
+        <file>Icon/BTSOW.ico</file>
+        <file>Icon/CoolRom.ico</file>
+        <file>Icon/EdgeEmu.ico</file>
+        <file>Icon/SOBT.ico</file>
+        <file>Icon/icon.ico</file>
     </qresource>
 </RCC>

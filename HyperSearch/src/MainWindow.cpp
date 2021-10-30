@@ -64,6 +64,8 @@ void MainWindow::copyText(QString KeyWord)
 
 void MainWindow::search(QString InKeyWord, int InSiteType)
 {
+	KeyWord = InKeyWord;
+
 	//获取网站列表
 	int startID = 0, endID = 0;
 	SiteFacory::GetAllSiteIndex(InSiteType, startID, endID);
@@ -76,26 +78,33 @@ void MainWindow::search(QString InKeyWord, int InSiteType)
 
 	//多线程搜索
 	resultModel->Clear();
-	for (int i = startID ; i <= endID; i++)
+	for (int siteID = startID ; siteID <= endID; siteID++)
 	{
-		auto asyncLoad = [=]()
+		ResSite* site = SiteFacory::GetSite(siteID);
+		
+		if (site)
 		{
-			ResSite* site = SiteFacory::GetSite(i);
-			if (site)
+			connect(site, &ResSite::onFoundMultiPages, this, &MainWindow::postSearchMultiPages );
+
+			auto asyncLoad = [=]()
 			{
-				QVector<QMLListItem> vec;
-				std::vector<Resource> searchResults = site->Search(InKeyWord.toStdString());
+				QVector<QMLListItem> itemsToAdd;
+				QVector<Resource> searchResults;
+
+				site->Search(searchResults, KeyWord);
 				for (Resource& res : searchResults)
 				{
-					vec.append(Result(res));
+					itemsToAdd.append(Result(res));
 				}
-				resultModel->DynamicAddItems(vec);
-				delete site;
-			}
-		};
+				resultModel->DynamicAddItems(itemsToAdd);
 
-		std::thread thread(asyncLoad);
-		thread.detach();
+				delete site;
+			};
+
+
+			std::thread thread(asyncLoad);
+			thread.detach();
+		}
 	}
 }
 
@@ -107,4 +116,34 @@ void MainWindow::openUrl(QString InUrl)
 void MainWindow::onResultListUpdate()
 {
 	resultModel->FinishDynamicAddItem();
+}
+
+void MainWindow::postSearchMultiPages(int InSiteID, int PageCount)
+{
+	//第一页结果已经保存，从第二页开始搜索
+	for (int Page = 2; Page <= PageCount; Page++)
+	{
+		auto asyncLoad = [=]()
+		{
+			std::this_thread::sleep_for(chrono::milliseconds(1000 * Page - 2));
+			ResSite* site = SiteFacory::GetSite(InSiteID);
+			if (site)
+			{
+				QVector<QMLListItem> itemsToAdd;
+				QVector<Resource> searchResults;
+
+				site->Search(searchResults, KeyWord);
+				for (Resource& res : searchResults)
+				{
+					itemsToAdd.append(Result(res));
+				}
+				resultModel->DynamicAddItems(itemsToAdd);
+
+				delete site;
+			}
+		};
+
+		std::thread thread(asyncLoad);
+		thread.detach();
+	}
 }

@@ -56,7 +56,7 @@
     <ClCompile Include="src\ResSite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ResSite\TorrentSite\Btsow.cpp">
+    <ClCompile Include="src\ResSite\TorrentSite\BTSOW.cpp">
       <Filter>Source Files\ResStie\TorrentSite</Filter>
     </ClCompile>
     <ClCompile Include="src\ResSite\ConsoleRomSite\CoolRom.cpp">
@@ -65,12 +65,18 @@
     <ClCompile Include="src\ResSite\ConsoleRomSite\EdgeEmu.cpp">
       <Filter>Source Files\ResStie\ConsoleRomSite</Filter>
     </ClCompile>
+    <ClCompile Include="src\ResSite\TorrentSite\SOBT.cpp">
+      <Filter>Source Files\ResStie\TorrentSite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\MainWindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="include\QMLList.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\ResSite.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -91,13 +97,10 @@
     <ClInclude Include="include\HttpConn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ResSite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\ResSite\TorrentSite.h">
       <Filter>Header Files\ResSite</Filter>
     </ClInclude>
-    <ClInclude Include="include\ResSite\TorrentSite\Btsow.h">
+    <ClInclude Include="include\ResSite\TorrentSite\BTSOW.h">
       <Filter>Header Files\ResSite\TorrentSite</Filter>
     </ClInclude>
     <ClInclude Include="include\ResSite\ConsoleRomSite.h">
@@ -115,5 +118,24 @@
     <ClInclude Include="include\ResSite\SiteFactory.h">
       <Filter>Header Files\ResSite</Filter>
     </ClInclude>
+    <ClInclude Include="include\ResSite\TorrentSite\SOBT.h">
+      <Filter>Header Files\ResSite\TorrentSite</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="HyperSearch.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

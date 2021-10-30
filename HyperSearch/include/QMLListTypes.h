@@ -1,5 +1,6 @@
 #include "QMLList.h"
 #include "ResSite.h"
+#include "ResSite/SiteFactory.h"
 
 //网站类
 class Host:public QMLListItem
@@ -35,19 +36,21 @@ public:
 		roleNames[PageUrlRole] = "pageUrl";
 		roleNames[DiskUrlRole] = "diskUrl";
 		roleNames[DownloadUrlRole] = "downloadUrl";
+		roleNames[SiteIconRole] = "siteIcon";
 	}
 
-	Result(Resource& InResource):Result(QString(InResource.Text.c_str()), QString(InResource.PageUrl.c_str()), QString(InResource.DiskUrl.c_str()), QString(InResource.DownloadUrl.c_str()))
+	Result(Resource& InResource):Result(QString(InResource.Text.c_str()), QString(InResource.PageUrl.c_str()), QString(InResource.DiskUrl.c_str()), QString(InResource.DownloadUrl.c_str()), InResource.SiteID)
 	{
 		
 	}
 
-	Result(QString& Text, QString& PageUrl = QString(""), QString& DiskUrl = QString(""), QString& DownloadUrl = QString(""))
+	Result(QString& Text, QString& PageUrl = QString(""), QString& DiskUrl = QString(""), QString& DownloadUrl = QString(""), int SiteID = Qt::UserRole + 1)
 	{
 		roleProperty[TextRole] = Text;
 		roleProperty[PageUrlRole] = PageUrl;
 		roleProperty[DiskUrlRole] = DiskUrl;
 		roleProperty[DownloadUrlRole] = DownloadUrl;
+		roleProperty[SiteIconRole] = SiteFacory::GetSiteIcon(SiteID);
 	}
 
 	enum ResultRoles
@@ -55,6 +58,7 @@ public:
 		TextRole = Qt::UserRole + 1,
 		PageUrlRole,
 		DiskUrlRole,
-		DownloadUrlRole
+		DownloadUrlRole,
+		SiteIconRole
 	};
 };

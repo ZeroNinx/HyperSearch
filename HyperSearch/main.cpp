@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QtQml/QtQml>
+#include <QIcon>
 #include "QMLList.h"
 #include "MainWindow.h"
 

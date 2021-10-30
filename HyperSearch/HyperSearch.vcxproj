@@ -34,6 +34,10 @@
     <QtInstall>5.14.0_msvc2017_64</QtInstall>
     <QtModules>core;gui;qml;quickcontrols2</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
+    <QMakeCodeLines>
+    </QMakeCodeLines>
+    <QMakeExtraArgs>
+    </QMakeExtraArgs>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>5.14.0_msvc2017_64</QtInstall>
@@ -69,6 +73,9 @@
       <AdditionalDependencies>crypt32.lib;libcrypto_static.lib;libssl_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:msvcrt.lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
+    <QtRcc>
+      <AdditionalOptions>RC_FILE = HyperSearch.rc</AdditionalOptions>
+    </QtRcc>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
@@ -104,7 +111,8 @@
     <ClCompile Include="src\ResSite.cpp" />
     <ClCompile Include="src\ResSite\ConsoleRomSite\CoolRom.cpp" />
     <ClCompile Include="src\ResSite\ConsoleRomSite\EdgeEmu.cpp" />
-    <ClCompile Include="src\ResSite\TorrentSite\Btsow.cpp" />
+    <ClCompile Include="src\ResSite\TorrentSite\BTSOW.cpp" />
+    <ClCompile Include="src\ResSite\TorrentSite\SOBT.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\MainWindow.h" />
@@ -116,17 +124,26 @@
     <None Include="res\MainWindow.qml" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\ResSite.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
+    <QtMoc Include="include\ResSite.h" />
     <ClInclude Include="include\ResSite\ConsoleRomSite.h" />
     <ClInclude Include="include\ResSite\ConsoleRomSite\CoolRom.h" />
     <ClInclude Include="include\ResSite\ConsoleRomSite\EdgeEmu.h" />
     <ClInclude Include="include\ResSite\SiteFactory.h" />
     <ClInclude Include="include\ResSite\TorrentSite.h" />
-    <ClInclude Include="include\ResSite\TorrentSite\Btsow.h" />
+    <ClInclude Include="include\ResSite\TorrentSite\BTSOW.h" />
+    <ClInclude Include="include\ResSite\TorrentSite\SOBT.h" />
     <ClInclude Include="include\ToolBox.h" />
     <QtMoc Include="include\QMLList.h" />
     <ClInclude Include="include\HttpConn.h" />
     <ClInclude Include="include\QMLListTypes.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="HyperSearch.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
