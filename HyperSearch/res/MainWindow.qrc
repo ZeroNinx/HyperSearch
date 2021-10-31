@@ -11,5 +11,6 @@
         <file>Icon/EdgeEmu.ico</file>
         <file>Icon/SOBT.ico</file>
         <file>Icon/icon.ico</file>
+        <file>Image/search.png</file>
     </qresource>
 </RCC>

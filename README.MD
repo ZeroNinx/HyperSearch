@@ -13,4 +13,4 @@
 
 ## 感谢
 
-* https://github.com/djarek/certify certify
+* https://github.com/djarek/certify certify by Damian Jarek

@@ -27,7 +27,7 @@ Window
     {
         id: bgr_window
         anchors.fill: parent
-        color: "#666666"
+        color: "#555555"
     }
 
     //右区
@@ -70,8 +70,8 @@ Window
                     id: border_result_item
                     y: 5
                     height: parent.height - 2*y
-                    color: "#777777"
-                    border.color: "#555555"
+                    color: "#6F6F6F"
+                    border.color: "#444444"
                     border.width: 2
                     radius: 20
                     anchors.right: parent.right
@@ -291,7 +291,7 @@ Window
             anchors.fill: parent
             width: 300
             height: 640
-            color: "#666666"
+            color: "#555555"
             border.width: 0
         }
 
@@ -315,17 +315,17 @@ Window
                 {
                     id: buttonArea
                     anchors.fill: parent
-                    anchors.leftMargin: 7
-                    anchors.rightMargin: 7
-                    anchors.topMargin: 7
-                    anchors.bottomMargin: 7
+                    anchors.leftMargin: 8
+                    anchors.rightMargin: 8
+                    anchors.topMargin: 8
+                    anchors.bottomMargin: 8
 
                     color: "#777777"
-                    hoveredColor: "#6F6F6F"
+                    hoveredColor: "#666666"
 
                     text: model.name
                     fontSize: 22
-                    radius: 17
+                    radius: 20
 
                     layer.enabled: true
                     layer.effect: DropShadow
@@ -358,23 +358,38 @@ Window
             anchors.left: parent.left
             anchors.right: parent.right
             height: 60
-            color: "#666666"
+            color: "#555555"
+
+            Image
+            {
+                id:search_img
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 13
+                anchors.top: parent.top
+                anchors.topMargin: 22
+                width:height
+                source: "../Image/search.png"
+                opacity: 0.7
+
+            }
 
             Rectangle
             {
                 id: searchBar
-                x: 20
-                y: 10
-                height: parent.height - 2*y
                 color: "#777777"
                 radius: 25
+
                 border.color: "#333333"
                 anchors.top: parent.top
-                anchors.topMargin: 10
+                anchors.topMargin: 15
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 10
                 anchors.right: parent.right
-                anchors.rightMargin: 20
-                anchors.left: parent.left
-                anchors.leftMargin: 20
+                anchors.rightMargin: 10
+                anchors.left: search_img.right
+                anchors.leftMargin: 10
                 border.width: 2
 
                 //文本框
@@ -387,9 +402,7 @@ Window
                     anchors.right: parent.right
                     anchors.rightMargin: 15
                     anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 0
                     anchors.top: parent.top
-                    anchors.topMargin: 0
                     anchors.left: parent.left
                     anchors.leftMargin: 15
                     verticalAlignment: Text.AlignVCenter
