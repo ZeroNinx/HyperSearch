@@ -85,7 +85,7 @@ Window
                         acceptedButtons: Qt.LeftButton
                         onClicked:
                         {
-                            bottomBar.text = model.url
+                            bottomBar.text = model.downloadUrl
                         }
                     }
 

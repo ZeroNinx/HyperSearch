@@ -132,7 +132,7 @@ void MainWindow::postSearchMultiPages(int InSiteID, int PageCount)
 				QVector<QMLListItem> itemsToAdd;
 				QVector<Resource> searchResults;
 
-				site->Search(searchResults, KeyWord);
+				site->SearchPage(searchResults, KeyWord, Page);
 				for (Resource& res : searchResults)
 				{
 					itemsToAdd.append(Result(res));
