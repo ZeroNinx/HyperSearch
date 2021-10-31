@@ -299,6 +299,10 @@ Window
         ListView
         {
             id:lv_host
+            anchors.rightMargin: 8
+            anchors.bottomMargin: 8
+            anchors.leftMargin: 12
+            anchors.topMargin: 12
             anchors.top: searchArea.bottom
             anchors.bottom: leftArea.bottom
             anchors.left: leftArea.left
@@ -354,7 +358,7 @@ Window
         Rectangle
         {
             id: searchArea
-            anchors.top: parent.top
+            anchors.top: titleBarArea.bottom
             anchors.left: parent.left
             anchors.right: parent.right
             height: 60
@@ -444,7 +448,7 @@ Window
     {
         id: titleBarArea
         width: 1280
-        height: 50
+        height: 40
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
@@ -458,7 +462,7 @@ Window
             enableAutoCursorShape: false
 
             text: qsTr("HyperSearch v0.1")
-            fontSize: 24
+            fontSize: 20
 
             property point clickPos: "0,0"
             property bool isPressed: false
@@ -498,10 +502,10 @@ Window
 
             color: "#ff5959"
             hoveredColor: "#ffa000"
-            radius: 10
+            radius: 8
 
             text: qsTr("×")
-            fontSize: 26
+            fontSize: 20
 
             onClicked: Qt.quit()
         }
@@ -522,10 +526,10 @@ Window
 
             color: "#55ee88"
             hoveredColor: "#eeeeee"
-            radius: 10
+            radius: 8
 
             text: qsTr("_")
-            fontSize: 20
+            fontSize: 16
             fontBold: true
 
             onClicked:

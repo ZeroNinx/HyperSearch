@@ -85,9 +85,9 @@ void MainWindow::search(QString InKeyWord, int InSiteType)
 		if (site)
 		{
 			connect(site, &ResSite::onFoundMultiPages, this, &MainWindow::postSearchMultiPages );
-
 			auto asyncLoad = [=]()
 			{
+				std::this_thread::sleep_for(chrono::milliseconds(1000 * (siteID - startID)));
 				QVector<QMLListItem> itemsToAdd;
 				QVector<Resource> searchResults;
 
@@ -125,7 +125,7 @@ void MainWindow::postSearchMultiPages(int InSiteID, int PageCount)
 	{
 		auto asyncLoad = [=]()
 		{
-			std::this_thread::sleep_for(chrono::milliseconds(1000 * Page - 2));
+			std::this_thread::sleep_for(chrono::milliseconds(2000 * (Page - 2)));
 			ResSite* site = SiteFacory::GetSite(InSiteID);
 			if (site)
 			{
