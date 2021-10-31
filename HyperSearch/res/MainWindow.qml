@@ -304,7 +304,7 @@ Window
             anchors.leftMargin: 12
             anchors.topMargin: 12
             anchors.top: searchArea.bottom
-            anchors.bottom: leftArea.bottom
+            anchors.bottom: stateBarArea.top
             anchors.left: leftArea.left
             anchors.right: leftArea.right
             anchors.margins: 10
@@ -439,6 +439,28 @@ Window
 
                     }
                 }
+            }
+        }
+
+        //状态栏
+        Rectangle
+        {
+            id: stateBarArea
+            anchors.right: parent.right
+            anchors.left: parent.left
+            anchors.bottom: parent.bottom
+            height: 40
+            color: "#777777"
+
+            Text
+            {
+                anchors.fill: parent
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment:  Text.AlignVCenter
+                text: qsTr("你好！状态栏!")
+                font.family: "微软雅黑"
+                font.pixelSize: 18
+
             }
         }
     }
