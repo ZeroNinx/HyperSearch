@@ -14,7 +14,7 @@ using namespace boost::beast::http;
 #define TorrentHeader "magnet:?xt=urn:btih:"
 
 //网站枚举
-enum class SiteID : int
+enum class ResSiteID : int
 {
 	None = Qt::UserRole + 1,
 
@@ -31,7 +31,7 @@ enum class SiteID : int
 	End_TorrentSite
 };
 
-enum class SiteType : int
+enum class ResSiteType : int
 {
 	None = Qt::UserRole + 1,
 	ConsoleRomSite,
@@ -43,13 +43,13 @@ class Resource
 {
 public:
 
-	Resource(std::string Text, std::string PageUrl = "", std::string DiskUrl = "", std::string DownloadUrl = "", int SiteID = Qt::UserRole + 1);
+	Resource(std::string Text, std::string PageUrl = "", std::string DiskUrl = "", std::string DownloadUrl = "", ResSiteID ID = ResSiteID::None);
 
 	std::string Text;
 	std::string PageUrl;
 	std::string DiskUrl;
 	std::string DownloadUrl;
-	int SiteID;
+	ResSiteID SiteID;
 };
 
 //资源网站类 
@@ -59,19 +59,25 @@ class ResSite:public QObject
 public:
 
 	explicit ResSite() {};
-	ResSite(std::string Name, std::string Url);
+	ResSite(
+		std::string Name= "",
+		std::string Url="",
+		ResSiteType SiteType=ResSiteType::None,
+		ResSiteID SiteID = ResSiteID::None);
 
-	virtual void Search(QVector<Resource>& Result, QString KeyWord);
+	virtual void Search(QVector<Resource>& Result, QString& KeyWord);
 
 	virtual void SearchPage(QVector<Resource>& Result, QString& KeyWord, int Page);
 
 signals:
 
-	void onFoundMultiPages(int Site, int PageCount);
+	void postFoundNextPage(int Site, int NextPage);
 
 protected:
 
-	std::string name;
-	std::string url;
-
+	std::string Name;
+	std::string Url;
+	ResSiteID SiteID;
+	ResSiteType SiteType;
 };
+

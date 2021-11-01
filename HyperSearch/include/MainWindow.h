@@ -21,19 +21,29 @@ public:
     QMLListModel* GetResultModel();
     void SetResultModel(QMLListModel* InModel);
 
+signals:
+    
+    /** 更新状态栏文本 */
+    void updateStateBarText(QString newText);
+
 public slots:
     
+    /** QML槽函数 */
     void copyText(QString KeyWord);
     void search(QString KeyWord, int Site);
     void openUrl(QString Url);
+    void enableHiddenMode();
 
-    /** 多线程 */
+    /** 多线程信号槽 */
     void onResultListUpdate();
-    void postSearchMultiPages(int SiteID, int PageCount);
+    void onSearchHasNextPage(int SiteID, int NextPage);
 
 private:
 
+    /** QML变量 */
     QMLListModel* hostModel;
     QMLListModel* resultModel;
+    
+    /** 自定义 */
     QString KeyWord;
 };

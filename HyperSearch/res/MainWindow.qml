@@ -41,6 +41,7 @@ Window
 
         Image
         {
+            id:bgr_rightArea
             anchors.fill: parent
             anchors.margins: 100
             source: "../Image/cirno.png"
@@ -417,21 +418,20 @@ Window
 
                     onAccepted:
                     {
-                        bottomBar.text = "OK"
-                        mainWindow.search(text,257)
+                        bottomBar.text = textInput_searchBar.text
                         focus = false
                     }
 
                     onFocusChanged:
                     {
                         isFocused = !isFocused
-                        if(!isFocused && text == "")
+                        if(!isFocused && text === "")
                         {
                             color = "#777777"
                             text = search_text
                         }
 
-                        if(isFocused && text == search_text)
+                        if(isFocused && text === search_text)
                         {
                             color = "#000000"
                             text = ""
@@ -452,16 +452,27 @@ Window
             height: 40
             color: "#777777"
 
+            //文字
             Text
             {
+                id: stateBar
                 anchors.fill: parent
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment:  Text.AlignVCenter
-                text: qsTr("你好！状态栏!")
+                text: qsTr("你好！状态栏！")
                 font.family: "微软雅黑"
                 font.pixelSize: 18
 
-            }
+                //信号槽链接
+                Connections
+                {
+                    target: mainWindow
+                    onUpdateStateBarText:
+                    {
+                        stateBar.text = newText
+                    }
+                }
+            }  
         }
     }
 
@@ -475,37 +486,50 @@ Window
         anchors.left: parent.left
         anchors.right: parent.right
 
-        Module.ButtonArea
+        Rectangle
         {
-            id: titleBar
+            id: bgr_titleBarArea
             color: "#66c0ff"
             anchors.fill: parent
-            acceptedButtons: Qt.LeftButton
-            enableAutoCursorShape: false
 
-            text: qsTr("HyperSearch v0.1")
-            fontSize: 20
+            MouseArea
+            {
+                anchors.fill: parent
+                acceptedButtons: Qt.LeftButton
 
-            property point clickPos: "0,0"
-            property bool isPressed: false
-            onPressed:
-            {
-                clickPos = Qt.point(mouseX,mouseY)
-                isPressed = true
-            }
-            onReleased:
-            {
-                isPressed = false
-            }
+                property point clickPos: "0,0"
+                property bool isPressed: false
 
-            onPositionChanged:
-            {
-                if(isPressed)
+                onPressed:
                 {
-                    var delta = Qt.point(mouseX-clickPos.x , mouseY-clickPos.y)
-                    window.setX(window.x+delta.x)
-                    window.setY(window.y+delta.y)
+                    clickPos = Qt.point(mouseX,mouseY)
+                    isPressed = true
                 }
+                onReleased:
+                {
+                    isPressed = false
+                }
+
+                onPositionChanged:
+                {
+                    if(isPressed)
+                    {
+                        var delta = Qt.point(mouseX-clickPos.x , mouseY-clickPos.y)
+                        window.setX(window.x+delta.x)
+                        window.setY(window.y+delta.y)
+                    }
+                }
+            }
+
+            Text
+            {
+                id: titleBar
+                anchors.fill: parent
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                text: qsTr("HyperSearch v0.1")
+                font.family: "微软雅黑"
+                font.pixelSize: 20
             }
         }
 
@@ -589,8 +613,8 @@ Window
             {
                 isSecretMode = true
                 text = qsTr("特殊模式启动!")
-                titleBar.color =  "#ff96b6"
-                titleBar.hoveredColor = "#ff96b6"
+                bgr_titleBarArea.color =  "#ff96b6"
+                stateBar.text = qsTr("Surprise！")
             }
 
             Keys.onPressed:

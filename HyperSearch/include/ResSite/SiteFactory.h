@@ -1,4 +1,5 @@
 #pragma once
+#include <unordered_map>
 #include "ResSite/ConsoleRomSite.h"
 #include "ResSite/TorrentSite.h"
 
@@ -7,52 +8,58 @@ using namespace TorrentSite;
 
 namespace SiteFacory
 {
+	struct SiteInfo
+	{
+		QString IconPath;
+	};
+
+	static std::unordered_map<ResSiteID, SiteInfo> SiteMap;
+
+	static void InitSiteInfo()
+	{
+		SiteMap[ResSiteID::ConsoleRomSite_EdgeEmu]	=	{ QString("../Icon/EdgeEmu.ico") };
+		SiteMap[ResSiteID::ConsoleRomSite_CoolRom]	=	{ QString("../Icon/CoolRom.ico") };
+		SiteMap[ResSiteID::TorrentSite_BTSOW]		=	{ QString("../Icon/BTSOW.ico") };
+		SiteMap[ResSiteID::TorrentSite_SOBT]		=	{ QString("../Icon/SOBT.ico") };
+	}
+
 	//根据ID取得网站
-	inline ResSite* GetSite(int InSiteID)
+	inline ResSite* GetSite(ResSiteID InSiteID)
 	{
 		switch (InSiteID)
 		{
-		case SiteID::ConsoleRomSite_EdgeEmu: return new EdgeEmu();
+		case ResSiteID::ConsoleRomSite_EdgeEmu: return new EdgeEmu();
 
-		case SiteID::ConsoleRomSite_CoolRom: return new CoolRom();
+		case ResSiteID::ConsoleRomSite_CoolRom: return new CoolRom();
 
-		case SiteID::TorrentSite_BTSOW: return new BTSOW();
+		case ResSiteID::TorrentSite_BTSOW: return new BTSOW();
 
-		case SiteID::TorrentSite_SOBT: return new SOBT();
+		case ResSiteID::TorrentSite_SOBT: return new SOBT();
 
 		default: return nullptr;
 		}
 	}
 
-	inline QString GetSiteIcon(int InSiteID)
+	inline QString GetSiteIcon(ResSiteID InSiteID)
 	{
-		switch (InSiteID)
-		{
-		case SiteID::ConsoleRomSite_EdgeEmu: return QString("../Icon/EdgeEmu.ico");
-
-		case SiteID::ConsoleRomSite_CoolRom: return QString("../Icon/CoolRom.ico");
-
-		case SiteID::TorrentSite_BTSOW: return QString("../Icon/BTSOW.ico");
-
-		case SiteID::TorrentSite_SOBT: return QString("../Icon/SOBT.ico");
-
-		default: return QString();
-		}
+		if (SiteMap.find(InSiteID) != SiteMap.end())
+			return SiteMap[InSiteID].IconPath;
+		return QString();
 	}
 
 	//搜索某类的所有网站
-	inline void GetAllSiteIndex(int InSiteType, int& StartIndex, int& EndIndex)
+	inline void GetAllSiteIndex(ResSiteType InSiteType, int& StartIndex, int& EndIndex)
 	{
 		switch (InSiteType)
 		{
-		case SiteType::ConsoleRomSite:
-			StartIndex = (int)SiteID::Begin_ConsoleRomSite;
-			EndIndex = (int)SiteID::End_ConsoleRomSite;
+		case ResSiteType::ConsoleRomSite:
+			StartIndex = (int)ResSiteID::Begin_ConsoleRomSite;
+			EndIndex = (int)ResSiteID::End_ConsoleRomSite;
 			break;
 
-		case SiteType::TorrentSite:
-			StartIndex = (int)SiteID::Begin_TorrentSite;
-			EndIndex = (int)SiteID::End_TorrentSite;
+		case ResSiteType::TorrentSite:
+			StartIndex = (int)ResSiteID::Begin_TorrentSite;
+			EndIndex = (int)ResSiteID::End_TorrentSite;
 			break;
 
 		default:

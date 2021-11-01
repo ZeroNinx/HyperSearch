@@ -12,10 +12,10 @@ public:
 		roleNames[SiteTypeRole] = "siteType";
 	}
 
-	Host(QString Name, int SiteID)
+	Host(QString Name, ResSiteType SiteID)
 	{
 		roleProperty[NameRole] = Name;
-		roleProperty[SiteTypeRole] = QString::fromLocal8Bit(to_string(SiteID).c_str());
+		roleProperty[SiteTypeRole] = QString::fromLocal8Bit(to_string((int)SiteID).c_str());
 	};
 
 	enum HostRoles
@@ -44,7 +44,7 @@ public:
 		
 	}
 
-	Result(QString& Text, QString& PageUrl = QString(""), QString& DiskUrl = QString(""), QString& DownloadUrl = QString(""), int SiteID = Qt::UserRole + 1)
+	Result(QString& Text, QString& PageUrl = QString(""), QString& DiskUrl = QString(""), QString& DownloadUrl = QString(""), ResSiteID SiteID = ResSiteID::None)
 	{
 		roleProperty[TextRole] = Text;
 		roleProperty[PageUrlRole] = PageUrl;

@@ -7,7 +7,9 @@ namespace ConsoleRomSite
 	class CoolRom :public ResSite
 	{
 	public:
-		virtual void Search(QVector<Resource>& Result, QString KeyWord) override;
+		CoolRom();
+
+		virtual void Search(QVector<Resource>& Result, QString& KeyWord) override;
 	};
 
 }

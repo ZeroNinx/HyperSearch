@@ -1,6 +1,11 @@
 #include "ResSite/TorrentSite/SOBT.h"
 
-void TorrentSite::SOBT::Search(QVector<Resource>& Result, QString KeyWord)
+TorrentSite::SOBT::SOBT() :ResSite("SOBT", "sobt2.me", ResSiteType::TorrentSite, ResSiteID::TorrentSite_SOBT)
+{
+
+}
+
+void TorrentSite::SOBT::Search(QVector<Resource>& Result, QString& KeyWord)
 {
 	//获得cookie
 	if (cookie == "")
@@ -12,7 +17,7 @@ void TorrentSite::SOBT::Search(QVector<Resource>& Result, QString KeyWord)
 void TorrentSite::SOBT::SearchPage(QVector<Resource>& Result, QString& KeyWord, int Page)
 {
 	//搜索链接
-	HttpConn conn("sobt2.me");
+	HttpConn conn(Url);
 	conn.Build("/q/" + KeyWord.toStdString() + ".html?sort=rel&page=" + to_string(Page), verb::post);
 	conn.Request.set(http::field::user_agent, UA_CHROME);
 	conn.Request.set(http::field::cookie, cookie);
@@ -40,23 +45,19 @@ void TorrentSite::SOBT::SearchPage(QVector<Resource>& Result, QString& KeyWord, 
 				name.replace(name.find("<em>"), 4, "");
 				name.replace(name.find("</em>"), 5, "");
 			}
-			Result.push_back(Resource(name, "http://sobt2.me/torrent/" + hash + ".html", "", TorrentHeader + hash, (int)SiteID::TorrentSite_SOBT));
+			Result.push_back(Resource(name, "http://" + Url + "/torrent/" + hash + ".html", "", TorrentHeader + hash, SiteID));
 		}
 	}
 
-	//如果是第一页，检查多页
-	if (Page == 1)
+	//检查下一页
+	str = ToolBox::CutString(conn.GetResponseBody(), "<ul class=\"pagination\">", "<div class=\"search-tips");
+	regex e("<li class=\"nextpage\"><a href=\".+page=([^\"]+)\">&raquo;</a></li>");
+	smatch m;
+	bool found = regex_search(str, m, e);
+	if (found)
 	{
-		
-		str = ToolBox::CutString(conn.GetResponseBody(), "<ul class=\"pagination\">", "<div class=\"search-tips");
-		regex e("<li class=\"last_p\"><a href=\".+page=([^\"]+)\">Last</a>");
-		smatch m;
-		bool found = regex_search(str, m, e);
-		if (found)
-		{
-			int last_page = QString(m.str(1).c_str()).toInt();
-			emit onFoundMultiPages((int)SiteID::TorrentSite_SOBT, last_page);
-		}
+		int next_page = QString(m.str(1).c_str()).toInt();
+		emit postFoundNextPage((int)SiteID, next_page);
 	}
 }
 

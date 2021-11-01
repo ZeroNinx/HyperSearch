@@ -7,7 +7,9 @@ namespace ConsoleRomSite
 	class EdgeEmu :public ResSite
 	{
 	public:
-		virtual void Search(QVector<Resource>& Result, QString KeyWord) override;
+		EdgeEmu();
+
+		virtual void Search(QVector<Resource>& Result, QString& KeyWord) override;
 	};
 
 }

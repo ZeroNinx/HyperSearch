@@ -17,8 +17,8 @@ MainWindow::MainWindow(QObject *parent)
 	/** 网站列表 */
 	hostModel = new QMLListModel();
 	hostModel->SetTemplate(Host());
-	hostModel->AddItem(Host(QStringLiteral("搜索模拟Rom"), (int)SiteType::ConsoleRomSite));
-	hostModel->AddItem(Host( QStringLiteral("搜索种子"), (int)SiteType::TorrentSite ));
+	hostModel->AddItem(Host(QStringLiteral("搜索模拟Rom"), ResSiteType::ConsoleRomSite));
+	hostModel->AddItem(Host(QStringLiteral("搜索种子"), ResSiteType::TorrentSite ));
 
 	/** 结果列表 */
 	resultModel = new QMLListModel();
@@ -68,7 +68,7 @@ void MainWindow::search(QString InKeyWord, int InSiteType)
 
 	//获取网站列表
 	int startID = 0, endID = 0;
-	SiteFacory::GetAllSiteIndex(InSiteType, startID, endID);
+	SiteFacory::GetAllSiteIndex((ResSiteType)InSiteType, startID, endID);
 	if (!startID || !endID || InKeyWord.isEmpty())
 	{
 		return;
@@ -80,11 +80,11 @@ void MainWindow::search(QString InKeyWord, int InSiteType)
 	resultModel->Clear();
 	for (int siteID = startID ; siteID <= endID; siteID++)
 	{
-		ResSite* site = SiteFacory::GetSite(siteID);
+		ResSite* site = SiteFacory::GetSite((ResSiteID)siteID);
 		
 		if (site)
 		{
-			connect(site, &ResSite::onFoundMultiPages, this, &MainWindow::postSearchMultiPages );
+			connect(site, &ResSite::postFoundNextPage, this, &MainWindow::onSearchHasNextPage );
 			auto asyncLoad = [=]()
 			{
 				std::this_thread::sleep_for(chrono::milliseconds(1000 * (siteID - startID)));
@@ -113,37 +113,39 @@ void MainWindow::openUrl(QString InUrl)
 	QDesktopServices::openUrl(InUrl);
 }
 
+void MainWindow::enableHiddenMode()
+{
+	
+}
+
 void MainWindow::onResultListUpdate()
 {
 	resultModel->FinishDynamicAddItem();
 }
 
-void MainWindow::postSearchMultiPages(int InSiteID, int PageCount)
+void MainWindow::onSearchHasNextPage(int InSiteID, int NextPage)
 {
-	//第一页结果已经保存，从第二页开始搜索
-	for (int Page = 2; Page <= PageCount; Page++)
+	auto asyncLoadNextPage = [=]()
 	{
-		auto asyncLoad = [=]()
+		std::this_thread::sleep_for(chrono::milliseconds(4000));
+		ResSite* site = SiteFacory::GetSite((ResSiteID)InSiteID);
+		connect(site, &ResSite::postFoundNextPage, this, &MainWindow::onSearchHasNextPage);
+		if (site)
 		{
-			std::this_thread::sleep_for(chrono::milliseconds(2000 * (Page - 2)));
-			ResSite* site = SiteFacory::GetSite(InSiteID);
-			if (site)
+			QVector<QMLListItem> itemsToAdd;
+			QVector<Resource> searchResults;
+
+			site->SearchPage(searchResults, KeyWord, NextPage);
+			for (Resource& res : searchResults)
 			{
-				QVector<QMLListItem> itemsToAdd;
-				QVector<Resource> searchResults;
-
-				site->SearchPage(searchResults, KeyWord, Page);
-				for (Resource& res : searchResults)
-				{
-					itemsToAdd.append(Result(res));
-				}
-				resultModel->DynamicAddItems(itemsToAdd);
-
-				delete site;
+				itemsToAdd.append(Result(res));
 			}
-		};
+			resultModel->DynamicAddItems(itemsToAdd);
 
-		std::thread thread(asyncLoad);
-		thread.detach();
-	}
+			delete site;
+		}
+	};
+
+	std::thread thread(asyncLoadNextPage);
+	thread.detach();
 }
