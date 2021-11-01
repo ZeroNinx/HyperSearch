@@ -45,6 +45,12 @@ public slots:
     void onSearchHasNextPage(int SiteID, int NextPage);
 
 private:
+ 
+    /** QML变量 */
+    QMLListModel* hostModel;
+    QMLListModel* resultModel;
+
+private:
 
     /** 同一网站，间隔5秒搜索一次，防止被夹 */
     const int SearchInterval = 5000;
@@ -55,10 +61,7 @@ private:
     /** 是否继续搜索 */
     bool bShouldContinueSearch = true;
 
-    /** QML变量 */
-    QMLListModel* hostModel;
-    QMLListModel* resultModel;
-    
-    /** 自定义 */
+    /** 当前搜索关键词 */
     QString CurrentKeyWord;
+
 };
