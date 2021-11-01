@@ -10,25 +10,22 @@
 /** 构造函数 */
 MainWindow::MainWindow(QObject *parent)
 {
-	/**
-	 * 初始化基础列表
-	 */
-
+	/** 初始化网站信息  */
 	SiteFacory::InitSiteInfo();
 
 	/** 网站列表 */
 	hostModel = new QMLListModel();
 	hostModel->SetTemplate(Host());
 	hostModel->AddItem(Host(QStringLiteral("搜索模拟Rom"), ResSiteType::ConsoleRomSite));
-	hostModel->AddItem(Host(QStringLiteral("搜索种子"), ResSiteType::TorrentSite ));
 
 	/** 结果列表 */
 	resultModel = new QMLListModel();
 	resultModel->SetTemplate(Result());
 	resultModel->AddItem(Result(QStringLiteral("搜索Start!")));
 
-	/** 连接多线程信号槽 */
-	connect(resultModel, &QMLListModel::postEndAddItem, this, &MainWindow::onResultListUpdate);
+	/** 连接列表信号槽 */
+	connect(hostModel, &QMLListModel::postFinishAddItem, this, &MainWindow::onResultListUpdate);
+	connect(resultModel, &QMLListModel::postFinishAddItem, this, &MainWindow::onResultListUpdate);
 }
 
 /** 网站列表 */
@@ -62,7 +59,8 @@ void MainWindow::SetResultModel(QMLListModel* InModel)
 void MainWindow::ShowSearhResultHint()
 {
 	int ResultSum = resultModel->GetListObject()->GetList().size();
-	emit updateStateBarText(tr("搜索完成......找到结果：") + tr(to_string(ResultSum).c_str()));
+	emit hideTerminateButton();
+	emit updateStateBarText(tr("搜索完成！共找到记录：") + tr(to_string(ResultSum).c_str()));
 }
 
 
@@ -75,19 +73,27 @@ void MainWindow::copyText(QString KeyWord)
 
 void MainWindow::search(QString InKeyWord, int InSiteType)
 {
-	KeyWord = InKeyWord;
-	bShouldContinueSearch = true;
-	emit showTerminateButton();
+	//统一转换成小写避免无法识别的情况
+	InKeyWord = InKeyWord.toLower();
+
+	//过滤空字符串
+	if (InKeyWord.isEmpty())
+	{
+		return;
+	}
+	CurrentKeyWord = InKeyWord;
 
 	//获取网站列表
 	int startID = 0, endID = 0;
 	SiteFacory::GetAllSiteIndex((ResSiteType)InSiteType, startID, endID);
-	if (!startID || !endID || InKeyWord.isEmpty())
+	if (!startID || !endID)
 	{
 		return;
 	}
-	startID++;
-	endID--;
+
+	//重置变量，显示终止按钮
+	bShouldContinueSearch = true;
+	emit showTerminateButton();
 
 	//多线程搜索
 	resultModel->Clear();
@@ -107,7 +113,7 @@ void MainWindow::search(QString InKeyWord, int InSiteType)
 				QVector<QMLListItem> itemsToAdd;
 				QVector<Resource> searchResults;
 
-				site->Search(searchResults, KeyWord);
+				site->Search(searchResults, CurrentKeyWord);
 				for (Resource& res : searchResults)
 				{
 					itemsToAdd.append(Result(res));
@@ -135,14 +141,13 @@ void MainWindow::openUrl(QString InUrl)
 
 void MainWindow::enableHiddenMode()
 {
-	
+	hostModel->DynamicAddItem(Host(QStringLiteral("搜索种子"), ResSiteType::TorrentSite));
 }
 
 void MainWindow::terminateSearch()
 {
 	bShouldContinueSearch = false;
 	emit updateStateBarText(tr("搜索终止......"));
-	emit hideTerminateButton();
 
 	auto showResult = [=]()
 	{
@@ -157,9 +162,9 @@ void MainWindow::terminateSearch()
 
 
 /** 多线程 */
-void MainWindow::onResultListUpdate()
+void MainWindow::onResultListUpdate(QMLListModel* Model)
 {
-	resultModel->FinishDynamicAddItem();
+	Model->FinishDynamicAddItem();
 }
 
 void MainWindow::onSearchHasNextPage(int InSiteID, int NextPage)
@@ -184,7 +189,7 @@ void MainWindow::onSearchHasNextPage(int InSiteID, int NextPage)
 			QVector<QMLListItem> itemsToAdd;
 			QVector<Resource> searchResults;
 
-			site->SearchPage(searchResults, KeyWord, NextPage);
+			site->SearchPage(searchResults, CurrentKeyWord, NextPage);
 			for (Resource& res : searchResults)
 			{
 				itemsToAdd.append(Result(res));

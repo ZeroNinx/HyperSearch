@@ -41,7 +41,7 @@ public slots:
     void terminateSearch();
 
     /** 多线程槽函数 */
-    void onResultListUpdate();
+    void onResultListUpdate(QMLListModel* Model);
     void onSearchHasNextPage(int SiteID, int NextPage);
 
 private:
@@ -60,5 +60,5 @@ private:
     QMLListModel* resultModel;
     
     /** 自定义 */
-    QString KeyWord;
+    QString CurrentKeyWord;
 };

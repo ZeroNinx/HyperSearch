@@ -91,7 +91,7 @@ void QMLListModel::DynamicAddItem(QMLListItem& Item)
 	listMutex.lock();
 	beginInsertRows(QModelIndex(), listObject->GetList().size(), listObject->GetList().size());
 	listObject->GetList().append(Item);
-	emit postEndAddItem();
+	emit postFinishAddItem(this);
 }
 
 void QMLListModel::DynamicAddItems(QVector<QMLListItem>& Items)
@@ -102,7 +102,7 @@ void QMLListModel::DynamicAddItems(QVector<QMLListItem>& Items)
 	listMutex.lock();
 	beginInsertRows(QModelIndex(), listObject->GetList().size(), listObject->GetList().size() + Items.size() - 1);
 	listObject->GetList().append(Items);
-	emit postEndAddItem();
+	emit postFinishAddItem(this);
 }
 
 void QMLListModel::FinishDynamicAddItem()

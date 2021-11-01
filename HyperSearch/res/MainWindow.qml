@@ -8,7 +8,6 @@ import "Module"
 import "./Module" as Module
 
 //主界面
-
 Window
 {
     id: window
@@ -27,8 +26,8 @@ Window
     {
         id: bgr_window
         anchors.fill: parent
-        color: "#555555"
-    }
+        color: "#444444"
+    }//背景
 
     //右区
     Item
@@ -39,6 +38,7 @@ Window
         anchors.bottom: bottomBarArea.top
         anchors.top: titleBarArea.bottom
 
+        //右区图片
         Image
         {
             id:bgr_rightArea
@@ -62,7 +62,6 @@ Window
             //项目显示条目
             delegate: Item
             {
-                x: 0
                 width:parent.width - x - 10
                 height: 55
 
@@ -71,8 +70,8 @@ Window
                     id: border_result_item
                     y: 5
                     height: parent.height - 2*y
-                    color: "#6F6F6F"
-                    border.color: "#444444"
+                    color: "#777777"
+                    border.color: "#333333"
                     border.width: 2
                     radius: 20
                     anchors.right: parent.right
@@ -263,7 +262,7 @@ Window
             model: mainWindow.resultModel
 
         }
-    }
+    }//右区
 
     //左区
     Item
@@ -285,7 +284,7 @@ Window
             horizontalOffset: 0
         }
 
-        //背景
+        //左区背景
         Rectangle
         {
             id: bgr_leftArea
@@ -294,7 +293,7 @@ Window
             height: 640
             color: "#555555"
             border.width: 0
-        }
+        }//左区背景
 
         //分类列表
         ListView
@@ -310,12 +309,13 @@ Window
             anchors.right: leftArea.right
             anchors.margins: 10
 
-            //显示条目
+            //分类列表显示条目
             delegate: Item
             {
                 width: parent.width
                 height: 60
 
+                //分类条目按钮
                 Module.ButtonArea
                 {
                     id: buttonArea
@@ -346,16 +346,16 @@ Window
                         mainWindow.search(textInput_searchBar.text, model.siteType)
                     }
 
-                }
+                }//分类条目按钮
 
-            }
+            }//分类列表显示条目
 
             //数据条目
             model: mainWindow.hostModel
 
-        }
+        }//分类列表
 
-        //搜索框
+        //搜索框区域
         Rectangle
         {
             id: searchArea
@@ -365,6 +365,7 @@ Window
             height: 60
             color: "#555555"
 
+            //搜索图标
             Image
             {
                 id:search_img
@@ -378,8 +379,9 @@ Window
                 source: "../Image/search.png"
                 opacity: 0.7
 
-            }
+            }//搜索图标
 
+            //搜索框
             Rectangle
             {
                 id: searchBar
@@ -397,24 +399,32 @@ Window
                 anchors.leftMargin: 10
                 border.width: 2
 
-                //文本框
+                //搜索提示文本
+                Text
+                {
+                    id: searchHint
+                    anchors.fill: parent
+                    anchors.leftMargin: 15
+                    anchors.rightMargin: 15
+                    text: qsTr("搜索...")
+                    color: "#555555"
+                    font.family: "微软雅黑"
+                    font.pixelSize: 16
+                    verticalAlignment: Text.AlignVCenter
+                }//搜索提示文本
+
+                //搜索输入框
                 TextInput
                 {
                     id: textInput_searchBar
-                    font.family: "微软雅黑"
-                    text: qsTr("搜索...")
-                    color: "#444444"
-                    anchors.right: parent.right
+                    anchors.fill: parent
                     anchors.rightMargin: 15
-                    anchors.bottom: parent.bottom
-                    anchors.top: parent.top
-                    anchors.left: parent.left
                     anchors.leftMargin: 15
-                    verticalAlignment: Text.AlignVCenter
+                    font.family: "微软雅黑"
                     font.pixelSize: 16
+                    verticalAlignment: Text.AlignVCenter
 
                     property bool isFocused: false
-                    property string search_text: qsTr("搜索...")
 
                     onAccepted:
                     {
@@ -427,20 +437,19 @@ Window
                         isFocused = !isFocused
                         if(!isFocused && text === "")
                         {
-                            color = "#777777"
-                            text = search_text
+                            searchHint.opacity = 1
                         }
 
-                        if(isFocused && text === search_text)
+                        if(isFocused)
                         {
-                            color = "#000000"
-                            text = ""
+                            searchHint.opacity = 0
                         }
-
                     }
-                }
-            }
-        }
+                }//搜索输入框
+
+            }//搜索框
+
+        }//搜索框区域
 
         //状态栏
         Rectangle
@@ -452,7 +461,7 @@ Window
             height: 40
             color: "#777777"
 
-            //文字
+            //状态栏文字
             Text
             {
                 id: stateBar
@@ -464,7 +473,7 @@ Window
                 anchors.left: parent.left
                 anchors.top: parent.top
                 font.family: "微软雅黑"
-                font.pixelSize: 16
+                font.pixelSize: 18
 
                 //信号槽链接
                 Connections
@@ -475,8 +484,9 @@ Window
                         stateBar.text = newText
                     }
                 }
-            }
+            }//状态栏文字
 
+            //搜索终止按钮
             Module.ButtonArea
             {
                 id:btn_terminateSearch
@@ -508,10 +518,12 @@ Window
                         stateBar.anchors.right = stateBarArea.right
                     }
                 }
-            }
 
-        }
-    }
+            }//搜索终止按钮
+
+        }//状态栏
+
+    }//左区
 
     //标题栏
     Item
@@ -523,12 +535,14 @@ Window
         anchors.left: parent.left
         anchors.right: parent.right
 
+        //标题栏背景
         Rectangle
         {
             id: bgr_titleBarArea
             color: "#66c0ff"
             anchors.fill: parent
 
+            //标题栏拖动区
             MouseArea
             {
                 anchors.fill: parent
@@ -556,8 +570,9 @@ Window
                         window.setY(window.y+delta.y)
                     }
                 }
-            }
+            }//标题栏拖动区
 
+            //标题文字
             Text
             {
                 id: titleBar
@@ -567,8 +582,8 @@ Window
                 text: qsTr("HyperSearch v0.1")
                 font.family: "微软雅黑"
                 font.pixelSize: 20
-            }
-        }
+            }//标题文字
+        }//标题栏背景
 
         //关闭按钮
         Module.ButtonArea
@@ -619,8 +634,8 @@ Window
             {
                 window.visibility = Window.Minimized
             }
-        }
-    }
+        }//最小化按钮
+    }//左区
 
     //底部栏
     Item
@@ -632,53 +647,103 @@ Window
         anchors.left: parent.left
         anchors.bottom: parent.bottom
 
-        Module.ButtonArea
+        //底部栏背景
+        Rectangle
         {
-            id: bottomBar
-            property bool isSecretMode: false
-            property int clickCount: 0
-            property string secretColor: "#ff96b6"
+            id:bgr_bottomBar
+            anchors.fill:parent
+            color: "#66c0ff"
 
-            anchors.fill: parent
-            color: isSecretMode? secretColor : "#66c0ff"
-            hoveredColor: secretColor
-
-            text: qsTr("你好！底部栏！")
-            fontSize: 16
-
-            function enableSecretMode()
+            //底部栏文字
+            Text
             {
-                isSecretMode = true
-                text = qsTr("特殊模式启动!")
-                bgr_titleBarArea.color =  "#ff96b6"
-                stateBar.text = qsTr("Surprise！")
-            }
+                id: bottomBar
+                anchors.fill: parent
+                text: qsTr("你好！底部栏！")
+                font.family: "微软雅黑"
+                font.pixelSize: 16
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
 
-            Keys.onPressed:
+            }//底部栏文字
+
+            //底部栏鼠标区
+            MouseArea
             {
-                if(event.key === Qt.Key_Q )
+                anchors.fill:parent
+                hoverEnabled: true
+
+                property bool isHovered: false
+                property bool isHiddenMode: false
+                property int clickCount: 0
+                property string hiddenColor: "#ff96b6"
+                anchors.rightMargin: 0
+                anchors.bottomMargin: 0
+                anchors.leftMargin: 0
+                anchors.topMargin: 0
+
+                function enableHiddenMode()
                 {
-                    enableSecretMode()
+                    isHiddenMode = true
+                    bottomBar.text = qsTr("特殊模式启动!")
+                    stateBar.text = qsTr("Surprise！")
+                    bgr_bottomBar.color = hiddenColor
+                    bgr_titleBarArea.color = hiddenColor
+                    mainWindow.enableHiddenMode()
                 }
-            }
 
-            onPressed:
-            {
-                focus = true
-
-                if(clickCount < 10)
+                onHoveredChanged:
                 {
+                    isHovered = !isHovered
+
+                    if(isHovered)
+                    {
+                        bgr_bottomBar.color = hiddenColor
+                        cursorShape = Qt.PointingHandCursor
+                    }
+                    else
+                    {
+                        if(!isHiddenMode)
+                        {
+                            bgr_bottomBar.color = "#66c0ff"
+                        }
+                        cursorShape = Qt.ArrowCursor
+                    }
+                }
+
+                Keys.onPressed:
+                {
+                    if(event.key === Qt.Key_Q && !isHiddenMode)
+                    {
+                        enableHiddenMode()
+                    }
+                }
+
+                onPressed:
+                {
+                    focus = true
                     clickCount++
-                    text = qsTr("你好！")
-                }
-                else if(clickCount == 10)
-                {
-                    enableSecretMode()
-                }
-            }
-        }
-    }
 
-}
+                    if(clickCount <= 2)
+                    {
+                        bottomBar.text = qsTr("你好！")
+                    }
+                    else if(clickCount <= 5)
+                    {
+                        bottomBar.text = qsTr("这里是超级底部栏！")
+                    }
+                    else if(clickCount == 10 && !isHiddenMode)
+                    {
+                        enableHiddenMode()
+                    }
+
+                }
+            }//底部栏鼠标区
+
+        }//底部栏背景
+
+    }//底部栏
+
+}//主界面
 
 

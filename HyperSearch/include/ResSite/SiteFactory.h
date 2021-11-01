@@ -53,13 +53,13 @@ namespace SiteFacory
 		switch (InSiteType)
 		{
 		case ResSiteType::ConsoleRomSite:
-			StartIndex = (int)ResSiteID::Begin_ConsoleRomSite;
-			EndIndex = (int)ResSiteID::End_ConsoleRomSite;
+			StartIndex = (int)ResSiteID::Begin_ConsoleRomSite + 1;
+			EndIndex = (int)ResSiteID::End_ConsoleRomSite - 1;
 			break;
 
 		case ResSiteType::TorrentSite:
-			StartIndex = (int)ResSiteID::Begin_TorrentSite;
-			EndIndex = (int)ResSiteID::End_TorrentSite;
+			StartIndex = (int)ResSiteID::Begin_TorrentSite + 1;
+			EndIndex = (int)ResSiteID::End_TorrentSite - 1;
 			break;
 
 		default:

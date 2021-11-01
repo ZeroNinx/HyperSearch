@@ -73,10 +73,8 @@ public:
 	
 	void Clear();
 
-
-
 signals:
-	void postEndAddItem();
+	void postFinishAddItem(QMLListModel* Model);
 
 private:
 	QMLListObject* listObject;

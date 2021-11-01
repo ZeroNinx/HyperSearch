@@ -125,7 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="resource1.h" />
     <QtMoc Include="include\ResSite.h" />
     <ClInclude Include="include\ResSite\ConsoleRomSite.h" />
     <ClInclude Include="include\ResSite\ConsoleRomSite\CoolRom.h" />
