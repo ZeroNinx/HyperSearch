@@ -14,6 +14,8 @@ MainWindow::MainWindow(QObject *parent)
 	 * 初始化基础列表
 	 */
 
+	SiteFacory::InitSiteInfo();
+
 	/** 网站列表 */
 	hostModel = new QMLListModel();
 	hostModel->SetTemplate(Host());
@@ -56,6 +58,15 @@ void MainWindow::SetResultModel(QMLListModel* InModel)
 }
 
 
+/** 自定义 */
+void MainWindow::ShowSearhResultHint()
+{
+	int ResultSum = resultModel->GetListObject()->GetList().size();
+	emit updateStateBarText(tr("搜索完成......找到结果：") + tr(to_string(ResultSum).c_str()));
+}
+
+
+/** 槽函数 */
 void MainWindow::copyText(QString KeyWord)
 {
 	QClipboard* clipboard = QGuiApplication::clipboard();
@@ -65,6 +76,8 @@ void MainWindow::copyText(QString KeyWord)
 void MainWindow::search(QString InKeyWord, int InSiteType)
 {
 	KeyWord = InKeyWord;
+	bShouldContinueSearch = true;
+	emit showTerminateButton();
 
 	//获取网站列表
 	int startID = 0, endID = 0;
@@ -84,10 +97,13 @@ void MainWindow::search(QString InKeyWord, int InSiteType)
 		
 		if (site)
 		{
+			SearchThreadCount++;
 			connect(site, &ResSite::postFoundNextPage, this, &MainWindow::onSearchHasNextPage );
 			auto asyncLoad = [=]()
 			{
 				std::this_thread::sleep_for(chrono::milliseconds(1000 * (siteID - startID)));
+				emit updateStateBarText(tr(site->Name.c_str()) + "搜索中(1)...");
+
 				QVector<QMLListItem> itemsToAdd;
 				QVector<Resource> searchResults;
 
@@ -97,10 +113,14 @@ void MainWindow::search(QString InKeyWord, int InSiteType)
 					itemsToAdd.append(Result(res));
 				}
 				resultModel->DynamicAddItems(itemsToAdd);
-
 				delete site;
-			};
 
+				this->SearchThreadCount--;
+				if (this->SearchThreadCount == 0)
+				{
+					ShowSearhResultHint();
+				}
+			};
 
 			std::thread thread(asyncLoad);
 			thread.detach();
@@ -118,6 +138,25 @@ void MainWindow::enableHiddenMode()
 	
 }
 
+void MainWindow::terminateSearch()
+{
+	bShouldContinueSearch = false;
+	emit updateStateBarText(tr("搜索终止......"));
+	emit hideTerminateButton();
+
+	auto showResult = [=]()
+	{
+		//两秒后显示结果
+		this_thread::sleep_for(std::chrono::milliseconds(2000));
+		ShowSearhResultHint();
+	};
+
+	std::thread thread(showResult);
+	thread.detach();
+}
+
+
+/** 多线程 */
 void MainWindow::onResultListUpdate()
 {
 	resultModel->FinishDynamicAddItem();
@@ -125,13 +164,23 @@ void MainWindow::onResultListUpdate()
 
 void MainWindow::onSearchHasNextPage(int InSiteID, int NextPage)
 {
-	auto asyncLoadNextPage = [=]()
+	ResSite* site = SiteFacory::GetSite((ResSiteID)InSiteID);
+	if (site)
 	{
-		std::this_thread::sleep_for(chrono::milliseconds(4000));
-		ResSite* site = SiteFacory::GetSite((ResSiteID)InSiteID);
-		connect(site, &ResSite::postFoundNextPage, this, &MainWindow::onSearchHasNextPage);
-		if (site)
+		SearchThreadCount++;
+		auto asyncLoadNextPage = [=]()
 		{
+			std::this_thread::sleep_for(chrono::milliseconds(SearchInterval));
+			if (!this->bShouldContinueSearch)
+			{
+				this->SearchThreadCount--;
+				return;
+			}
+
+			connect(site, &ResSite::postFoundNextPage, this, &MainWindow::onSearchHasNextPage);
+
+			emit updateStateBarText(tr(site->Name.c_str()) + "搜索中(" + tr(to_string(NextPage).c_str()) + ")...");
+
 			QVector<QMLListItem> itemsToAdd;
 			QVector<Resource> searchResults;
 
@@ -143,9 +192,16 @@ void MainWindow::onSearchHasNextPage(int InSiteID, int NextPage)
 			resultModel->DynamicAddItems(itemsToAdd);
 
 			delete site;
-		}
-	};
 
-	std::thread thread(asyncLoadNextPage);
-	thread.detach();
+			this->SearchThreadCount--;
+			if (this->SearchThreadCount == 0)
+			{
+				ShowSearhResultHint();
+			}
+
+		};
+
+		std::thread thread(asyncLoadNextPage);
+		thread.detach();
+	}
 }

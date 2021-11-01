@@ -456,12 +456,15 @@ Window
             Text
             {
                 id: stateBar
-                anchors.fill: parent
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment:  Text.AlignVCenter
                 text: qsTr("你好！状态栏！")
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                anchors.top: parent.top
                 font.family: "微软雅黑"
-                font.pixelSize: 18
+                font.pixelSize: 16
 
                 //信号槽链接
                 Connections
@@ -472,7 +475,41 @@ Window
                         stateBar.text = newText
                     }
                 }
-            }  
+            }
+
+            Module.ButtonArea
+            {
+                id:btn_terminateSearch
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 11
+                anchors.top: parent.top
+                anchors.topMargin: 11
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+                width: 0
+                color: "#FF6666"
+
+                onClicked:
+                {
+                    mainWindow.terminateSearch()
+                }
+
+                Connections
+                {
+                    target: mainWindow
+                    onShowTerminateButton:
+                    {
+                        btn_terminateSearch.width = btn_terminateSearch.height
+                        stateBar.anchors.right = btn_terminateSearch.left
+                    }
+                    onHideTerminateButton:
+                    {
+                        btn_terminateSearch.width = 0
+                        stateBar.anchors.right = stateBarArea.right
+                    }
+                }
+            }
+
         }
     }
 

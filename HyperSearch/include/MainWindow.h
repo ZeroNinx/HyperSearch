@@ -23,22 +23,37 @@ public:
 
 signals:
     
-    /** 更新状态栏文本 */
+    /** QML信号 */
     void updateStateBarText(QString newText);
+    void hideTerminateButton();
+    void showTerminateButton();
 
 public slots:
     
+    /** 自定义 */
+    void ShowSearhResultHint();
+
     /** QML槽函数 */
     void copyText(QString KeyWord);
     void search(QString KeyWord, int Site);
     void openUrl(QString Url);
     void enableHiddenMode();
+    void terminateSearch();
 
-    /** 多线程信号槽 */
+    /** 多线程槽函数 */
     void onResultListUpdate();
     void onSearchHasNextPage(int SiteID, int NextPage);
 
 private:
+
+    /** 同一网站，间隔5秒搜索一次，防止被夹 */
+    const int SearchInterval = 5000;
+
+    /** 搜索线程数 */
+    int SearchThreadCount = 0;
+
+    /** 是否继续搜索 */
+    bool bShouldContinueSearch = true;
 
     /** QML变量 */
     QMLListModel* hostModel;

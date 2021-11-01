@@ -73,7 +73,7 @@ signals:
 
 	void postFoundNextPage(int Site, int NextPage);
 
-protected:
+public:
 
 	std::string Name;
 	std::string Url;

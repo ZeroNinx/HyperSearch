@@ -12,6 +12,7 @@ void TorrentSite::BTSOW::Search(QVector<Resource>& Result, QString& KeyWord)
 
 void TorrentSite::BTSOW::SearchPage(QVector<Resource>& Result, QString& KeyWord, int Page)
 {
+
 	//建立连接
 	HttpsConn Btsow(Url);
 	Btsow.Build("/search/" + KeyWord.toStdString() + "/page/" + to_string(Page));

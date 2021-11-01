@@ -14,6 +14,7 @@ void RegistType()
 
 int main(int argc, char* argv[])
 {
+
 	RegistType();
 
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
