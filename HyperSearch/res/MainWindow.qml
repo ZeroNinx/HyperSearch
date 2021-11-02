@@ -708,7 +708,7 @@ Window
                 function enableHiddenMode()
                 {
                     isHiddenMode = true
-                    bottomBar.text = qsTr("特殊模式启动!")
+                    bottomBar.text = qsTr("隐藏模式启动!")
                     stateBar.text = qsTr("Surprise！")
                     bgr_bottomBar.color = hiddenColor
                     bgr_titleBarArea.color = hiddenColor

@@ -23,7 +23,7 @@ public:
 
 signals:
     
-    /** QML成员变量信号 */
+    /** QML成员变量NOTIFY信号 */
     void onHostModelChanged();
     void onResultModelChanged();
 
