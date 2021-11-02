@@ -7,8 +7,8 @@
 class MainWindow : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QMLListModel* hostModel READ GetHostModel WRITE SetHostModel)
-    Q_PROPERTY(QMLListModel* resultModel READ GetResultModel WRITE SetResultModel)
+    Q_PROPERTY(QMLListModel* hostModel READ GetHostModel WRITE SetHostModel NOTIFY onHostModelChanged)
+    Q_PROPERTY(QMLListModel* resultModel READ GetResultModel WRITE SetResultModel NOTIFY onResultModelChanged)
 
 public:
     explicit MainWindow(QObject *parent = Q_NULLPTR);
@@ -23,15 +23,16 @@ public:
 
 signals:
     
+    /** QML成员变量信号 */
+    void onHostModelChanged();
+    void onResultModelChanged();
+
     /** QML信号 */
     void updateStateBarText(QString newText);
     void hideTerminateButton();
     void showTerminateButton();
 
 public slots:
-    
-    /** 自定义 */
-    void ShowSearhResultHint();
 
     /** QML槽函数 */
     void copyText(QString KeyWord);
@@ -41,8 +42,13 @@ public slots:
     void terminateSearch();
 
     /** 多线程槽函数 */
-    void onResultListUpdate(QMLListModel* Model);
+    void onListModelUpdate(QMLListModel* Model);
     void onSearchHasNextPage(int SiteID, int NextPage);
+
+private:
+
+	/** 状态栏显示搜索完成 */
+	void ShowSearhResultHint();
 
 private:
  

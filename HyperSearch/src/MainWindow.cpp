@@ -24,8 +24,8 @@ MainWindow::MainWindow(QObject *parent)
 	resultModel->AddItem(Result(QStringLiteral("搜索Start!")));
 
 	/** 连接列表信号槽 */
-	connect(hostModel, &QMLListModel::postFinishAddItem, this, &MainWindow::onResultListUpdate);
-	connect(resultModel, &QMLListModel::postFinishAddItem, this, &MainWindow::onResultListUpdate);
+	connect(hostModel, &QMLListModel::postFinishAddItem, this, &MainWindow::onListModelUpdate);
+	connect(resultModel, &QMLListModel::postFinishAddItem, this, &MainWindow::onListModelUpdate);
 }
 
 /** 网站列表 */
@@ -162,7 +162,7 @@ void MainWindow::terminateSearch()
 
 
 /** 多线程 */
-void MainWindow::onResultListUpdate(QMLListModel* Model)
+void MainWindow::onListModelUpdate(QMLListModel* Model)
 {
 	Model->FinishDynamicAddItem();
 }

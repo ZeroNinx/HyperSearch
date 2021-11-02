@@ -229,12 +229,12 @@ Window
             }
 
             //滚动条
-            ScrollBar.vertical:
-            ScrollBar
+            ScrollBar.vertical: ScrollBar
             {
                 anchors.left: parent.right
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
                 width: 10
-                height: parent.height
                 active: true
 
                 //滚动条的背景样式
@@ -359,7 +359,7 @@ Window
         Rectangle
         {
             id: searchArea
-            anchors.top: titleBarArea.bottom
+            anchors.top: parent.top
             anchors.left: parent.left
             anchors.right: parent.right
             height: 60
@@ -398,6 +398,28 @@ Window
                 anchors.left: search_img.right
                 anchors.leftMargin: 10
                 border.width: 2
+
+                //搜索框鼠标响应
+                MouseArea
+                {
+                    anchors.fill: parent
+                    hoverEnabled: true
+
+                    property bool isHovered: false
+
+                    onHoveredChanged:
+                    {
+                        isHovered = ! isHovered
+                        if(isHovered)
+                        {
+                            cursorShape = Qt.IBeamCursor
+                        }
+                        else
+                        {
+                            cursorShape = Qt.ArrowCursor
+                        }
+                    }
+                }//搜索框鼠标响应
 
                 //搜索提示文本
                 Text
@@ -445,6 +467,7 @@ Window
                             searchHint.opacity = 0
                         }
                     }
+
                 }//搜索输入框
 
             }//搜索框
