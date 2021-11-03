@@ -108,11 +108,13 @@
     <ClCompile Include="src\HttpConn.cpp" />
     <ClCompile Include="src\MainWindow.cpp" />
     <ClCompile Include="src\QMLList.cpp" />
-    <ClCompile Include="src\ResSite.cpp" />
     <ClCompile Include="src\ResSite\ConsoleRomSite\CoolRom.cpp" />
     <ClCompile Include="src\ResSite\ConsoleRomSite\EdgeEmu.cpp" />
+    <ClCompile Include="src\ResSite\ResSite.cpp" />
     <ClCompile Include="src\ResSite\TorrentSite\BTSOW.cpp" />
     <ClCompile Include="src\ResSite\TorrentSite\SOBT.cpp" />
+    <ClCompile Include="src\SubscribeSite\Retroarch.cpp" />
+    <ClCompile Include="src\SubscribeSite\SubscribeSite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\MainWindow.h" />
@@ -124,8 +126,11 @@
     <None Include="res\MainWindow.qml" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="include\ResSite\ResSite.h" />
+    <ClInclude Include="include\SubscribeSite\Retroarch.h" />
+    <ClInclude Include="include\SubscribeSite\SubscribeFactory.h" />
+    <ClInclude Include="include\SubscribeSite\SubscribeSite.h" />
     <ClInclude Include="resource.h" />
-    <QtMoc Include="include\ResSite.h" />
     <ClInclude Include="include\ResSite\ConsoleRomSite.h" />
     <ClInclude Include="include\ResSite\ConsoleRomSite\CoolRom.h" />
     <ClInclude Include="include\ResSite\ConsoleRomSite\EdgeEmu.h" />

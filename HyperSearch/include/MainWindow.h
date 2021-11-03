@@ -1,7 +1,6 @@
 #pragma once
 #include <QObject>
 #include <QtQml/QtQml>
-#include <thread>
 #include "QMLList.h"
 
 class MainWindow : public QObject
@@ -50,6 +49,9 @@ private:
 
 	/** 状态栏显示搜索完成 */
 	void ShowSearhResultHint();
+
+    /** 程序启动自动运行 */
+    void RunTasksOnStartUp();
 
 private:
  

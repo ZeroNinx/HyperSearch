@@ -1,4 +1,4 @@
-#include "ResSite.h"
+#include "ResSite/ResSite.h"
 
 //资源
 Resource::Resource(std::string InText, std::string InPageUrl, std::string InDiskUrl, std::string InDownloadUrl, ResSiteID InSiteID)

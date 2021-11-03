@@ -39,6 +39,12 @@
     <Filter Include="Source Files\ResStie\TorrentSite">
       <UniqueIdentifier>{c1585f09-2a3f-4b89-809c-adfbb77d83a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\SubscribeSite">
+      <UniqueIdentifier>{12d1890a-d493-4089-b671-b645ff8c8f6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SubscribeSite">
+      <UniqueIdentifier>{044ddd1c-65b6-4a07-8060-63621075fda0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -53,9 +59,6 @@
     <ClCompile Include="src\HttpConn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ResSite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\ResSite\TorrentSite\BTSOW.cpp">
       <Filter>Source Files\ResStie\TorrentSite</Filter>
     </ClCompile>
@@ -68,6 +71,15 @@
     <ClCompile Include="src\ResSite\TorrentSite\SOBT.cpp">
       <Filter>Source Files\ResStie\TorrentSite</Filter>
     </ClCompile>
+    <ClCompile Include="src\SubscribeSite\Retroarch.cpp">
+      <Filter>Source Files\SubscribeSite</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SubscribeSite\SubscribeSite.cpp">
+      <Filter>Source Files\SubscribeSite</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResSite\ResSite.cpp">
+      <Filter>Source Files\ResStie</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\MainWindow.h">
@@ -76,8 +88,8 @@
     <QtMoc Include="include\QMLList.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="include\ResSite.h">
-      <Filter>Header Files</Filter>
+    <QtMoc Include="include\ResSite\ResSite.h">
+      <Filter>Header Files\ResSite</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +135,15 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SubscribeSite\Retroarch.h">
+      <Filter>Header Files\SubscribeSite</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SubscribeSite\SubscribeFactory.h">
+      <Filter>Header Files\SubscribeSite</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SubscribeSite\SubscribeSite.h">
+      <Filter>Header Files\SubscribeSite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

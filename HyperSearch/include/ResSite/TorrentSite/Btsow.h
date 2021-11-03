@@ -1,5 +1,5 @@
 #pragma once
-#include "ResSite.h"
+#include "ResSite/ResSite.h"
 
 namespace TorrentSite
 {

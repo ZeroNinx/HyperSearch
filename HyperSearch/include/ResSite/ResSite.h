@@ -58,7 +58,7 @@ class ResSite:public QObject
 	Q_OBJECT
 public:
 
-	explicit ResSite() {};
+	ResSite() {};
 	ResSite(
 		std::string Name= "",
 		std::string Url="",

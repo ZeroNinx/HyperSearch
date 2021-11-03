@@ -2,10 +2,12 @@
 #include <QDesktopServices>
 #include <QGuiApplication>
 #include <QClipboard>
+#include <thread>
 
 #include "MainWindow.h"
 #include "QMLListTypes.h"
 #include "ResSite/SiteFactory.h"
+#include "SubscribeSite/SubscribeFactory.h"
 
 /** 构造函数 */
 MainWindow::MainWindow(QObject *parent)
@@ -27,8 +29,16 @@ MainWindow::MainWindow(QObject *parent)
 	connect(hostModel, &QMLListModel::postFinishAddItem, this, &MainWindow::onListModelUpdate);
 	connect(resultModel, &QMLListModel::postFinishAddItem, this, &MainWindow::onListModelUpdate);
 
-	emit updateUpdateCheckBarText(tr("Hello"));
+	/** 运行自动任务 */
+	auto runAutoRask = [&]()
+	{
+		this_thread::sleep_for(chrono::milliseconds(1000));
+		RunTasksOnStartUp();
+	};
+	std::thread taskThread(runAutoRask);
+	taskThread.detach();
 }
+
 
 /** 网站列表 */
 QMLListModel* MainWindow::GetHostModel()
@@ -37,11 +47,14 @@ QMLListModel* MainWindow::GetHostModel()
 }
 void MainWindow::SetHostModel(QMLListModel* InModel)
 {
-	if(hostModel)
+	if (hostModel)
+	{
 		hostModel->disconnect(this);
+	}
 
 	hostModel = InModel;
 }
+
 
 /** 结果列表 */
 QMLListModel* MainWindow::GetResultModel()
@@ -51,7 +64,9 @@ QMLListModel* MainWindow::GetResultModel()
 void MainWindow::SetResultModel(QMLListModel* InModel)
 {
 	if (resultModel)
+	{
 		resultModel->disconnect(this);
+	}
 
 	resultModel = InModel;
 }
@@ -63,6 +78,11 @@ void MainWindow::ShowSearhResultHint()
 	int ResultSum = resultModel->GetListObject()->GetList().size();
 	emit hideTerminateButton();
 	emit updateStateBarText(tr("搜索完成！共找到记录：") + tr(to_string(ResultSum).c_str()));
+}
+
+void MainWindow::RunTasksOnStartUp()
+{
+	emit updateUpdateCheckBarText(tr("等待更新"));
 }
 
 
@@ -107,7 +127,7 @@ void MainWindow::search(QString InKeyWord, int InSiteType)
 		{
 			SearchThreadCount++;
 			connect(site, &ResSite::postFoundNextPage, this, &MainWindow::onSearchHasNextPage );
-			auto asyncLoad = [=]()
+			auto asyncSearch = [=]()
 			{
 				std::this_thread::sleep_for(chrono::milliseconds(1000 * (siteID - startID)));
 				emit updateStateBarText(tr(site->Name.c_str()) + "搜索中(1)...");
@@ -130,8 +150,8 @@ void MainWindow::search(QString InKeyWord, int InSiteType)
 				}
 			};
 
-			std::thread thread(asyncLoad);
-			thread.detach();
+			std::thread searchThread(asyncSearch);
+			searchThread.detach();
 		}
 	}
 }
@@ -208,7 +228,7 @@ void MainWindow::onSearchHasNextPage(int InSiteID, int NextPage)
 
 		};
 
-		std::thread thread(asyncLoadNextPage);
-		thread.detach();
+		std::thread loadThread(asyncLoadNextPage);
+		loadThread.detach();
 	}
 }

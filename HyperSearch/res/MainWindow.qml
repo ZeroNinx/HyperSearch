@@ -304,7 +304,7 @@ Window
             anchors.leftMargin: 12
             anchors.topMargin: 12
             anchors.top: searchArea.bottom
-            anchors.bottom: stateBarArea.top
+            anchors.bottom: updateCheckBar.top
             anchors.left: leftArea.left
             anchors.right: leftArea.right
             anchors.margins: 10
@@ -482,8 +482,9 @@ Window
             anchors.right: parent.right
             anchors.left: parent.left
             anchors.bottom: stateBarArea.top
-            height: 30
-            color: "#676767"
+            height: 40
+            color: "#626262"
+            fontSize: 18
 
             Connections
             {

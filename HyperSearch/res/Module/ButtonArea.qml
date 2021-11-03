@@ -13,6 +13,10 @@ MouseArea
     property int radius: 0
     property int borderWidth: 0
     property string borderColor: ""
+    function setColor(newColor)
+    {
+        background.color = newColor
+    }
 
     //图片
     property string imageSource: ""
@@ -21,6 +25,10 @@ MouseArea
     property int imageRightPadding: 0
     property int imageTopPadding: 0
     property int imageBottomPadding: 0
+    function setImage(newImagePath)
+    {
+        image.source = newImagePath
+    }
 
     //文字
     property string text: ""

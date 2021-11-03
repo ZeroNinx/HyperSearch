@@ -1,5 +1,5 @@
 #include "QMLList.h"
-#include "ResSite.h"
+#include "ResSite/ResSite.h"
 #include "ResSite/SiteFactory.h"
 
 //网站类
