@@ -28,6 +28,7 @@ signals:
     void onResultModelChanged();
 
     /** QML信号 */
+    void updateUpdateCheckBarText(QString newText);
     void updateStateBarText(QString newText);
     void hideTerminateButton();
     void showTerminateButton();

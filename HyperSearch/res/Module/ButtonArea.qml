@@ -28,6 +28,11 @@ MouseArea
     property string fontFamily: "微软雅黑"
     property bool fontBold: false
     property int fontSize: 10
+    function setText(newText)
+    {
+        content.text = newText
+    }
+
 
     hoverEnabled: true
 

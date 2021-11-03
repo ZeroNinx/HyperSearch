@@ -474,6 +474,28 @@ Window
 
         }//搜索框区域
 
+
+        //常用状态栏
+        Module.ButtonArea
+        {
+            id: updateCheckBar
+            anchors.right: parent.right
+            anchors.left: parent.left
+            anchors.bottom: stateBarArea.top
+            height: 30
+            color: "#676767"
+
+            Connections
+            {
+                target:mainWindow
+                onUpdateUpdateCheckBarText:
+                {
+                    updateCheckBar.setText(newText)
+                }
+            }
+
+        }//常用状态栏
+
         //状态栏
         Rectangle
         {

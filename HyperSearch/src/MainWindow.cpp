@@ -26,6 +26,8 @@ MainWindow::MainWindow(QObject *parent)
 	/** 连接列表信号槽 */
 	connect(hostModel, &QMLListModel::postFinishAddItem, this, &MainWindow::onListModelUpdate);
 	connect(resultModel, &QMLListModel::postFinishAddItem, this, &MainWindow::onListModelUpdate);
+
+	emit updateUpdateCheckBarText(tr("Hello"));
 }
 
 /** 网站列表 */
