@@ -8,7 +8,7 @@ namespace ToolBox
 {
 
 	//字符串裁剪
-	inline std::string CutString(const std::string& Str, const char* Start, const char* End)
+	inline std::string CutString(const std::string& Str, const char* Start = nullptr, const char* End = nullptr)
 	{
 		if (Start)
 		{

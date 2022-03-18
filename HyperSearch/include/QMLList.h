@@ -62,13 +62,13 @@ public:
 	void SetListObject(QMLListObject* InList);
 
 	//多线程
-	void DynamicAddItem(QMLListItem& Item);
+	void DynamicAddItem(QMLListItem&& Item);
 	void DynamicAddItems(QVector<QMLListItem>& Items);
 	void FinishDynamicAddItem();
 
 	/** 自定义 */
 	void SetTemplate(QMLListItem Template);
-	void AddItem(QMLListItem& Item);
+	void AddItem(QMLListItem&& Item);
 	void AddItems(QVector<QMLListItem>& Items);
 	
 	void Clear();

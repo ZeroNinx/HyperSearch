@@ -25,10 +25,10 @@ void ConsoleRomSite::CoolRom::Search(QVector<Resource>& Result, QString& KeyWord
 		//生成结果
 		for (; pos != end; ++pos)
 		{
-			string& all = pos->str(0);
-			string& platform = pos->str(1);
-			string& url = pos->str(2);
-			string& name = pos->str(3);
+			string&& all = pos->str(0);
+			string&& platform = pos->str(1);
+			string&& url = pos->str(2);
+			string&& name = pos->str(3);
 
 			string fullname = "[" + platform + "] " + name;
 			string pageUrl = "https://coolrom.com.au" + url;

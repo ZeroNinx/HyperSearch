@@ -44,7 +44,7 @@ public:
 		
 	}
 
-	Result(QString& Text, QString& PageUrl = QString(""), QString& DiskUrl = QString(""), QString& DownloadUrl = QString(""), ResSiteID SiteID = ResSiteID::None)
+	Result(QString&& Text, QString&& PageUrl = QString(""), QString&& DiskUrl = QString(""), QString&& DownloadUrl = QString(""), ResSiteID SiteID = ResSiteID::None)
 	{
 		roleProperty[TextRole] = Text;
 		roleProperty[PageUrlRole] = PageUrl;

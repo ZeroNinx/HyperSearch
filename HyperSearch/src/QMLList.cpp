@@ -86,7 +86,7 @@ void QMLListModel::SetListObject(QMLListObject* InList)
 	listObject = InList;
 }
 
-void QMLListModel::DynamicAddItem(QMLListItem& Item)
+void QMLListModel::DynamicAddItem(QMLListItem&& Item)
 {
 	listMutex.lock();
 	beginInsertRows(QModelIndex(), listObject->GetList().size(), listObject->GetList().size());
@@ -116,7 +116,7 @@ void QMLListModel::SetTemplate(QMLListItem Template)
 	GetListObject()->SetTemplate(Template);
 }
 
-void QMLListModel::AddItem(QMLListItem& Item)
+void QMLListModel::AddItem(QMLListItem&& Item)
 {
 	beginInsertRows(QModelIndex(), listObject->GetList().size(), listObject->GetList().size());
 	listObject->GetList().append(Item);

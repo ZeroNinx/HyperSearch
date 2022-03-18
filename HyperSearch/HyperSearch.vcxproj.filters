@@ -133,9 +133,6 @@
     <ClInclude Include="include\ResSite\TorrentSite\SOBT.h">
       <Filter>Header Files\ResSite\TorrentSite</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\SubscribeSite\Retroarch.h">
       <Filter>Header Files\SubscribeSite</Filter>
     </ClInclude>
@@ -152,7 +149,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icon.ico">
+    <Image Include="res\Icon\icon.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

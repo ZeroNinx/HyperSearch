@@ -26,7 +26,9 @@ MainWindow::MainWindow(QObject *parent)
 	resultModel->AddItem(Result(QStringLiteral("搜索Start!")));
 
 	/** 连接列表信号槽 */
+	disconnect(hostModel, &QMLListModel::postFinishAddItem, this, &MainWindow::onListModelUpdate);
 	connect(hostModel, &QMLListModel::postFinishAddItem, this, &MainWindow::onListModelUpdate);
+	disconnect(resultModel, &QMLListModel::postFinishAddItem, this, &MainWindow::onListModelUpdate);
 	connect(resultModel, &QMLListModel::postFinishAddItem, this, &MainWindow::onListModelUpdate);
 
 	/** 运行自动任务 */
@@ -126,6 +128,7 @@ void MainWindow::search(QString InKeyWord, int InSiteType)
 		if (site)
 		{
 			SearchThreadCount++;
+			disconnect(site, &ResSite::postFoundNextPage, this, &MainWindow::onSearchHasNextPage);
 			connect(site, &ResSite::postFoundNextPage, this, &MainWindow::onSearchHasNextPage );
 			auto asyncSearch = [=]()
 			{
@@ -141,7 +144,6 @@ void MainWindow::search(QString InKeyWord, int InSiteType)
 					itemsToAdd.append(Result(res));
 				}
 				resultModel->DynamicAddItems(itemsToAdd);
-				delete site;
 
 				this->SearchThreadCount--;
 				if (this->SearchThreadCount == 0)
@@ -204,6 +206,7 @@ void MainWindow::onSearchHasNextPage(int InSiteID, int NextPage)
 				return;
 			}
 
+			disconnect(site, &ResSite::postFoundNextPage, this, &MainWindow::onSearchHasNextPage);
 			connect(site, &ResSite::postFoundNextPage, this, &MainWindow::onSearchHasNextPage);
 
 			emit updateStateBarText(tr(site->Name.c_str()) + "搜索中(" + tr(to_string(NextPage).c_str()) + ")...");
@@ -217,8 +220,6 @@ void MainWindow::onSearchHasNextPage(int InSiteID, int NextPage)
 				itemsToAdd.append(Result(res));
 			}
 			resultModel->DynamicAddItems(itemsToAdd);
-
-			delete site;
 
 			this->SearchThreadCount--;
 			if (this->SearchThreadCount == 0)

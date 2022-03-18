@@ -13,6 +13,8 @@ namespace SiteFacory
 		QString IconPath;
 	};
 
+
+
 	static std::unordered_map<ResSiteID, SiteInfo> SiteMap;
 
 	static void InitSiteInfo()
@@ -23,18 +25,24 @@ namespace SiteFacory
 		SiteMap[ResSiteID::TorrentSite_SOBT]		=	{ QString("../Icon/SOBT.ico") };
 	}
 
-	//根据ID取得网站
+	//根据ID取得网站（单例模式）
+
+	EdgeEmu* edgeEmu = new EdgeEmu();
+	CoolRom* coolRom = new CoolRom();
+	BTSOW* btsow = new BTSOW();
+	SOBT* sobt = new SOBT();
+
 	inline ResSite* GetSite(ResSiteID InSiteID)
 	{
 		switch (InSiteID)
 		{
-		case ResSiteID::ConsoleRomSite_EdgeEmu: return new EdgeEmu();
+		case ResSiteID::ConsoleRomSite_EdgeEmu: return edgeEmu;
 
-		case ResSiteID::ConsoleRomSite_CoolRom: return new CoolRom();
+		case ResSiteID::ConsoleRomSite_CoolRom: return coolRom;
 
-		case ResSiteID::TorrentSite_BTSOW: return new BTSOW();
+		case ResSiteID::TorrentSite_BTSOW: return btsow;
 
-		case ResSiteID::TorrentSite_SOBT: return new SOBT();
+		case ResSiteID::TorrentSite_SOBT: return sobt;
 
 		default: return nullptr;
 		}

@@ -24,13 +24,14 @@ void TorrentSite::BTSOW::SearchPage(QVector<Resource>& Result, QString& KeyWord,
 	if (str.size())
 	{
 		regex r("<a href=\"//btsow.rest/magnet/detail/hash/([^\"]+)\".*title=\"([^\"]+)\">");
-		sregex_iterator pos = sregex_iterator(str.begin(), str.end(), r);
+		sregex_iterator pos = sregex_iterator(str.cbegin(), str.cend(), r);
 		sregex_iterator end;
+		
 		for (; pos != end; ++pos)
 		{
-			string& all = pos->str(0);
-			string& hash = pos->str(1);
-			string& name = pos->str(2);
+			string&& all = pos->str(0);
+			string&& hash = pos->str(1);
+			string&& name = pos->str(2);
 
 			Result.push_back(Resource(name, "https://" + Url + "/magnet/detail/hash/" + hash, "", TorrentHeader + hash, SiteID));
 		}

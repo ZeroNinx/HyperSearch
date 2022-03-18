@@ -74,7 +74,8 @@
       <AdditionalOptions>/NODEFAULTLIB:msvcrt.lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <QtRcc>
-      <AdditionalOptions>RC_FILE = HyperSearch.rc</AdditionalOptions>
+      <AdditionalOptions>
+      </AdditionalOptions>
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
@@ -130,7 +131,6 @@
     <ClInclude Include="include\SubscribeSite\Retroarch.h" />
     <ClInclude Include="include\SubscribeSite\SubscribeFactory.h" />
     <ClInclude Include="include\SubscribeSite\SubscribeSite.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="include\ResSite\ConsoleRomSite.h" />
     <ClInclude Include="include\ResSite\ConsoleRomSite\CoolRom.h" />
     <ClInclude Include="include\ResSite\ConsoleRomSite\EdgeEmu.h" />
@@ -147,7 +147,7 @@
     <ResourceCompile Include="HyperSearch.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icon.ico" />
+    <Image Include="res\Icon\icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
