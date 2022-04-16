@@ -154,20 +154,18 @@ Window
                         color: "#44DC44"
                         radius: 4
 
-                        imageSource: "../Image/cloud-download.png"
+                        imageSource: "../Image/clip-board.png"
                         imagePadding: 5
 
                         onClicked:
                         {
-                            mainWindow.openUrl(model.diskUrl)
+                            mainWindow.copyText(model.downloadUrl)
+                            bottomBar.text = "已复制链接！"
                         }
 
                         Component.onCompleted:
                         {
-                            if(model.diskUrl === "")
-                            {
-                                width = 0
-                            }
+
                         }
                     }
 

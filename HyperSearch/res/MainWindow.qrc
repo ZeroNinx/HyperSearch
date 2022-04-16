@@ -12,5 +12,6 @@
         <file>Icon/SOBT.ico</file>
         <file>Icon/icon.ico</file>
         <file>Image/search.png</file>
+        <file>Image/clip-board.png</file>
     </qresource>
 </RCC>
