@@ -43,11 +43,10 @@ class Resource
 {
 public:
 
-	Resource(std::string Text, std::string PageUrl = "", std::string DiskUrl = "", std::string DownloadUrl = "", ResSiteID ID = ResSiteID::None);
+	Resource(std::string Text, std::string PageUrl = "", std::string DownloadUrl = "", ResSiteID ID = ResSiteID::None);
 
 	std::string Text;
 	std::string PageUrl;
-	std::string DiskUrl;
 	std::string DownloadUrl;
 	ResSiteID SiteID;
 };

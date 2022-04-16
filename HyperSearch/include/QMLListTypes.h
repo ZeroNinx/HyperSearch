@@ -34,21 +34,19 @@ public:
 	{
 		roleNames[TextRole] = "text";
 		roleNames[PageUrlRole] = "pageUrl";
-		roleNames[DiskUrlRole] = "diskUrl";
 		roleNames[DownloadUrlRole] = "downloadUrl";
 		roleNames[SiteIconRole] = "siteIcon";
 	}
 
-	Result(Resource& InResource):Result(QString(InResource.Text.c_str()), QString(InResource.PageUrl.c_str()), QString(InResource.DiskUrl.c_str()), QString(InResource.DownloadUrl.c_str()), InResource.SiteID)
+	Result(Resource& InResource):Result(QString(InResource.Text.c_str()), QString(InResource.PageUrl.c_str()), QString(InResource.DownloadUrl.c_str()), InResource.SiteID)
 	{
 		
 	}
 
-	Result(QString&& Text, QString&& PageUrl = QString(""), QString&& DiskUrl = QString(""), QString&& DownloadUrl = QString(""), ResSiteID SiteID = ResSiteID::None)
+	Result(QString&& Text, QString&& PageUrl = QString(""), QString&& DownloadUrl = QString(""), ResSiteID SiteID = ResSiteID::None)
 	{
 		roleProperty[TextRole] = Text;
 		roleProperty[PageUrlRole] = PageUrl;
-		roleProperty[DiskUrlRole] = DiskUrl;
 		roleProperty[DownloadUrlRole] = DownloadUrl;
 		roleProperty[SiteIconRole] = SiteFacory::GetSiteIcon(SiteID);
 	}
@@ -57,7 +55,6 @@ public:
 	{
 		TextRole = Qt::UserRole + 1,
 		PageUrlRole,
-		DiskUrlRole,
 		DownloadUrlRole,
 		SiteIconRole
 	};

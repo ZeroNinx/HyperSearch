@@ -35,7 +35,7 @@ void ConsoleRomSite::EdgeEmu::Search(QVector<Resource>& Result, QString& KeyWord
 			string pageurl = "https://edgeemu.net/" + url;
 			string downloadurl = "https://edgeemu.net/down.php?id=" + ToolBox::CutString(url, "details-", ".htm");
 
-			Result.push_back(Resource(fullname, pageurl, "", downloadurl, SiteID));
+			Result.push_back(Resource(fullname, pageurl, downloadurl, SiteID));
 		}
 	}
 }

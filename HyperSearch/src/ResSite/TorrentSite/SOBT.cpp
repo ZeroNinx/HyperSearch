@@ -45,7 +45,7 @@ void TorrentSite::SOBT::SearchPage(QVector<Resource>& Result, QString& KeyWord, 
 				name.replace(name.find("<em>"), 4, "");
 				name.replace(name.find("</em>"), 5, "");
 			}
-			Result.push_back(Resource(name, "http://" + Url + "/torrent/" + hash + ".html", "", TorrentHeader + hash, SiteID));
+			Result.push_back(Resource(name, "http://" + Url + "/torrent/" + hash + ".html", TorrentHeader + hash, SiteID));
 		}
 	}
 

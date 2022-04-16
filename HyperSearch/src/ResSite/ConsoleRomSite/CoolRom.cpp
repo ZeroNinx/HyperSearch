@@ -33,7 +33,7 @@ void ConsoleRomSite::CoolRom::Search(QVector<Resource>& Result, QString& KeyWord
 			string fullname = "[" + platform + "] " + name;
 			string pageUrl = "https://coolrom.com.au" + url;
 
-			Result.push_back(Resource(fullname, pageUrl, "", "", SiteID));
+			Result.push_back(Resource(fullname, pageUrl, "", SiteID));
 		}
 	}
 }

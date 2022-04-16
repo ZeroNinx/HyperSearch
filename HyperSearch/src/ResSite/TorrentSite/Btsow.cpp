@@ -33,7 +33,7 @@ void TorrentSite::BTSOW::SearchPage(QVector<Resource>& Result, QString& KeyWord,
 			string&& hash = pos->str(1);
 			string&& name = pos->str(2);
 
-			Result.push_back(Resource(name, "https://" + Url + "/magnet/detail/hash/" + hash, "", TorrentHeader + hash, SiteID));
+			Result.push_back(Resource(name, "https://" + Url + "/magnet/detail/hash/" + hash, TorrentHeader + hash, SiteID));
 		}
 	}
 
