@@ -165,7 +165,10 @@ Window
 
                         Component.onCompleted:
                         {
-
+                            if(model.downloadUrl === "")
+                            {
+                                width = 0
+                            }
                         }
                     }
 
