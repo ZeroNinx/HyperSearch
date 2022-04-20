@@ -59,11 +59,13 @@ class ResSite:public QObject
 public:
 
 	ResSite() {};
-	ResSite(
+	ResSite
+	(
 		std::string Name= "",
 		std::string Url="",
 		ResSiteType SiteType=ResSiteType::None,
-		ResSiteID SiteID = ResSiteID::None);
+		ResSiteID SiteID = ResSiteID::None
+	);
 
 	virtual void Search(QVector<Resource>& Result, QString& KeyWord);
 

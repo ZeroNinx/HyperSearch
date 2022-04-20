@@ -1,6 +1,6 @@
 #include "ResSite/TorrentSite/TorrentKitty.h"
 
-TorrentSite::TorrentKitty::TorrentKitty() :ResSite("TorrentKitty", "cn.torrentkitty.live", ResSiteType::TorrentSite, ResSiteID::TorrentSite_TorrentKitty)
+TorrentSite::TorrentKitty::TorrentKitty() :ResSite("TorrentKitty", "torrentkitty.live", ResSiteType::TorrentSite, ResSiteID::TorrentSite_TorrentKitty)
 {
 
 }
@@ -13,7 +13,7 @@ void TorrentSite::TorrentKitty::Search(QVector<Resource>& Result, QString& KeyWo
 void TorrentSite::TorrentKitty::SearchPage(QVector<Resource>& Result, QString& KeyWord, int Page)
 {
 	//搜索链接
-	HttpConn conn(Url);
+	HttpsConn conn(Url);
 	conn.Build("/search/" + KeyWord.toStdString() + "/" + to_string(Page), verb::get);
 	conn.Request.set(http::field::user_agent, UA_CHROME);
 	conn.Connect();
@@ -35,7 +35,7 @@ void TorrentSite::TorrentKitty::SearchPage(QVector<Resource>& Result, QString& K
 			string&& name = pos->str(2);
 			string&& download_link = pos->str(3);
 
-			Result.push_back(Resource(name, "http://" + Url + "/information/" + hash, download_link, SiteID));
+			Result.push_back(Resource(name, "https://" + Url + "/information/" + hash, download_link, SiteID));
 		}
 	}
 

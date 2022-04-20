@@ -8,55 +8,48 @@ using namespace TorrentSite;
 
 namespace SiteFacory
 {
+	//网站信息结构体
 	struct SiteInfo
 	{
-		QString IconPath;
+		ResSite* SiteInstance;	//网站实例指针，确保网站是单例模式
+		QString IconPath;		//网站图标
 	};
 
-
-
+	//网站ID和网站信息的映射表
 	static std::unordered_map<ResSiteID, SiteInfo> SiteMap;
 
+	// 初始化网站图标和实例
 	static void InitSiteInfo()
 	{
-		SiteMap[ResSiteID::ConsoleRomSite_EdgeEmu]		=	{ QString("../Icon/EdgeEmu.ico") };
-		SiteMap[ResSiteID::ConsoleRomSite_CoolRom]		=	{ QString("../Icon/CoolRom.ico") };
-		SiteMap[ResSiteID::TorrentSite_BTSOW]			=	{ QString("../Icon/BTSOW.ico") };
-		SiteMap[ResSiteID::TorrentSite_TorrentKitty]	=	{ QString("../Icon/TorrentKitty.ico") };
-		SiteMap[ResSiteID::TorrentSite_SOBT]			=	{ QString("../Icon/SOBT.ico") };
+		SiteMap[ResSiteID::ConsoleRomSite_EdgeEmu]		= { new EdgeEmu(),		QString("../Icon/EdgeEmu.ico") };
+		SiteMap[ResSiteID::ConsoleRomSite_CoolRom]		= { new CoolRom(),		QString("../Icon/CoolRom.ico") };
+		SiteMap[ResSiteID::TorrentSite_BTSOW]			= { new BTSOW(),		QString("../Icon/BTSOW.ico") };
+		SiteMap[ResSiteID::TorrentSite_TorrentKitty]	= { new TorrentKitty(), QString("../Icon/TorrentKitty.ico") };
+		SiteMap[ResSiteID::TorrentSite_SOBT]			= { new SOBT(),			QString("../Icon/SOBT.ico") };
 	}
 
-	//根据ID取得网站（单例模式）
-
-	EdgeEmu* edgeEmu = new EdgeEmu();
-	CoolRom* coolRom = new CoolRom();
-	BTSOW* btsow = new BTSOW();
-	TorrentKitty* torrentKitty = new TorrentKitty();
-	SOBT* sobt = new SOBT();
-
-	inline ResSite* GetSite(ResSiteID InSiteID)
+	inline ResSite* GetSite(ResSiteID SiteID)
 	{
-		switch (InSiteID)
+		if (SiteMap.find(SiteID) != SiteMap.cend())
 		{
-		case ResSiteID::ConsoleRomSite_EdgeEmu:		return edgeEmu;
-
-		case ResSiteID::ConsoleRomSite_CoolRom:		return coolRom;
-
-		case ResSiteID::TorrentSite_BTSOW:			return btsow;
-
-		case ResSiteID::TorrentSite_TorrentKitty:	return torrentKitty;
-
-		case ResSiteID::TorrentSite_SOBT:			return sobt;
-
-		default: return nullptr;
+			return SiteMap[SiteID].SiteInstance;
+		}
+		else
+		{
+			return nullptr;
 		}
 	}
 
 	inline QString GetSiteIcon(ResSiteID InSiteID)
 	{
 		if (SiteMap.find(InSiteID) != SiteMap.end())
+		{
 			return SiteMap[InSiteID].IconPath;
-		return QString();
+		}
+		else
+		{
+			return QString();
+		}
 	}
 
 	//搜索某类的所有网站
