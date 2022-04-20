@@ -13,5 +13,6 @@
         <file>Icon/icon.ico</file>
         <file>Image/search.png</file>
         <file>Image/clip-board.png</file>
+        <file>Icon/TorrentKitty.ico</file>
     </qresource>
 </RCC>

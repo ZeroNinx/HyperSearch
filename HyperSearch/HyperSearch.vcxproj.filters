@@ -80,6 +80,9 @@
     <ClCompile Include="src\ResSite\ResSite.cpp">
       <Filter>Source Files\ResStie</Filter>
     </ClCompile>
+    <ClCompile Include="src\ResSite\TorrentSite\TorrentKitty.cpp">
+      <Filter>Source Files\ResStie\TorrentSite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\MainWindow.h">
@@ -141,6 +144,9 @@
     </ClInclude>
     <ClInclude Include="include\SubscribeSite\SubscribeSite.h">
       <Filter>Header Files\SubscribeSite</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ResSite\TorrentSite\TorrentKitty.h">
+      <Filter>Header Files\ResSite\TorrentSite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

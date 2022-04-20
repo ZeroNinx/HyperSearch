@@ -19,10 +19,11 @@ namespace SiteFacory
 
 	static void InitSiteInfo()
 	{
-		SiteMap[ResSiteID::ConsoleRomSite_EdgeEmu]	=	{ QString("../Icon/EdgeEmu.ico") };
-		SiteMap[ResSiteID::ConsoleRomSite_CoolRom]	=	{ QString("../Icon/CoolRom.ico") };
-		SiteMap[ResSiteID::TorrentSite_BTSOW]		=	{ QString("../Icon/BTSOW.ico") };
-		SiteMap[ResSiteID::TorrentSite_SOBT]		=	{ QString("../Icon/SOBT.ico") };
+		SiteMap[ResSiteID::ConsoleRomSite_EdgeEmu]		=	{ QString("../Icon/EdgeEmu.ico") };
+		SiteMap[ResSiteID::ConsoleRomSite_CoolRom]		=	{ QString("../Icon/CoolRom.ico") };
+		SiteMap[ResSiteID::TorrentSite_BTSOW]			=	{ QString("../Icon/BTSOW.ico") };
+		SiteMap[ResSiteID::TorrentSite_TorrentKitty]	=	{ QString("../Icon/TorrentKitty.ico") };
+		SiteMap[ResSiteID::TorrentSite_SOBT]			=	{ QString("../Icon/SOBT.ico") };
 	}
 
 	//根据ID取得网站（单例模式）
@@ -30,19 +31,22 @@ namespace SiteFacory
 	EdgeEmu* edgeEmu = new EdgeEmu();
 	CoolRom* coolRom = new CoolRom();
 	BTSOW* btsow = new BTSOW();
+	TorrentKitty* torrentKitty = new TorrentKitty();
 	SOBT* sobt = new SOBT();
 
 	inline ResSite* GetSite(ResSiteID InSiteID)
 	{
 		switch (InSiteID)
 		{
-		case ResSiteID::ConsoleRomSite_EdgeEmu: return edgeEmu;
+		case ResSiteID::ConsoleRomSite_EdgeEmu:		return edgeEmu;
 
-		case ResSiteID::ConsoleRomSite_CoolRom: return coolRom;
+		case ResSiteID::ConsoleRomSite_CoolRom:		return coolRom;
 
-		case ResSiteID::TorrentSite_BTSOW: return btsow;
+		case ResSiteID::TorrentSite_BTSOW:			return btsow;
 
-		case ResSiteID::TorrentSite_SOBT: return sobt;
+		case ResSiteID::TorrentSite_TorrentKitty:	return torrentKitty;
+
+		case ResSiteID::TorrentSite_SOBT:			return sobt;
 
 		default: return nullptr;
 		}

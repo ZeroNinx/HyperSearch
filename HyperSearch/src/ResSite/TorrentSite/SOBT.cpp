@@ -51,7 +51,7 @@ void TorrentSite::SOBT::SearchPage(QVector<Resource>& Result, QString& KeyWord, 
 
 	//检查下一页
 	str = ToolBox::CutString(conn.GetResponseBody(), "<ul class=\"pagination\">", "<div class=\"search-tips");
-	regex e("<li class=\"nextpage\"><a href=\".+page=([^\"]+)\">&raquo;</a></li>");
+	regex e("<li class=\"nextpage\"><a href=\".+page=([0-9]+)\">&raquo;</a></li>");
 	smatch m;
 	bool found = regex_search(str, m, e);
 	if (found)

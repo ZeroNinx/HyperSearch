@@ -28,6 +28,7 @@ enum class ResSiteID : int
 	Begin_TorrentSite,
 	TorrentSite_BTSOW,
 	TorrentSite_SOBT,
+	TorrentSite_TorrentKitty,
 	End_TorrentSite
 };
 

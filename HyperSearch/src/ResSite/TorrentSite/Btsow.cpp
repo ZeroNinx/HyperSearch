@@ -39,7 +39,7 @@ void TorrentSite::BTSOW::SearchPage(QVector<Resource>& Result, QString& KeyWord,
 
 	//检查下一页
 	str = ToolBox::CutString(Btsow.GetResponseBody(), "<ul class=\"pagination pagination-lg\">", "<h3 class=\"visible-xs-block\">Latest Search:</h3>");
-	regex e("<a name=\"nextpage\"  href=\".+page/([^\"]+)\">");
+	regex e("<a name=\"nextpage\"  href=\".+page/([0-9]+)\">");
 	smatch m;
 	bool found = regex_search(str, m, e);
 	if (found)
