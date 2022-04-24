@@ -23,7 +23,7 @@ void TorrentSite::TorrentKitty::SearchPage(QVector<Resource>& Result, QString& K
 	if (str.length())
 	{
 		//数据提取
-		regex r("<td class=\"action\"><a href=\"/information/(.+)\"[\\s]*title=\"(.+)\"[\\s]*rel=\".+\">.+</a><a href=\"(.+)\">");
+		regex r("<td class=\"action\"><a href=\"/information/([^\"]+)\"[\\s]*title=\"([^\"]+)\"[\\s]*rel=\".+\">.+</a><a href=\"([^\"]+)\".*>");
 		sregex_iterator pos = sregex_iterator(str.cbegin(), str.cend(), r);
 		sregex_iterator end;
 
