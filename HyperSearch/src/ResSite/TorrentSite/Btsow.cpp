@@ -1,6 +1,6 @@
 #include "ResSite/TorrentSite/BTSOW.h"
 
-TorrentSite::BTSOW::BTSOW() : ResSite("BTSWO", "btsow.rest", ResSiteType::TorrentSite, ResSiteID::TorrentSite_BTSOW)
+TorrentSite::BTSOW::BTSOW() : ResSite("BTSWO", "btsow.bar", ResSiteType::TorrentSite, ResSiteID::TorrentSite_BTSOW)
 {
 
 }
@@ -20,10 +20,10 @@ void TorrentSite::BTSOW::SearchPage(QVector<Resource>& Result, QString& KeyWord,
 	Btsow.Connect();
 
 	//数据处理
-	string str = ToolBox::CutString(Btsow.GetResponseBody(), "<div class=\"col-sm-8 col-lg-9 field\">Torrent Description</div>", "<div type=\"text/data-position\"");
+	string str = ToolBox::CutString(Btsow.GetResponseBody(), "<div class=\"col-sm-8 col-lg-9 field\">Torrent Description</div>", "<ul class=\"pagination pagination-lg\">");
 	if (str.size())
 	{
-		regex r("<a href=\"//btsow.rest/magnet/detail/hash/([^\"]+)\".*title=\"([^\"]+)\">");
+		regex r("<a href=\"//btsow.bar/magnet/detail/hash/([^\"]+)\".*title=\"([^\"]+)\">");
 		sregex_iterator pos = sregex_iterator(str.cbegin(), str.cend(), r);
 		sregex_iterator end;
 		
