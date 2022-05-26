@@ -83,6 +83,9 @@
     <ClCompile Include="src\ResSite\TorrentSite\TorrentKitty.cpp">
       <Filter>Source Files\ResStie\TorrentSite</Filter>
     </ClCompile>
+    <ClCompile Include="src\ResSite\TorrentSite\Comicat.cpp">
+      <Filter>Source Files\ResStie\TorrentSite</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\MainWindow.h">
@@ -146,6 +149,9 @@
       <Filter>Header Files\SubscribeSite</Filter>
     </ClInclude>
     <ClInclude Include="include\ResSite\TorrentSite\TorrentKitty.h">
+      <Filter>Header Files\ResSite\TorrentSite</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ResSite\TorrentSite\Comicat.h">
       <Filter>Header Files\ResSite\TorrentSite</Filter>
     </ClInclude>
   </ItemGroup>

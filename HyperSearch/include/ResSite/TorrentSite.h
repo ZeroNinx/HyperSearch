@@ -2,3 +2,4 @@
 #include "ResSite/TorrentSite/BTSOW.h"
 #include "ResSite/TorrentSite/SOBT.h"
 #include "ResSite/TorrentSite/TorrentKitty.h"
+#include "ResSite/TorrentSite/Comicat.h"

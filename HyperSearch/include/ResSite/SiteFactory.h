@@ -24,8 +24,9 @@ namespace SiteFacory
 		SiteMap[ResSiteID::ConsoleRomSite_EdgeEmu]		= { new EdgeEmu(),		QString("../Icon/EdgeEmu.ico") };
 		SiteMap[ResSiteID::ConsoleRomSite_CoolRom]		= { new CoolRom(),		QString("../Icon/CoolRom.ico") };
 		SiteMap[ResSiteID::TorrentSite_BTSOW]			= { new BTSOW(),		QString("../Icon/BTSOW.ico") };
-		SiteMap[ResSiteID::TorrentSite_TorrentKitty]	= { new TorrentKitty(), QString("../Icon/TorrentKitty.ico") };
 		SiteMap[ResSiteID::TorrentSite_SOBT]			= { new SOBT(),			QString("../Icon/SOBT.ico") };
+		SiteMap[ResSiteID::TorrentSite_TorrentKitty]	= { new TorrentKitty(), QString("../Icon/TorrentKitty.ico") };
+		SiteMap[ResSiteID::TorrentSite_Comicat]			= { new Comicat(),		QString("../Icon/Comicat.ico") };
 	}
 
 	inline ResSite* GetSite(ResSiteID SiteID)

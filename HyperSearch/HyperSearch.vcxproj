@@ -126,6 +126,7 @@
     <ClCompile Include="src\ResSite\ConsoleRomSite\EdgeEmu.cpp" />
     <ClCompile Include="src\ResSite\ResSite.cpp" />
     <ClCompile Include="src\ResSite\TorrentSite\BTSOW.cpp" />
+    <ClCompile Include="src\ResSite\TorrentSite\Comicat.cpp" />
     <ClCompile Include="src\ResSite\TorrentSite\SOBT.cpp" />
     <ClCompile Include="src\ResSite\TorrentSite\TorrentKitty.cpp" />
     <ClCompile Include="src\SubscribeSite\Retroarch.cpp" />
@@ -142,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="include\ResSite\ResSite.h" />
+    <ClInclude Include="include\ResSite\TorrentSite\Comicat.h" />
     <ClInclude Include="include\ResSite\TorrentSite\TorrentKitty.h" />
     <ClInclude Include="include\SubscribeSite\Retroarch.h" />
     <ClInclude Include="include\SubscribeSite\SubscribeFactory.h" />
